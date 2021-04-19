@@ -1,12 +1,16 @@
 package com.flx.netty.chat.common.flyway;
 
+import com.flx.netty.chat.common.flyway.property.FlywayProperties;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationVersion;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @Author: Fenglixiong
@@ -27,42 +31,39 @@ import org.springframework.transaction.annotation.Transactional;
  * 设置flyway使用数据库密码
  * spring.flyway.password
  *
+ * 如果出现flyway刷新不及时问题，可以采用ApplicationContextInitializer方式让项目启动首先进行数据初始化工作
+ *
  */
 @Slf4j
 @Component
 public class FlywayService {
 
-    /**
-     * 启动flyway会去读取这几个配置项
-     * spring.flyway.url
-     * spring.flyway.user
-     * spring.flyway.password
-     * spring.flyway.table
-     * spring.flyway.locations
-     */
+    @Autowired
+    private FlywayProperties flywayProperties;
+
     @Transactional(rollbackFor = Exception.class)
     public void initFlyway(){
-        String url = PropertyUtils.getProperty("spring.flyway.url");
-        String user = PropertyUtils.getProperty("spring.flyway.user");
-        String password = PropertyUtils.getProperty("spring.flyway.password");
-        String flywayTable = PropertyUtils.getProperty("spring.flyway.table");
-        String locations = PropertyUtils.getProperty("spring.flyway.locations");
         FluentConfiguration fluentConfiguration = Flyway.configure()
-                .dataSource(url,user,password)
-                .baselineDescription("flyway-baseline init")
-                .baselineVersion(MigrationVersion.fromVersion("1"))
-                .baselineOnMigrate(true)
-                .validateOnMigrate(false)
-                .outOfOrder(true)
-                .encoding("UTF-8")
-                .table(flywayTable)
-                .locations(locations)
-                .cleanDisabled(true);
+                .dataSource(flywayProperties.getUrl(),
+                        flywayProperties.getUser(),flywayProperties.getPassword())
+                .baselineVersion(flywayProperties.getBaselineVersion())
+                .baselineOnMigrate(flywayProperties.isBaselineOnMigrate())
+                .validateOnMigrate(flywayProperties.isValidateOnMigrate())
+                .outOfOrder(flywayProperties.isOutOfOrder())
+                .encoding(flywayProperties.getEncoding())
+                .table(flywayProperties.getTable())
+                .locations(flywayProperties.getLocations())
+                .cleanDisabled(flywayProperties.isCleanDisabled());
         Flyway flyway=fluentConfiguration.load();
         flyway.migrate();
+    }
+
+    @PostConstruct
+    public void init(){
+        initFlyway();
         log.info("*************************************************");
         log.info("*                                               *");
-        log.info("*                 Flyway Success                *");
+        log.info("*                Flyway Success                 *");
         log.info("*                                               *");
         log.info("*************************************************");
     }

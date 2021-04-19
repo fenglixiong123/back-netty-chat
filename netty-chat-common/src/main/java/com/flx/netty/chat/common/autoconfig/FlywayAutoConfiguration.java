@@ -1,6 +1,6 @@
 package com.flx.netty.chat.common.autoconfig;
 
-import com.flx.netty.chat.common.flyway.FlywayConfigurationInitializer;
+import com.flx.netty.chat.common.config.FlywayConfiguration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Import;
  * @Date: 2021/4/19 0:37
  * @Description:
  */
-@Import(value = FlywayConfigurationInitializer.class)
+@Import(value = FlywayConfiguration.class)
 public class FlywayAutoConfiguration {
 }

@@ -147,7 +147,7 @@ public class CoreExceptionHandler {
     public void init() {
         log.info("*************************************************");
         log.info("*                                               *");
-        log.info("*                 GlobalException               *");
+        log.info("*           GlobalException Success             *");
         log.info("*                                               *");
         log.info("*************************************************");
     }

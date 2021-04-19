@@ -14,6 +14,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Import({ExceptionAutoConfiguration.class})
 @Documented
-public @interface EnableExceptionHandler {
+public @interface EnableException {
 
 }
