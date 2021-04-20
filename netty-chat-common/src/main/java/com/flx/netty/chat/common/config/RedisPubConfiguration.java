@@ -58,13 +58,4 @@ public class RedisPubConfiguration {
         return new MessageListenerAdapter(messageHandler, "onMessage");//注意2个通道调用的方法都要为receiveMessage
     }
 
-    @PostConstruct
-    public void init() {
-        log.info("*************************************************");
-        log.info("*                                               *");
-        log.info("*               RedisPub Success                *");
-        log.info("*                                               *");
-        log.info("*************************************************");
-    }
-
 }

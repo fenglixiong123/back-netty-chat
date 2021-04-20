@@ -1,6 +1,6 @@
 package com.flx.netty.chat.common.annotion.enable;
 
-import com.flx.netty.chat.common.autoconfig.MyBatisPlusAutoConfiguration;
+import com.flx.netty.chat.common.autoconfig.MyBatisAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({MyBatisPlusAutoConfiguration.class})
+@Import({MyBatisAutoConfiguration.class})
 @Documented
 public @interface EnableMyBatis {
 

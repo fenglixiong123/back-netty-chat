@@ -19,6 +19,7 @@
         <module>netty-chat-group</module>
         <module>netty-chat-master</module>
         <module>netty-chat-login</module>
+        <module>netty-chat-sdk</module>
     </modules>
 
 </project>

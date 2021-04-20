@@ -8,8 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-
 /**
  * @Author Fenglixiong
  * @Create 2021/4/20 1:57
@@ -23,15 +21,6 @@ public class FlywayConfiguration {
     @Bean
     public FlywayService flywayService(){
         return new FlywayService();
-    }
-
-    @PostConstruct
-    public void init(){
-        log.info("*************************************************");
-        log.info("*                                               *");
-        log.info("*                Flyway Success                 *");
-        log.info("*                                               *");
-        log.info("*************************************************");
     }
 
 }

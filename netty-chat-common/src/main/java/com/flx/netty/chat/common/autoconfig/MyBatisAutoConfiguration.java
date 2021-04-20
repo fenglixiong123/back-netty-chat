@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
  **/
 @Slf4j
 @Import(value = {MybatisPlusConfiguration.class, TableFieldAlias.class})
-public class MyBatisPlusAutoConfiguration {
+public class MyBatisAutoConfiguration {
 
     @PostConstruct
     public void init(){

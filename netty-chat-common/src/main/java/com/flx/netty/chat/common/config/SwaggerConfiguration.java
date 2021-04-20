@@ -51,13 +51,4 @@ public class SwaggerConfiguration {
         return result;
     }
 
-    @PostConstruct
-    public void init(){
-        log.info("*************************************************");
-        log.info("*                                               *");
-        log.info("*                Swagger Success                *");
-        log.info("*                                               *");
-        log.info("*************************************************");
-    }
-
 }

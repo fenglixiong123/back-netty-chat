@@ -31,13 +31,4 @@ public class CrossConfiguration implements WebMvcConfigurer {
                 .maxAge(3600);// 超时时长设置为1小时。 时间单位是秒
     }
 
-    @PostConstruct
-    public void init(){
-        log.info("*************************************************");
-        log.info("*                                               *");
-        log.info("*                 Cross Success                 *");
-        log.info("*                                               *");
-        log.info("*************************************************");
-    }
-
 }

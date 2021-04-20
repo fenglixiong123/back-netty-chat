@@ -11,5 +11,11 @@
 
     <artifactId>netty-chat-master-api</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-sdk</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

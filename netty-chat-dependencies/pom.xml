@@ -11,6 +11,7 @@
 
     <properties>
 
+        <netty.chat.sdk.version>1.0-SNAPSHOT</netty.chat.sdk.version>
         <netty.chat.common.version>1.0-SNAPSHOT</netty.chat.common.version>
 
         <netty.chat.admin.api.version>1.0-SNAPSHOT</netty.chat.admin.api.version>
@@ -38,6 +39,11 @@
     <dependencyManagement>
         <dependencies>
 
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-sdk</artifactId>
+                <version>${netty.chat.sdk.version}</version>
+            </dependency>
             <!--公共依赖-->
             <dependency>
                 <groupId>com.flx.chat</groupId>

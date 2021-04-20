@@ -1,4 +1,4 @@
-package com.flx.netty.chat.common.utils;
+package com.flx.netty.chat.common.utils.json;
 
 import com.alibaba.fastjson.JSONObject;
 

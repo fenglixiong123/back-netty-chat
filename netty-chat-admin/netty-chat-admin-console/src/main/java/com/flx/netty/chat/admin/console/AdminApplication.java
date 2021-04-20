@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableMyBatis
 @EnableSwagger
 @EnableException
+//@EnableRedis
 @SpringBootApplication
 public class AdminApplication {
 
