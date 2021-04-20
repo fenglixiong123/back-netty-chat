@@ -12,24 +12,8 @@ import org.springframework.stereotype.Component;
  * 最重要的为：url,user,password,table,locations,validateOnMigrate
  **/
 @Data
-@Component
 @ConfigurationProperties(prefix = "flx.flyway")
 public class FlywayProperties {
-
-    /**
-     * 数据库地址
-     */
-    private String url = "spring.datasource.url";
-
-    /**
-     * 用户名
-     */
-    private String user = "spring.datasource.username";
-
-    /**
-     * 密码
-     */
-    private String password = "spring.datasource.password";
 
     /**
      * flyway表名字

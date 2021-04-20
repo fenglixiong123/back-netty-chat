@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.flx.chat</groupId>
+    <artifactId>netty-chat-dependencies</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+
+        <netty.chat.common.version>1.0-SNAPSHOT</netty.chat.common.version>
+
+        <netty.chat.admin.api.version>1.0-SNAPSHOT</netty.chat.admin.api.version>
+        <netty.chat.admin.crud.version>1.0-SNAPSHOT</netty.chat.admin.crud.version>
+
+        <netty.chat.master.api.version>1.0-SNAPSHOT</netty.chat.master.api.version>
+        <netty.chat.master.crud.version>1.0-SNAPSHOT</netty.chat.master.crud.version>
+
+        <netty.chat.login.api.version>1.0-SNAPSHOT</netty.chat.login.api.version>
+        <netty.chat.login.crud.version>1.0-SNAPSHOT</netty.chat.login.crud.version>
+
+        <netty.chat.user.api.version>1.0-SNAPSHOT</netty.chat.user.api.version>
+        <netty.chat.user.crud.version>1.0-SNAPSHOT</netty.chat.user.crud.version>
+
+        <netty.chat.group.api.version>1.0-SNAPSHOT</netty.chat.group.api.version>
+        <netty.chat.group.crud.version>1.0-SNAPSHOT</netty.chat.group.crud.version>
+
+        <netty.chat.message.api.version>1.0-SNAPSHOT</netty.chat.message.api.version>
+        <netty.chat.message.crud.version>1.0-SNAPSHOT</netty.chat.message.crud.version>
+
+
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!--公共依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-common</artifactId>
+                <version>${netty.chat.common.version}</version>
+            </dependency>
+
+            <!--管理系统相关依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-admin-api</artifactId>
+                <version>${netty.chat.admin.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-admin-crud</artifactId>
+                <version>${netty.chat.admin.crud.version}</version>
+            </dependency>
+
+
+            <!--主系统相关依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-master-api</artifactId>
+                <version>${netty.chat.master.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-master-crud</artifactId>
+                <version>${netty.chat.master.crud.version}</version>
+            </dependency>
+
+            <!--登录相关依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-login-api</artifactId>
+                <version>${netty.chat.login.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-login-crud</artifactId>
+                <version>${netty.chat.login.crud.version}</version>
+            </dependency>
+
+            <!--用户相关依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-user-api</artifactId>
+                <version>${netty.chat.user.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-user-crud</artifactId>
+                <version>${netty.chat.user.crud.version}</version>
+            </dependency>
+
+            <!--群组相关依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-group-api</artifactId>
+                <version>${netty.chat.group.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-group-crud</artifactId>
+                <version>${netty.chat.group.crud.version}</version>
+            </dependency>
+
+            <!--消息相关依赖-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-message-api</artifactId>
+                <version>${netty.chat.message.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-message-crud</artifactId>
+                <version>${netty.chat.message.crud.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

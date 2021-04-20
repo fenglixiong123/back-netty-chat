@@ -46,12 +46,6 @@ public class SwaggerService {
             apiSelectorBuilder = docket.select()
                     .apis(RequestHandlerSelectors.basePackage(basePackage));
         }
-        log.info("*************************************************");
-        log.info("*                                               *");
-        log.info("*               Swagger UI Success              *");
-        log.info("*                                               *");
-        log.info("*************************************************");
-        log.info(">>>>>>>>>>Swagger UI 启动啦!<<<<<<<<<<<<");
         return apiSelectorBuilder.build();
     }
 

@@ -1,7 +1,7 @@
 package com.flx.netty.chat.common.mybatis.common;
 
 
-import com.flx.springboot.scaffold.common.utils.CollectionUtils;
+import com.flx.netty.chat.common.utils.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

@@ -1,12 +1,14 @@
 package com.flx.netty.chat.common.utils.jdbc;
 
-import com.flx.springboot.scaffold.common.jdbc.base.SqlBaseUtils;
+
+import com.flx.netty.chat.common.utils.jdbc.base.SqlBaseUtils;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import static com.flx.springboot.scaffold.common.jdbc.base.SqlBaseUtils.*;
+import static com.flx.netty.chat.common.utils.jdbc.base.SqlBaseUtils.getLocation;
+
 
 /**
  * @Author: Fenglixiong
@@ -74,7 +76,7 @@ public class SqlUtils {
         return SqlBaseUtils.executeBatch(getConnection(),sql,params);
     }
 
-    public static boolean executeWithTransaction(Connection con,List<Command> commands){
+    public static boolean executeWithTransaction(Connection con,List<SqlBaseUtils.Command> commands){
         return SqlBaseUtils.executeWithTransaction(con,commands);
     }
 

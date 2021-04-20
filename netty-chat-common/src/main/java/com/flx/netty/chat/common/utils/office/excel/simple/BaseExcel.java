@@ -1,7 +1,7 @@
 package com.flx.netty.chat.common.utils.office.excel.simple;
 
-import com.flx.springboot.scaffold.common.utils.CollectionUtils;
-import com.flx.springboot.scaffold.common.utils.ObjectUtils;
+import com.flx.netty.chat.common.utils.CollectionUtils;
+import com.flx.netty.chat.common.utils.ObjectUtils;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableSheet;

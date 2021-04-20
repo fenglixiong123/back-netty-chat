@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @Author Fenglixiong
  * @Create 2018.11.07 17:37
@@ -47,6 +49,15 @@ public class SwaggerConfiguration {
         DeferredResult<ModelAndView> result = new DeferredResult<>();
         result.setResult(new ModelAndView("redirect:/doc.html"));
         return result;
+    }
+
+    @PostConstruct
+    public void init(){
+        log.info("*************************************************");
+        log.info("*                                               *");
+        log.info("*                Swagger Success                *");
+        log.info("*                                               *");
+        log.info("*************************************************");
     }
 
 }

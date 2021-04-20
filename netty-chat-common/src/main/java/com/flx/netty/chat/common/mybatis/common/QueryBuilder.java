@@ -2,8 +2,8 @@ package com.flx.netty.chat.common.mybatis.common;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.flx.springboot.scaffold.common.utils.CollectionUtils;
-import com.flx.springboot.scaffold.common.utils.date.DateUtils;
+import com.flx.netty.chat.common.utils.CollectionUtils;
+import com.flx.netty.chat.common.utils.date.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.flx.springboot.scaffold.mybatis.plus.common.TableFieldAlias.getTableFiledName;
+import static com.flx.netty.chat.common.mybatis.common.TableFieldAlias.getTableFiledName;
 
 /**
  * @author fenglixiong
@@ -29,59 +29,59 @@ public class QueryBuilder<T> {
     private List<String> nullConditionList = new ArrayList<>();
     private List<String> notNullConditionList = new ArrayList<>();
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> id(Long id) {
+    public QueryBuilder<T> id(Long id) {
         Assert.notNull(id, "id can not be null");
         equalConditionMap.put("id", id);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> neId(Long id) {
+    public QueryBuilder<T> neId(Long id) {
         Assert.notNull(id, "id can not be null");
         neConditionMap.put("id", id);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> neQuery(String property, Object val) {
+    public QueryBuilder<T> neQuery(String property, Object val) {
         neConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> query(String property, Object val) {
+    public QueryBuilder<T> query(String property, Object val) {
         equalConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> leftLike(String property, String val) {
+    public QueryBuilder<T> leftLike(String property, String val) {
         leftLikeConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> rightLike(String property, String val) {
+    public QueryBuilder<T> rightLike(String property, String val) {
         rightLikeConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> isNull(String property) {
+    public QueryBuilder<T> isNull(String property) {
         nullConditionList.add(property);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> isNull(List<String> propertyList) {
+    public QueryBuilder<T> isNull(List<String> propertyList) {
         nullConditionList.addAll(propertyList);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> isNotNull(String property) {
+    public QueryBuilder<T> isNotNull(String property) {
         notNullConditionList.add(property);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> isNotNull(List<String> propertyList) {
+    public QueryBuilder<T> isNotNull(List<String> propertyList) {
         notNullConditionList.addAll(propertyList);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> query(Object model) throws Exception {
+    public QueryBuilder<T> query(Object model) throws Exception {
         if (model == null) {
             return this;
         }
@@ -105,7 +105,7 @@ public class QueryBuilder<T> {
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder<T> query(Map<String, Object> query) {
+    public QueryBuilder<T> query(Map<String, Object> query) {
         if (null == query) {
             return this;
         }

@@ -2,8 +2,9 @@ package com.flx.netty.chat.common.utils.http;
 
 import com.alibaba.fastjson.JSONObject;
 import com.flx.netty.chat.common.constants.WebConstant;
-import com.flx.netty.chat.common.entity.HttpResult;
 import com.flx.netty.chat.common.utils.CollectionUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -30,6 +32,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,20 +46,22 @@ import java.util.Map.Entry;
 @NoArgsConstructor
 public class HttpUtils{
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         JSONObject params = new JSONObject();
         params.put("video_id","60_8be004799c424688949704814ea0d16d");
         params.put("state",3+"");
         params.put("attr_tags","");
         params.put("msg","");
-        HttpUtils httpUtil = HttpUtils.createHttpClient()
+        HttpClient httpClient = HttpUtils.createClient();
+        httpClient
+                .setUrl("http://127.0.0.1:8023/api/basic/tenant/getCurrentTenantCode")
                 .setHeader("type","utf-8")
-                .setParam("name","admin")
-                .builder();
-        String URL ="http://127.0.0.1:8023/api/basic/tenant/getCurrentTenantCode";
-        HttpResult post = httpUtil.get(URL);
-        System.out.println(post);
+                .setQuery("name","admin")
+                .setJsonBody(params.toJSONString())
+                .build();
+        HttpResult result = httpClient.post();
+        System.out.println(result);
 
     }
 
@@ -64,33 +69,6 @@ public class HttpUtils{
      * Httpclient连接池
      */
     private static PoolingHttpClientConnectionManager pcm;
-    /**
-     * HttpClient连接
-     */
-    private CloseableHttpClient httpClient = null;
-    /**
-     * 连接超时时间
-     */
-    private int connectTimeout = 120000;
-    /**
-     * 从连接池获取连接超时时间
-     */
-    private int connectionRequestTimeout = 10000;
-    /**
-     * 获取数据超时时间
-     */
-    private int socketTimeout = 300000;
-    /**
-     * 请求配置
-     */
-    private RequestConfig requestConfig = null;
-
-    /**
-     * 请求参数以及请求头
-     */
-    private List<NameValuePair> nameValuePairs = new ArrayList<>();
-    private List<Header> headers = new ArrayList<>();
-    private String requestParam = "";
 
     static {
         pcm = new PoolingHttpClientConnectionManager();
@@ -98,67 +76,186 @@ public class HttpUtils{
         pcm.setDefaultMaxPerRoute(50);//每路由最大连接数，默认值是2
     }
 
-    public HttpUtils(int connectTimeout, int socketTimeout) {
-        this.connectTimeout = connectTimeout;
-        this.socketTimeout = socketTimeout;
-    }
-
     /**
-     * 创建对象
-     * @return
+     * 单个连接所需要的各种参数
      */
-    public static HttpUtils createHttpClient(){
-        return new HttpUtils();
-    }
+    public static class HttpClient{
 
-    /**
-     * 创建对象
-     * @return
-     */
-    public static HttpUtils createHttpClient(int connectTimeout, int socketTimeout){
-        return new HttpUtils(connectTimeout,socketTimeout);
-    }
+        /**
+         * HttpClient连接
+         */
+        private CloseableHttpClient httpClient = null;
+        /**
+         * 连接超时时间
+         */
+        private int connectTimeout = 120000;
+        /**
+         * 从连接池获取连接超时时间
+         */
+        private int connectionRequestTimeout = 10000;
+        /**
+         * 获取数据超时时间
+         */
+        private int socketTimeout = 300000;
+        /**
+         * 请求配置
+         */
+        private RequestConfig config = null;
 
-    /**
-     * 创建httpUtil
-     */
-    public HttpUtils builder() {
-        if(this.requestConfig == null) {
-            this.requestConfig = RequestConfig.custom()
-                    .setConnectTimeout(this.connectTimeout)
-                    .setConnectionRequestTimeout(this.connectionRequestTimeout)
-                    .setSocketTimeout(this.socketTimeout)
-                    .build();
+        /**
+         * 设置url
+         */
+        private String url;
+
+        /**
+         * 请求参数
+         */
+        private Map<String,String> queryMap = new HashMap<>();
+
+        /**
+         * 请求头
+         */
+        private Map<String,String> headerMap = new HashMap<>();
+
+        /**
+         * 请求参数
+         */
+        private String jsonBody = "{}";
+
+        /**
+         * 设置连接超时时间
+         */
+        public HttpClient setConnectTimeout(int connectTimeout) {
+            this.connectTimeout = connectTimeout;
+            return this;
         }
-        if(this.httpClient == null) {
-            this.httpClient = HttpClients.custom()
-                    .setConnectionManager(pcm)
-                    .build();
+
+        /**
+         * 设置获取连接超时时间
+         */
+        public HttpClient setConnectRequestTimeout(int connectRequestTimeout) {
+            this.connectionRequestTimeout = connectRequestTimeout;
+            return this;
         }
-        return this;
+
+        /**
+         * 设置传输超时时间
+         */
+        public HttpClient setSocketTimeout(int socketTimeout) {
+            this.socketTimeout = socketTimeout;
+            return this;
+        }
+
+        /**
+         * 设置请求头
+         */
+        public HttpClient setHeader(String name, String value) {
+            this.headerMap.put(name,value);
+            return this;
+        }
+
+        /**
+         * 设置请求头(批量)
+         */
+        public HttpClient setUrl(String url) {
+            this.url = url;
+            return this;
+        }
+
+        /**
+         * 设置请求头(批量)
+         */
+        public HttpClient setHeader(Map<String, String> headMap) {
+            this.headerMap.putAll(headMap);
+            return this;
+        }
+
+        /**
+         * 设置请求参数
+         */
+        public HttpClient setQuery(String name, String value) {
+            this.queryMap.put(name,value);
+            return this;
+        }
+
+        /**
+         * 设置请求参数(批量)
+         */
+        public HttpClient setQuery(Map<String, String> paramMap) {
+            this.queryMap.putAll(paramMap);
+            return this;
+        }
+
+        /**
+         * 设置字符串参数
+         */
+        public HttpClient setJsonBody(String jsonBody) {
+            this.jsonBody = jsonBody;
+            return this;
+        }
+
+        /**
+         * 构建请求参数
+         */
+        public HttpClient build() {
+            if(this.config == null) {
+                this.config = RequestConfig.custom()
+                        .setConnectTimeout(this.connectTimeout)
+                        .setConnectionRequestTimeout(this.connectionRequestTimeout)
+                        .setSocketTimeout(this.socketTimeout)
+                        .build();
+            }
+            if(this.httpClient == null) {
+                this.httpClient = HttpClients.custom()
+                        .setConnectionManager(pcm)
+                        .build();
+            }
+            return this;
+        }
+
+        /**
+         * get请求
+         */
+        public HttpResult get() throws Exception{
+            return HttpUtils.get(url,queryMap,headerMap,httpClient,config);
+        }
+
+        /**
+         * post请求
+         */
+        public HttpResult post() throws Exception{
+            return HttpUtils.post(url,queryMap,headerMap,jsonBody,httpClient,config);
+        }
+
     }
+
+    /**
+     * 创建Client对象
+     */
+    public static HttpClient createClient(){
+        return new HttpClient();
+    }
+
 
     /**
      * http get 请求
      */
-    public HttpResult get(String url) {
+    public static HttpResult get(String url,Map<String,String> queryMap,Map<String,String> headerMap,CloseableHttpClient httpClient,RequestConfig config) throws Exception {
         HttpResult httpResult = new HttpResult();
-        URI uri = getUri(url);
+        URI uri = getPerfectUri(url,queryMap);
         if (uri != null) {
             HttpGet httpGet = new HttpGet(uri);
-            httpGet.setConfig(requestConfig);
-            if (CollectionUtils.isNotEmpty(headers)) {
-                Header[] header = new Header[headers.size()];
-                httpGet.setHeaders(headers.toArray(header));
+            httpGet.setConfig(config);
+            if (CollectionUtils.isNotEmpty(headerMap)) {
+                httpGet.setHeaders(toHeaderArray(headerMap));
             }
-
             try {
                 CloseableHttpResponse response = httpClient.execute(httpGet);
                 return getHttpResult(response, url, httpGet);
             } catch (Exception e) {
                 httpGet.abort();
                 httpResult.setMessage(e.getMessage());
-                log.error("获取http GET请求返回值失败 url======" + url, e);
+                log.error("获取http GET请求返回值失败 url = " + url, e);
             }
         }
         return httpResult;
@@ -167,128 +264,87 @@ public class HttpUtils{
     /**
      * http post 请求
      */
-    public HttpResult post(String url) {
+    public static HttpResult post(String url,Map<String,String> queryMap,Map<String,String> headerMap,String jsonBody,CloseableHttpClient httpClient,RequestConfig config) throws Exception{
         HttpPost httpPost = new HttpPost(url);
-        httpPost.setConfig(requestConfig);
-        if (!CollectionUtils.isEmpty(headers)) {
-            Header[] header = new Header[headers.size()];
-            httpPost.setHeaders(headers.toArray(header));
+        httpPost.setConfig(config);
+        if (!CollectionUtils.isEmpty(headerMap)) {
+            httpPost.setHeaders(toHeaderArray(headerMap));
         }
-        if (!CollectionUtils.isEmpty(nameValuePairs)) {
+        if (!CollectionUtils.isEmpty(queryMap)) {
             try {
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, WebConstant.UTF_8));
+                httpPost.setEntity(new UrlEncodedFormEntity(toNamePairList(queryMap), WebConstant.UTF_8));
             } catch (UnsupportedEncodingException e) {
-                log.error("http post entity form error", e);
+                log.error(e.getMessage());
+                httpPost.abort();
+                return new HttpResult(e.getMessage());
             }
         }
-        if (!StringUtils.isEmpty(requestParam)) {
+        if (StringUtils.isNotBlank(jsonBody)) {
             try {
-                httpPost.setEntity(new StringEntity(requestParam, WebConstant.UTF_8));
+                httpPost.setEntity(new StringEntity(jsonBody, ContentType.create("application/json", "UTF-8")));
             } catch (UnsupportedCharsetException e) {
-                log.error("http post entity form error", e);
+                log.error(e.getMessage());
+                httpPost.abort();
+                return new HttpResult(e.getMessage());
             }
         }
         try {
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return getHttpResult(response, url, httpPost);
         } catch (Exception e) {
+            log.error(e.getMessage());
             httpPost.abort();
-            log.error("获取http POST请求返回值失败 url======" + url, e);
             return new HttpResult(e.getMessage());
         }
     }
 
     /**
-     * 设置连接超时时间
+     * 获得header数组
+     * @param headerMap
+     * @return
      */
-    public HttpUtils setConnectTimeout(int connectTimeout) {
-        this.connectTimeout = connectTimeout;
-        return this;
-    }
-
-    /**
-     * 设置获取连接超时时间
-     */
-    public HttpUtils setConnectRequestTimeout(int connectRequestTimeout) {
-        this.connectionRequestTimeout = connectRequestTimeout;
-        return this;
-    }
-
-    /**
-     * 设置传输超时时间
-     */
-    public HttpUtils setSocketTimeout(int socketTimeout) {
-        this.socketTimeout = socketTimeout;
-        return this;
-    }
-
-    /**
-     * 设置请求头
-     */
-    public HttpUtils setHeader(String name, String value) {
-        Header header = new BasicHeader(name, value);
-        headers.add(header);
-        return this;
-    }
-
-    /**
-     * 设置请求头
-     */
-    public HttpUtils setHeaderMap(Map<String, String> headerMap) {
-        for (Entry<String, String> param : headerMap.entrySet()) {
-            Header header = new BasicHeader(param.getKey(), param.getValue());
-            headers.add(header);
+    private static Header[] toHeaderArray(Map<String,String> headerMap){
+        List<Header> headers = new ArrayList<>();
+        for (Entry<String, String> header : headerMap.entrySet()) {
+            headers.add(new BasicHeader(header.getKey(), header.getValue()));
         }
-        return this;
+        Header[] header = new Header[headers.size()];
+        return headers.toArray(header);
     }
 
     /**
-     * 设置请求参数
+     * 获得nameValuePair
+     * @param queryMap
+     * @return
      */
-    public HttpUtils setParam(String name, String value) {
-        nameValuePairs.add(new BasicNameValuePair(name, value));
-        return this;
-    }
-
-    /**
-     * 设置请求参数
-     */
-    public HttpUtils setParamMap(Map<String, String> paramMap) {
-        for (Entry<String, String> param : paramMap.entrySet()) {
+    private static List<NameValuePair> toNamePairList(Map<String,String> queryMap){
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        for (Entry<String, String> param : queryMap.entrySet()) {
             nameValuePairs.add(new BasicNameValuePair(param.getKey(), param.getValue()));
         }
-        return this;
+        return nameValuePairs;
     }
 
     /**
-     * 设置字符串参数
+     * 将参数附带到url后面
      */
-    public HttpUtils setStringParam(String requestParam) {
-        this.requestParam = requestParam;
-        return this;
-    }
-
-    private URI getUri(String url) {
-        URI uri = null;
+    private static URI getPerfectUri(String url,Map<String,String> queryMap) throws Exception{
         try {
             URIBuilder uriBuilder = new URIBuilder(url);
-            if (!CollectionUtils.isEmpty(nameValuePairs)) {
-                uriBuilder.setParameters(nameValuePairs);
-            }
-            uri = uriBuilder.build();
+            return uriBuilder.setParameters(toNamePairList(queryMap)).build();
         } catch (URISyntaxException e) {
-            log.error("url 地址异常", e);
+            log.error(e.getMessage());
+            throw new Exception("Build perfect url error !");
         }
-        return uri;
     }
 
     /**
      * 获取请求返回值
      */
-    private HttpResult getHttpResult(CloseableHttpResponse response, String url, HttpUriRequest request) {
+    private static HttpResult getHttpResult(CloseableHttpResponse response, String url, HttpUriRequest request) {
         HttpResult httpResult = new HttpResult();
-        int statusCode = response.getStatusLine().getStatusCode();
-        httpResult.setStatusCode(statusCode);
+        int status = response.getStatusLine().getStatusCode();
+        httpResult.setStatus(status);
         HttpEntity entity = response.getEntity();
         if (entity != null) {
             try {
@@ -299,11 +355,32 @@ public class HttpUtils{
                 request.abort();
             }
         }
-        if (statusCode != 200) {
-            httpResult.setMessage("HttpClient status code :" + statusCode + "  request url===" + url);
+        if (status != 200) {
+            httpResult.setMessage("HttpClient status code :" + status + "  request url===" + url);
             request.abort();
         }
         return httpResult;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static public class HttpResult {
+
+        /**
+         * 状态码
+         */
+        private int status;
+        /**
+         * 返回结果
+         */
+        private String message;
+
+        public HttpResult(String message) {
+            this.status = 0;
+            this.message = message;
+        }
+
     }
     
     

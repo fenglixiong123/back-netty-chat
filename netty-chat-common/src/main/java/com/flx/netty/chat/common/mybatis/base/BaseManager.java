@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.flx.springboot.scaffold.mybatis.plus.common.ColumnUtils;
-import com.flx.springboot.scaffold.mybatis.plus.common.QueryBuilder;
-import com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder;
-import com.flx.springboot.scaffold.mybatis.plus.utils.ArrayUtils;
+import com.flx.netty.chat.common.mybatis.common.ColumnUtils;
+import com.flx.netty.chat.common.mybatis.common.QueryBuilder;
+import com.flx.netty.chat.common.mybatis.common.UpdateBuilder;
+import com.flx.netty.chat.common.utils.ArrayUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.flx.springboot.scaffold.mybatis.plus.common.TableFieldAlias.getTableFiledName;
+import static com.flx.netty.chat.common.mybatis.common.TableFieldAlias.getTableFiledName;
 
 /**
  * 公共Manager类

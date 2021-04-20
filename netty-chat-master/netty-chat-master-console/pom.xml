@@ -12,10 +12,34 @@
     <artifactId>netty-chat-master-console</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-master-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-master-crud</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-user-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-group-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-message-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

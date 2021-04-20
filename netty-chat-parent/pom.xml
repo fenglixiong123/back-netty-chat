@@ -8,9 +8,6 @@
     <artifactId>netty-chat-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>netty-chat-register</module>
-    </modules>
 
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -24,36 +21,35 @@
         <apache.beanutils.version>1.9.4</apache.beanutils.version>
         <apache.collections.version>3.2.2</apache.collections.version>
         <alibaba.fastjson.version>1.2.51</alibaba.fastjson.version>
-        <alibaba.druid.version>1.1.12</alibaba.druid.version>
+        <alibaba.druid.version>1.2.6</alibaba.druid.version>
         <cglib.version>3.3.0</cglib.version>
         <flyway.version>5.2.4</flyway.version>
         <http.core.version>4.4.13</http.core.version>
+        <validator.version>6.0.10.Final</validator.version>
         <http.client.version>4.5.12</http.client.version>
         <itextpdf.version>5.5.10</itextpdf.version>
         <itext.asian.version>5.2.0</itext.asian.version>
         <jxl.version>2.6.10</jxl.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.11.2</jackson.version>
         <json.path.verson>2.4.0</json.path.verson>
         <kafka.version>2.2.0.RELEASE</kafka.version>
         <mybatis.version>2.1.2</mybatis.version>
-        <mybatis.plus.version>3.3.2</mybatis.plus.version>
+        <mybatis.plus.version>3.4.2</mybatis.plus.version>
         <netty.all.version>4.1.20.Final</netty.all.version>
         <ok.http.version>4.2.0</ok.http.version>
         <quartz.version>2.2.3</quartz.version>
         <spring.log4j2.version>2.3.2.RELEASE</spring.log4j2.version>
         <swagger.version>2.9.2</swagger.version>
         <swagger.ui.version>1.8.4</swagger.ui.version>
-        <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
+        <spring.boot.version>2.3.10.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
+
+        <chat.depency.version>1.0-SNAPSHOT</chat.depency.version>
+
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.flx.chat</groupId>
-                <artifactId>netty-chat-common</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
             <!--netty网络-->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -106,9 +102,15 @@
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway.version}</version>
             </dependency>
+            <!--hibernate-validator-->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${validator.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
+                <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${alibaba.druid.version}</version>
             </dependency>
             <dependency>
@@ -209,6 +211,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--netty-chat-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-dependencies</artifactId>
+                <version>${chat.depency.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

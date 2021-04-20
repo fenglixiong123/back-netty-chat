@@ -1,7 +1,7 @@
 package com.flx.netty.chat.common.mybatis.common;
 
-import com.flx.netty.chat.common.annotion.ColumnName;
-import com.flx.netty.chat.common.annotion.TableName;
+import com.flx.netty.chat.common.annotion.mybatis.ColumnName;
+import com.flx.netty.chat.common.annotion.mybatis.TableName;
 import com.flx.netty.chat.common.utils.code.CodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -11,5 +11,30 @@
 
     <artifactId>netty-chat-admin-console</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-admin-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-admin-crud</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-user-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-group-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-message-api</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

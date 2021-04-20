@@ -1,15 +1,19 @@
 package com.flx.netty.chat.common.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @Author: Fenglixiong
  * @Date: 2021/4/16 15:10
  * @Description: 解决跨域请求问题
  */
+@Slf4j
 @Configuration
 public class CrossConfiguration implements WebMvcConfigurer {
 
@@ -25,6 +29,15 @@ public class CrossConfiguration implements WebMvcConfigurer {
                 .allowCredentials(true)// 是否支持跨域用户凭证
                 .allowedMethods("GET", "POST", "DELETE", "PUT")// 当前站点支持的跨域请求类型是什么
                 .maxAge(3600);// 超时时长设置为1小时。 时间单位是秒
+    }
+
+    @PostConstruct
+    public void init(){
+        log.info("*************************************************");
+        log.info("*                                               *");
+        log.info("*                 Cross Success                 *");
+        log.info("*                                               *");
+        log.info("*************************************************");
     }
 
 }

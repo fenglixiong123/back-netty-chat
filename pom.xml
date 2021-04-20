@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>netty-chat-dependencies</module>
         <module>netty-chat-parent</module>
         <module>netty-chat-common</module>
         <module>netty-chat-admin</module>

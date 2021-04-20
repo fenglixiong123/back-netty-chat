@@ -1,9 +1,9 @@
 package com.flx.netty.chat.common.utils.office.pdf;
 
-import com.flx.springboot.scaffold.common.office.pdf.base.PdfUnit;
-import com.flx.springboot.scaffold.common.office.pdf.event.HeaderFooter;
-import com.flx.springboot.scaffold.common.office.pdf.event.WaterMark;
-import com.flx.springboot.scaffold.common.utils.file.FileUtils;
+import com.flx.netty.chat.common.utils.file.FileUtils;
+import com.flx.netty.chat.common.utils.office.pdf.base.PdfUnit;
+import com.flx.netty.chat.common.utils.office.pdf.event.HeaderFooter;
+import com.flx.netty.chat.common.utils.office.pdf.event.WaterMark;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import static com.flx.springboot.scaffold.common.office.pdf.base.PdfUnit.*;
+import static com.flx.netty.chat.common.utils.office.pdf.base.PdfUnit.*;
 
 /**
  * PDF代码生成

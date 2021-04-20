@@ -17,11 +17,4 @@
         <module>netty-chat-admin-console</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-common</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

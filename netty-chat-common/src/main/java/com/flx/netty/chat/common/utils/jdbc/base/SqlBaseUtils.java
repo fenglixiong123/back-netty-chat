@@ -1,7 +1,7 @@
 package com.flx.netty.chat.common.utils.jdbc.base;
 
-import com.flx.springboot.scaffold.common.utils.ObjectUtils;
-import com.flx.springboot.scaffold.common.utils.code.CodeUtils;
+import com.flx.netty.chat.common.utils.ObjectUtils;
+import com.flx.netty.chat.common.utils.code.CodeUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -2,6 +2,7 @@ package com.flx.netty.chat.common.config;
 
 import com.flx.netty.chat.common.redis.message.handler.RedisMessageHandler;
 import com.flx.netty.chat.common.redis.message.property.RedisMessageProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
@@ -18,6 +20,7 @@ import java.util.Map;
  * @Create 2021/4/20 2:38
  * @Description
  **/
+@Slf4j
 @Configuration
 public class RedisPubConfiguration {
 
@@ -53,6 +56,15 @@ public class RedisPubConfiguration {
         //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“receiveMessage”
         //也有好几个重载方法，这边默认调用处理器的方法 叫handleMessage 可以自己到源码里面看
         return new MessageListenerAdapter(messageHandler, "onMessage");//注意2个通道调用的方法都要为receiveMessage
+    }
+
+    @PostConstruct
+    public void init() {
+        log.info("*************************************************");
+        log.info("*                                               *");
+        log.info("*               RedisPub Success                *");
+        log.info("*                                               *");
+        log.info("*************************************************");
     }
 
 }

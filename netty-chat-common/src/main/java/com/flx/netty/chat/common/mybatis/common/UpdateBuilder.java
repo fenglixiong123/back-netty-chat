@@ -2,7 +2,7 @@ package com.flx.netty.chat.common.mybatis.common;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.flx.springboot.scaffold.common.utils.date.DateUtils;
+import com.flx.netty.chat.common.utils.date.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
@@ -11,7 +11,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.flx.springboot.scaffold.mybatis.plus.common.TableFieldAlias.getTableFiledName;
+import static com.flx.netty.chat.common.mybatis.common.TableFieldAlias.getTableFiledName;
+
 
 /**
  * @author fsanzhen
@@ -32,60 +33,60 @@ public class UpdateBuilder<T> {
     private List<String> notNullConditionList = new ArrayList<>();
     private List<String> setNullList = new ArrayList<>();
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> id(Long id) {
+    public UpdateBuilder<T> id(Long id) {
         Assert.notNull(id, "id can not be null");
         equalConditionMap.put("id", id);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> neId(Long id) {
+    public UpdateBuilder<T> neId(Long id) {
         Assert.notNull(id, "id can not be null");
         neConditionMap.put("id", id);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> query(String property, Object val) {
+    public UpdateBuilder<T> query(String property, Object val) {
         equalConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> neQuery(String property, Object val) {
+    public UpdateBuilder<T> neQuery(String property, Object val) {
         neConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> leftLike(String property, String val) {
+    public UpdateBuilder<T> leftLike(String property, String val) {
         leftLikeConditionMap.put(property, val);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> rightLike(String property, String val) {
+    public UpdateBuilder<T> rightLike(String property, String val) {
         rightLikeConditionMap.put(property, val);
         return this;
     }
 
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> isNull(String property) {
+    public UpdateBuilder<T> isNull(String property) {
         nullConditionList.add(property);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> isNull(List<String> propertyList) {
+    public UpdateBuilder<T> isNull(List<String> propertyList) {
         nullConditionList.addAll(propertyList);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> isNotNull(String property) {
+    public UpdateBuilder<T> isNotNull(String property) {
         notNullConditionList.add(property);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> isNotNull(List<String> propertyList) {
+    public UpdateBuilder<T> isNotNull(List<String> propertyList) {
         notNullConditionList.addAll(propertyList);
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> query(Object model) throws Exception {
+    public UpdateBuilder<T> query(Object model) throws Exception {
         if (model == null) {
             return this;
         }
@@ -110,7 +111,7 @@ public class UpdateBuilder<T> {
     }
 
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> query(Map<String, Object> query) {
+    public UpdateBuilder<T> query(Map<String, Object> query) {
         if (null == query) {
             return this;
         }
@@ -124,7 +125,7 @@ public class UpdateBuilder<T> {
         return this;
     }
 
-    public com.flx.springboot.scaffold.mybatis.plus.common.UpdateBuilder<T> readObject(Object model) throws Exception {
+    public UpdateBuilder<T> readObject(Object model) throws Exception {
         try {
             Field[] fields = model.getClass().getDeclaredFields();
             String[] fieldNames = new String[fields.length];

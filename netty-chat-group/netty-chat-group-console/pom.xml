@@ -11,5 +11,17 @@
 
     <artifactId>netty-chat-group-console</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-group-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-group-crud</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

@@ -1,8 +1,8 @@
 package com.flx.netty.chat.common.utils.office.pdf;
 
-import com.flx.springboot.scaffold.common.office.pdf.base.PdfUnit;
-import com.flx.springboot.scaffold.common.utils.CollectionUtils;
-import com.flx.springboot.scaffold.common.utils.file.FileUtils;
+import com.flx.netty.chat.common.utils.CollectionUtils;
+import com.flx.netty.chat.common.utils.file.FileUtils;
+import com.flx.netty.chat.common.utils.office.pdf.base.PdfUnit;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;

@@ -143,12 +143,4 @@ public class CoreExceptionHandler {
         return ResultResponse.error(message);
     }
 
-    @PostConstruct
-    public void init() {
-        log.info("*************************************************");
-        log.info("*                                               *");
-        log.info("*           GlobalException Success             *");
-        log.info("*                                               *");
-        log.info("*************************************************");
-    }
 }

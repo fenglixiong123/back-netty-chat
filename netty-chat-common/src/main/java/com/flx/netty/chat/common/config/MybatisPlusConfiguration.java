@@ -1,7 +1,6 @@
 package com.flx.netty.chat.common.config;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.flx.netty.chat.common.annotion.DaoMapper;
+import com.flx.netty.chat.common.annotion.mybatis.DaoMapper;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -13,11 +12,6 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 public class MybatisPlusConfiguration {
-
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
-    }
 
     /**
      * 扫描mybatis的dao层中含有注解@DaoMapper的类
