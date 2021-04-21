@@ -1,11 +1,9 @@
 package com.flx.netty.chat.common.config;
 
-import com.flx.netty.chat.common.exception.handler.CoreExceptionHandler;
+import com.flx.netty.chat.common.plugins.exception.handler.CoreExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
 
 /**
  * @Author: Fenglixiong

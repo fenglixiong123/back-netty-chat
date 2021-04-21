@@ -1,6 +1,6 @@
 package com.flx.netty.chat.user.api.vo;
 
-import com.flx.netty.chat.sdk.entity.BaseEntity;
+import com.flx.netty.chat.sdk.vo.BaseVO;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import java.util.Date;
  * @Description:
  */
 @Data
-public class WebUserVO extends BaseEntity {
+public class WebUserVO extends BaseVO {
 
     /**
      * 昵称

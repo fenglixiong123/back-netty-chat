@@ -1,10 +1,8 @@
 package com.flx.netty.chat.common.config;
 
-import com.flx.netty.chat.common.swagger.property.SwaggerProperties;
-import com.flx.netty.chat.common.swagger.SwaggerService;
+import com.flx.netty.chat.common.plugins.swagger.SwaggerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.system.JavaVersion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +11,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import javax.annotation.PostConstruct;
 
 /**
  * @Author Fenglixiong
@@ -25,7 +21,6 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Configuration
 @EnableSwagger2
-@EnableConfigurationProperties({SwaggerProperties.class})//使得@ConfigurationProperties 注解生效,并且会自动将SwaggerInfoProperties这个类注入到 IOC 容器中
 @ConditionalOnJava(value = JavaVersion.EIGHT)
 public class SwaggerConfiguration {
 

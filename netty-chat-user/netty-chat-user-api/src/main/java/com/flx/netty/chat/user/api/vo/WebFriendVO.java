@@ -1,6 +1,6 @@
 package com.flx.netty.chat.user.api.vo;
 
-import com.flx.netty.chat.sdk.entity.BaseEntity;
+import com.flx.netty.chat.sdk.vo.BaseVO;
 import lombok.Data;
 
 /**
@@ -9,7 +9,7 @@ import lombok.Data;
  * @Description: 好友
  */
 @Data
-public class WebFriendVO extends BaseEntity {
+public class WebFriendVO extends BaseVO {
 
     /**
      * 用户Id

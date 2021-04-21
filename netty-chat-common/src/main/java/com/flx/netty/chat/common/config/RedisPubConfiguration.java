@@ -1,7 +1,7 @@
 package com.flx.netty.chat.common.config;
 
-import com.flx.netty.chat.common.redis.message.handler.RedisMessageHandler;
-import com.flx.netty.chat.common.redis.message.property.RedisMessageProperties;
+import com.flx.netty.chat.common.plugins.redis.message.handler.RedisMessageHandler;
+import com.flx.netty.chat.common.property.RedisMessageProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,6 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**

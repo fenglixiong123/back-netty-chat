@@ -1,8 +1,8 @@
 package com.flx.netty.chat.user.console.controller;
 
 
-import com.flx.netty.chat.common.mybatis.entity.StateVO;
-import com.flx.netty.chat.common.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.plugins.mybatis.entity.StateVO;
+import com.flx.netty.chat.common.plugins.mybatis.page.QueryAndPage;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;

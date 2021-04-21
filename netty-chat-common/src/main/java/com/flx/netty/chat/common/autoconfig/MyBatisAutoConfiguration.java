@@ -2,7 +2,7 @@ package com.flx.netty.chat.common.autoconfig;
 
 
 import com.flx.netty.chat.common.config.MybatisPlusConfiguration;
-import com.flx.netty.chat.common.mybatis.common.TableFieldAlias;
+import com.flx.netty.chat.common.plugins.mybatis.common.TableFieldAlias;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
 

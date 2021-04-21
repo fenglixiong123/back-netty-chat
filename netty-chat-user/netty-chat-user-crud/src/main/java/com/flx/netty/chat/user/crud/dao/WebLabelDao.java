@@ -1,7 +1,7 @@
 package com.flx.netty.chat.user.crud.dao;
 
 import com.flx.netty.chat.common.annotion.mybatis.DaoMapper;
-import com.flx.netty.chat.common.mybatis.base.BaseDao;
+import com.flx.netty.chat.common.plugins.mybatis.base.BaseDao;
 import com.flx.netty.chat.user.crud.entity.WebLabel;
 
 /**

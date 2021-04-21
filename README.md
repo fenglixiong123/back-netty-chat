@@ -31,14 +31,21 @@ Netty聊天系统
 |--->netty-chat-admin 管理系统  
 |--->netty-chat-sso 登录系统  
 
-下载consul作为服务注册中心  
-https://www.consul.io/downloads
 
-# 三、前端设计
+
+# 三、相关组件
+
+## 1.注册中心
+
+
+选择consul作为服务注册中心  
+下载地址：https://www.consul.io/downloads
+
+# 四、前端设计
 
 分为用户前端和管理前端
 
-# 四、后端设计
+# 五、后端设计
 
 分为用户后端和管理后端
 

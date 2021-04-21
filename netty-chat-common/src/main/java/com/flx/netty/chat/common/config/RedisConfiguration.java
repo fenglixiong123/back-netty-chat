@@ -1,7 +1,7 @@
 package com.flx.netty.chat.common.config;
 
-import com.flx.netty.chat.common.redis.service.*;
-import com.flx.netty.chat.common.redis.service.impl.*;
+import com.flx.netty.chat.common.plugins.redis.service.*;
+import com.flx.netty.chat.common.plugins.redis.service.impl.*;
 import com.flx.netty.chat.common.utils.json.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

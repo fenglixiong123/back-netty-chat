@@ -1,9 +1,9 @@
 package com.flx.netty.chat.user.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.common.mybatis.entity.StateVO;
-import com.flx.netty.chat.common.mybatis.page.PageConvert;
-import com.flx.netty.chat.common.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.plugins.mybatis.entity.StateVO;
+import com.flx.netty.chat.common.plugins.mybatis.page.PageConvert;
+import com.flx.netty.chat.common.plugins.mybatis.page.QueryAndPage;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.user.api.vo.WebUserVO;
 import com.flx.netty.chat.user.console.service.UserService;

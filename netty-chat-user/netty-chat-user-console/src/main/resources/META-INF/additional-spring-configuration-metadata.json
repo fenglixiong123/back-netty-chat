@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "flx.mybatis.log",
+      "type": "java.lang.Boolean",
+      "description": "Description for flx.mybatis.log."
+    }
+  ]
+}
