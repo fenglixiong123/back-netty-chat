@@ -36,7 +36,7 @@ import javax.annotation.PostConstruct;
  * }
  */
 @Slf4j
-@ConfigurationPropertiesScan(basePackages = {"com.flx.netty.chat.common.property"})
+@ConfigurationPropertiesScan(basePackages = {"com.flx.**.property"})
 public class PropertyAutoConfiguration {
 
     @PostConstruct
