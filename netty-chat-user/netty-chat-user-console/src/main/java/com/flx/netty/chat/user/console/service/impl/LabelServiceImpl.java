@@ -1,10 +1,10 @@
 package com.flx.netty.chat.user.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.common.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.common.plugins.mybatis.page.PageConvert;
-import com.flx.netty.chat.common.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import com.flx.netty.chat.user.api.vo.WebLabelVO;
 import com.flx.netty.chat.user.console.service.LabelService;
 import com.flx.netty.chat.user.crud.entity.WebLabel;
@@ -51,12 +51,12 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public boolean updateState(StateVO stateVO) throws Exception {
-        for (Long id : stateVO.getIds()){
+    public boolean updateState(UpdateState entityVO) throws Exception {
+        for (Long id : entityVO.getIds()){
             WebLabel entity = new WebLabel();
             entity.setId(id);
-            entity.setState(stateVO.getState());
-            entity.setUpdateUser(stateVO.getUpdateUser());
+            entity.setState(entityVO.getState());
+            entity.setUpdateUser(entityVO.getUpdateUser());
             labelManager.updateState(entity);
         }
         return true;
@@ -72,8 +72,8 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public IPage<WebLabelVO> queryPage(QueryAndPage queryAndPage) throws Exception {
-        IPage<WebLabel> iPage = labelManager.queryPage(queryAndPage.getPageNum(),queryAndPage.getPageSize(),queryAndPage.getQuery());
+    public IPage<WebLabelVO> queryPage(PageQuery pageQuery) throws Exception {
+        IPage<WebLabel> iPage = labelManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         IPage<WebLabelVO> voPage = PageConvert.pageConvert(iPage, WebLabelVO.class);
         convertVO(voPage.getRecords());
         return voPage;

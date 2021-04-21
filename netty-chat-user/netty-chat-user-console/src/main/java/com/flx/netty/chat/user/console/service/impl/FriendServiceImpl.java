@@ -1,9 +1,9 @@
 package com.flx.netty.chat.user.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.common.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.common.plugins.mybatis.page.PageConvert;
-import com.flx.netty.chat.common.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.user.api.vo.WebFriendVO;
 import com.flx.netty.chat.user.console.service.FriendService;
@@ -51,12 +51,12 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public boolean updateState(StateVO stateVO) throws Exception {
-        for (Long id : stateVO.getIds()){
+    public boolean updateState(UpdateState entityVO) throws Exception {
+        for (Long id : entityVO.getIds()){
             WebFriend entity = new WebFriend();
             entity.setId(id);
-            entity.setState(stateVO.getState());
-            entity.setUpdateUser(stateVO.getUpdateUser());
+            entity.setState(entityVO.getState());
+            entity.setUpdateUser(entityVO.getUpdateUser());
             friendManager.updateState(entity);
         }
         return true;
@@ -72,8 +72,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public IPage<WebFriendVO> queryPage(QueryAndPage queryAndPage) throws Exception {
-        IPage<WebFriend> iPage = friendManager.queryPage(queryAndPage.getPageNum(),queryAndPage.getPageSize(),queryAndPage.getQuery());
+    public IPage<WebFriendVO> queryPage(PageQuery pageQuery) throws Exception {
+        IPage<WebFriend> iPage = friendManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         IPage<WebFriendVO> voPage = PageConvert.pageConvert(iPage, WebFriendVO.class);
         convertVO(voPage.getRecords());
         return voPage;

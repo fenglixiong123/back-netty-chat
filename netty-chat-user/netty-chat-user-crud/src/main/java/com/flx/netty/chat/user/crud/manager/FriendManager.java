@@ -2,7 +2,7 @@ package com.flx.netty.chat.user.crud.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.enums.State;
-import com.flx.netty.chat.common.plugins.mybatis.base.BaseManager;
+import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseManager;
 import com.flx.netty.chat.user.crud.dao.WebFriendDao;
 import com.flx.netty.chat.user.crud.entity.WebFriend;
 import org.springframework.stereotype.Service;

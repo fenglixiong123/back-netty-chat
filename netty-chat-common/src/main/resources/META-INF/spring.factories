@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.flx.netty.chat.common.utils.context.SpringContextUtil,\
-com.flx.netty.chat.common.autoconfig.PropertyAutoConfiguration
+com.flx.netty.chat.common.utils.context.SpringContextUtil

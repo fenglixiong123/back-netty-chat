@@ -1,10 +1,10 @@
 package com.flx.netty.chat.user.console.controller;
 
-import com.flx.netty.chat.common.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.common.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
+import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.user.api.vo.WebLabelVO;
 import com.flx.netty.chat.user.console.service.LabelService;
 import io.swagger.annotations.Api;
@@ -36,31 +36,31 @@ public class LabelController {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody WebLabelVO entity){
+    public ResultResponse add(@RequestBody WebLabelVO entityVO){
         try {
-            ValidationResult validate = ValidationUtils.validate(entity);
+            ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
                 return validate.toResponse();
             }
-            return ResultResponse.success(labelService.add(entity));
+            return ResultResponse.success(labelService.add(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody WebLabelVO entity){
+    public ResultResponse update(@RequestBody WebLabelVO entityVO){
         try {
-            return ResultResponse.success(labelService.update(entity));
+            return ResultResponse.success(labelService.update(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/updateState")
-    public ResultResponse updateState(@RequestBody StateVO stateVO){
+    public ResultResponse updateState(@RequestBody UpdateState entityVO){
         try {
-            return ResultResponse.success(labelService.updateState(stateVO));
+            return ResultResponse.success(labelService.updateState(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -94,7 +94,7 @@ public class LabelController {
     }
 
     @PostMapping("/queryPage")
-    public ResultResponse queryPage(@RequestBody QueryAndPage query){
+    public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
             return ResultResponse.success(labelService.queryPage(query));
         }catch (Exception e){

@@ -67,4 +67,25 @@ Netty聊天系统
 
 传统的session认证
 
+## 其他技术点讲解
+
+### 1.properties配置文件装载问题
+
+ * 正常使用配置文件的方式有：
+ 
+ * 1.直接注解方式(需要被IOC容器管理)
+ 
+ *      a.properties类加注解@ConfigurationProperties(prefix = "flx.swagger")//配置文件注解
+ *      b.@Componet //可以被Spring IOC管理
+ 
+ * 2.配置类方式(需要被IOC容器管理)
+ 
+ *      a.properties类加注解@ConfigurationProperties(prefix = "flx.swagger")
+ *      b.项目配置类上加@EnableConfigurationProperties({SwaggerInfoProperties.class})
+ 
+ * 3.直接扫描包的形式
+ 
+ *      @ConfigurationPropertiesScan(basePackages = {"com.flx.netty.chat.common.property"})
+ *      basePackages为自定义properties文件的位置
+
 

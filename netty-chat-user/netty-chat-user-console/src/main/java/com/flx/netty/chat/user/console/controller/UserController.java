@@ -1,11 +1,10 @@
 package com.flx.netty.chat.user.console.controller;
 
-
-import com.flx.netty.chat.common.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.common.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
+import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.user.api.vo.WebUserVO;
 import com.flx.netty.chat.user.console.service.UserService;
 import io.swagger.annotations.Api;
@@ -37,31 +36,31 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody WebUserVO entity){
+    public ResultResponse add(@RequestBody WebUserVO entityVO){
         try {
-            ValidationResult validate = ValidationUtils.validate(entity);
+            ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
                 return validate.toResponse();
             }
-            return ResultResponse.success(userService.add(entity));
+            return ResultResponse.success(userService.add(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody WebUserVO entity){
+    public ResultResponse update(@RequestBody WebUserVO entityVO){
         try {
-            return ResultResponse.success(userService.update(entity));
+            return ResultResponse.success(userService.update(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/updateState")
-    public ResultResponse updateState(@RequestBody StateVO stateVO){
+    public ResultResponse updateState(@RequestBody UpdateState entityVO){
         try {
-            return ResultResponse.success(userService.updateState(stateVO));
+            return ResultResponse.success(userService.updateState(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -95,7 +94,7 @@ public class UserController {
     }
 
     @PostMapping("/queryPage")
-    public ResultResponse queryPage(@RequestBody QueryAndPage query){
+    public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
             return ResultResponse.success(userService.queryPage(query));
         }catch (Exception e){

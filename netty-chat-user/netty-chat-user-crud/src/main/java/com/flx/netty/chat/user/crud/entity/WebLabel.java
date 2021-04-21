@@ -1,7 +1,7 @@
 package com.flx.netty.chat.user.crud.entity;
 
-import com.flx.netty.chat.common.annotion.mybatis.TableName;
-import com.flx.netty.chat.common.plugins.mybatis.base.BaseDO;
+import com.flx.netty.chat.plugin.annotion.mybatis.TableName;
+import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
 import lombok.Data;
 
 /**

@@ -1,6 +1,6 @@
 package com.flx.netty.chat.master.console;
 
-import com.flx.netty.chat.common.annotion.enable.*;
+import com.flx.netty.chat.plugin.annotion.enable.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,13 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  */
 @Slf4j
-@EnableCross
-@EnableFlyway
-@EnableMyBatis
-@EnableSwagger
-@EnableException
-//@EnableRedis
-@SpringBootApplication
+@EnableBase
+@SpringBootApplication(scanBasePackages = {"com.flx.netty.chat.master"})
 public class MasterApplication {
 
     public static void main(String[] args) {

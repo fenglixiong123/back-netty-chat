@@ -12,10 +12,17 @@
     <artifactId>netty-chat-login-crud</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.flx.chat</groupId>
             <artifactId>netty-chat-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-plugin</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
