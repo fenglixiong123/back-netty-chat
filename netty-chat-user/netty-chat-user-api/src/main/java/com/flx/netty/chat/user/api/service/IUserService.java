@@ -4,6 +4,7 @@ import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
+import com.flx.netty.chat.user.api.vo.ValidatePassVO;
 import com.flx.netty.chat.user.api.vo.WebUserVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-user")
+@FeignClient(name = "netty-chat-user",path = "/web/user")
 public interface IUserService {
 
     @GetMapping("/get/{id}")
@@ -42,5 +43,14 @@ public interface IUserService {
 
     @PostMapping("/queryPage")
     ResultResponse<PageVO<WebUserVO>> queryPage(@RequestBody PageQuery query);
+
+    @GetMapping("/getByUsername")
+    ResultResponse<WebUserVO> getByUsername(@RequestParam String username);
+
+    @GetMapping("/existByUsername")
+    ResultResponse<Boolean> existByUsername(@RequestParam String username);
+
+    @PostMapping("/validateUser")
+    ResultResponse<WebUserVO> validateUser(@RequestBody ValidatePassVO entityVO);
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-login")
+@FeignClient(name = "netty-chat-login",path = "/web")
 interface ILoginService {
 
     @PostMapping("/login")

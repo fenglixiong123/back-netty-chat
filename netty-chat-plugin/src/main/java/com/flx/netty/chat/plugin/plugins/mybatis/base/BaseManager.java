@@ -154,14 +154,14 @@ public abstract class BaseManager<T extends BaseDO, V extends BaseDao> {
         return dao.update(model, updateWrapper);
     }
 
-    public Object get(Long id) throws Exception {
-        return dao.selectById(id);
+    public T get(Long id) throws Exception {
+        return (T)dao.selectById(id);
     }
 
-    public Object get(String keyCode,String keyValue) throws Exception {
+    public T get(String keyCode,String keyValue) throws Exception {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(getTableFiledName(keyCode),keyValue);
-        return dao.selectOne(queryWrapper);
+        return (T)dao.selectOne(queryWrapper);
     }
 
     protected IPage<T> queryPage(Integer pageNum, Integer pageSize, Map<String, Object> query) throws Exception {

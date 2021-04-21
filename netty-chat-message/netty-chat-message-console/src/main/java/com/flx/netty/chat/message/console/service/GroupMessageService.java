@@ -1,8 +1,8 @@
 package com.flx.netty.chat.message.console.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.plugin.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.message.api.vo.WebGroupMessageVO;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public interface GroupMessageService {
     /**
      * 状态修改
      */
-    boolean updateState(StateVO stateVO) throws Exception;
+    boolean updateState(UpdateState entityVO) throws Exception;
 
     /**
      * 查询
@@ -43,7 +43,7 @@ public interface GroupMessageService {
     /**
      * 模糊分页查询
      */
-    IPage<WebGroupMessageVO> queryPage(QueryAndPage queryAndPage) throws Exception;
+    IPage<WebGroupMessageVO> queryPage(PageQuery query) throws Exception;
 
     /**
      * 通过Map模糊查询

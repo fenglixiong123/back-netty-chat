@@ -1,14 +1,14 @@
 package com.flx.netty.chat.message.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.plugin.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.message.api.vo.WebGroupMessageVO;
 import com.flx.netty.chat.message.console.service.GroupMessageService;
 import com.flx.netty.chat.message.crud.entity.WebGroupMessage;
 import com.flx.netty.chat.message.crud.manager.GroupMessageManager;
+import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,12 +51,12 @@ public class GroupMessageServiceImpl implements GroupMessageService {
     }
 
     @Override
-    public boolean updateState(StateVO stateVO) throws Exception {
-        for (Long id : stateVO.getIds()){
+    public boolean updateState(UpdateState entityVO) throws Exception {
+        for (Long id : entityVO.getIds()){
             WebGroupMessage entity = new WebGroupMessage();
             entity.setId(id);
-            entity.setState(stateVO.getState());
-            entity.setUpdateUser(stateVO.getUpdateUser());
+            entity.setState(entityVO.getState());
+            entity.setUpdateUser(entityVO.getUpdateUser());
             groupMessageManager.updateState(entity);
         }
         return true;
@@ -72,8 +72,8 @@ public class GroupMessageServiceImpl implements GroupMessageService {
     }
 
     @Override
-    public IPage<WebGroupMessageVO> queryPage(QueryAndPage queryAndPage) throws Exception {
-        IPage<WebGroupMessage> iPage = groupMessageManager.queryPage(queryAndPage.getPageNum(),queryAndPage.getPageSize(),queryAndPage.getQuery());
+    public IPage<WebGroupMessageVO> queryPage(PageQuery pageQuery) throws Exception {
+        IPage<WebGroupMessage> iPage = groupMessageManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         IPage<WebGroupMessageVO> voPage = PageConvert.pageConvert(iPage, WebGroupMessageVO.class);
         convertVO(voPage.getRecords());
         return voPage;

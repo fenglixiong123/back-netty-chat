@@ -1,9 +1,11 @@
 package com.flx.netty.chat.login.console.service.impl;
 
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.login.api.vo.LoginVO;
 import com.flx.netty.chat.login.console.service.LoginService;
 import com.flx.netty.chat.user.api.service.IUserService;
+import com.flx.netty.chat.user.api.vo.ValidatePassVO;
 import com.flx.netty.chat.user.api.vo.WebUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,19 +30,12 @@ public class LoginServiceImpl implements LoginService {
      * @throws Exception
      */
     @Override
-    public void login(LoginVO loginVO) throws Exception {
-        if(StringUtils.isBlank(loginVO.getUsername())){
-            throw new Exception("用户名不能为空！");
-        }
-        if(StringUtils.isBlank(loginVO.getPassword())){
-            throw new Exception("密码不能为空！");
-        }
-        WebUserVO user = (WebUserVO) userService.get("userName", loginVO.getUsername());
-        if(user==null){
-            throw new Exception("用户名不存在！");
-        }
-        if(!user.getPassword().equals(loginVO.getPassword())){
-            throw new Exception("用户密码错误！");
+    public WebUserVO login(LoginVO loginVO) throws Exception {
+        ResultResponse<WebUserVO> response = userService.validateUser(new ValidatePassVO(loginVO.getUsername(), loginVO.getPassword()));
+        if(response.isSuccess()){
+            return response.getData();
+        }else {
+            throw new Exception("登录失败！");
         }
     }
 
@@ -52,12 +47,12 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public Long register(WebUserVO webUserVO) throws Exception {
-        if(userService.isExist("userName",webUserVO.getUserName())){
-            throw new Exception("用户已经存在！");
+        ResultResponse<Long> response = userService.add(webUserVO);
+        if(response.isSuccess()){
+            sendSuccessEmail(webUserVO);
+            return response.getData();
         }
-        Long id = userService.add(webUserVO);
-        sendSuccessEmail(webUserVO);
-        return id;
+        throw new Exception("注册失败！");
     }
 
     /**

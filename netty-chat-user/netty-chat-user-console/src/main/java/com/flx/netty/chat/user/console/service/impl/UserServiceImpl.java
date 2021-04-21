@@ -2,6 +2,7 @@ package com.flx.netty.chat.user.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
@@ -10,6 +11,7 @@ import com.flx.netty.chat.user.console.service.UserService;
 import com.flx.netty.chat.user.crud.entity.WebUser;
 import com.flx.netty.chat.user.crud.manager.UserManager;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long add(WebUserVO entityVO) throws Exception {
+        WebUserVO entity = getByUsername(entityVO.getUserName());
+        if(entity!=null){
+            throw new Exception("不能重复添加!");
+        }
         return userManager.add(BeanUtils.copyProperties(entityVO, WebUser.class));
     }
 
@@ -47,6 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer update(WebUserVO entityVO) throws Exception {
+        if(entityVO.getId()==null){
+            throw new Exception("Id不能为空!");
+        }
         return userManager.update(BeanUtils.copyProperties(entityVO, WebUser.class));
     }
 
@@ -94,5 +103,33 @@ public class UserServiceImpl implements UserService {
         return userManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebUserVO.class)).collect(Collectors.toList());
     }
 
-    
+    @Override
+    public WebUserVO getByUsername(String username) throws Exception{
+        return BeanUtils.copyProperties(userManager.get("userName", username),WebUserVO.class);
+    }
+
+    @Override
+    public boolean isExist(String username) throws Exception{
+        return userManager.isExist("userName",username);
+    }
+
+    @Override
+    public WebUserVO validateUser(String username, String password) throws Exception {
+        if(StringUtils.isBlank(username)){
+            throw new Exception("用户名不能为空！");
+        }
+        if(StringUtils.isBlank(password)){
+            throw new Exception("密码不能为空！");
+        }
+        WebUser user = userManager.get("userName", username);;
+        if(user==null){
+            throw new Exception("用户名不存在！");
+        }
+        if(!user.getPassword().equals(password)){
+            throw new Exception("用户密码错误！");
+        }
+        return BeanUtils.copyProperties(user,WebUserVO.class);
+    }
+
+
 }

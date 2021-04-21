@@ -60,4 +60,21 @@ public interface UserService {
      */
     List<WebUserVO> querySome(Map<String, Object> query,String[] columns) throws Exception;
 
+    /**
+     * 根据用户名查询
+     * @param username
+     * @return
+     */
+    WebUserVO getByUsername(String username) throws Exception;
+
+    /**
+     * 用户是否存在
+     */
+    boolean isExist(String username) throws Exception;
+
+    /**
+     * 验证密码是否正确
+     */
+    WebUserVO validateUser(String username,String password) throws Exception;
+
 }

@@ -1,6 +1,6 @@
 package com.flx.netty.chat.message.api.vo;
 
-import com.flx.netty.chat.sdk.vo.BaseVO;
+import com.flx.netty.chat.common.vo.BaseVO;
 import lombok.Data;
 
 import java.util.Date;

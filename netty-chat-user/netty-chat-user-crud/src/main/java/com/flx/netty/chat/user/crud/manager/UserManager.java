@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserManager extends BaseManager<WebUser, WebUserDao> {
 
     public WebUser get(Long id) throws Exception {
-        return (WebUser)super.get(id);
+        return super.get(id);
     }
 
     public IPage<WebUser> queryPage(Integer pageNum, Integer pageSize, Map<String, Object> query) throws Exception {

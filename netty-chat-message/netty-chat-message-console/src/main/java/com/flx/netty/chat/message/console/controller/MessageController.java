@@ -1,7 +1,7 @@
 package com.flx.netty.chat.message.console.controller;
 
-import com.flx.netty.chat.plugin.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
@@ -36,31 +36,31 @@ public class MessageController {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody WebMessageVO entity){
+    public ResultResponse add(@RequestBody WebMessageVO entityVO){
         try {
-            ValidationResult validate = ValidationUtils.validate(entity);
+            ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
                 return validate.toResponse();
             }
-            return ResultResponse.success(messageService.add(entity));
+            return ResultResponse.success(messageService.add(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody WebMessageVO entity){
+    public ResultResponse update(@RequestBody WebMessageVO entityVO){
         try {
-            return ResultResponse.success(messageService.update(entity));
+            return ResultResponse.success(messageService.update(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/updateState")
-    public ResultResponse updateState(@RequestBody StateVO stateVO){
+    public ResultResponse updateState(@RequestBody UpdateState entityVO){
         try {
-            return ResultResponse.success(messageService.updateState(stateVO));
+            return ResultResponse.success(messageService.updateState(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -94,7 +94,7 @@ public class MessageController {
     }
 
     @PostMapping("/queryPage")
-    public ResultResponse queryPage(@RequestBody QueryAndPage query){
+    public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
             return ResultResponse.success(messageService.queryPage(query));
         }catch (Exception e){

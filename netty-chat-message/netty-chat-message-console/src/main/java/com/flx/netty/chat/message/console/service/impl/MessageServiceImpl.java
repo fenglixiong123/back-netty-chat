@@ -1,9 +1,9 @@
 package com.flx.netty.chat.message.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.plugin.plugins.mybatis.entity.StateVO;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.QueryAndPage;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.message.api.vo.WebMessageVO;
 import com.flx.netty.chat.message.console.service.MessageService;
@@ -51,12 +51,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public boolean updateState(StateVO stateVO) throws Exception {
-        for (Long id : stateVO.getIds()){
+    public boolean updateState(UpdateState entityVO) throws Exception {
+        for (Long id : entityVO.getIds()){
             WebMessage entity = new WebMessage();
             entity.setId(id);
-            entity.setState(stateVO.getState());
-            entity.setUpdateUser(stateVO.getUpdateUser());
+            entity.setState(entityVO.getState());
+            entity.setUpdateUser(entityVO.getUpdateUser());
             messageManager.updateState(entity);
         }
         return true;
@@ -72,8 +72,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public IPage<WebMessageVO> queryPage(QueryAndPage queryAndPage) throws Exception {
-        IPage<WebMessage> iPage = messageManager.queryPage(queryAndPage.getPageNum(),queryAndPage.getPageSize(),queryAndPage.getQuery());
+    public IPage<WebMessageVO> queryPage(PageQuery pageQuery) throws Exception {
+        IPage<WebMessage> iPage = messageManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         IPage<WebMessageVO> voPage = PageConvert.pageConvert(iPage, WebMessageVO.class);
         convertVO(voPage.getRecords());
         return voPage;

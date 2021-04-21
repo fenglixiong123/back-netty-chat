@@ -17,7 +17,7 @@ public interface LoginService {
      * @return
      * @throws Exception
      */
-    void login(LoginVO loginVO) throws Exception;
+    WebUserVO login(LoginVO loginVO) throws Exception;
 
     /**
      * 注册

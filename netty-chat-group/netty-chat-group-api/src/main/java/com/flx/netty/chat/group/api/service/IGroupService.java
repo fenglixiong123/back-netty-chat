@@ -16,7 +16,7 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-group")
+@FeignClient(name = "netty-chat-group",path = "/web/group")
 public interface IGroupService {
 
     @GetMapping("/get/{id}")

@@ -16,7 +16,7 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-user")
+@FeignClient(name = "netty-chat-user",path = "/web/label")
 interface ILabelService {
 
     @GetMapping("/get/{id}")

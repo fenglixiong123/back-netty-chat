@@ -5,6 +5,7 @@ import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
 import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.user.api.vo.ValidatePassVO;
 import com.flx.netty.chat.user.api.vo.WebUserVO;
 import com.flx.netty.chat.user.console.service.UserService;
 import io.swagger.annotations.Api;
@@ -97,6 +98,37 @@ public class UserController {
     public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
             return ResultResponse.success(userService.queryPage(query));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getByUsername")
+    public ResultResponse getByUsername(@RequestParam String username){
+        try {
+            return ResultResponse.success(userService.getByUsername(username));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/existByUsername")
+    public ResultResponse existByUsername(@RequestParam String username){
+        try {
+            return ResultResponse.success(userService.isExist(username));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/validateUser")
+    public ResultResponse validateUser(@RequestBody ValidatePassVO entityVO){
+        try {
+            ValidationResult result = ValidationUtils.validate(entityVO);
+            if(!result.isSuccess()){
+                return result.toResponse();
+            }
+            return ResultResponse.success(userService.validateUser(entityVO.getUsername(),entityVO.getPassword()));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }

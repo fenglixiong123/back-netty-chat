@@ -1,7 +1,7 @@
 package com.flx.netty.chat.group.console.controller;
 
-import com.flx.netty.chat.plugin.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
@@ -36,31 +36,31 @@ public class GroupController {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody WebGroupVO entity){
+    public ResultResponse add(@RequestBody WebGroupVO entityVO){
         try {
-            ValidationResult validate = ValidationUtils.validate(entity);
+            ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
                 return validate.toResponse();
             }
-            return ResultResponse.success(groupService.add(entity));
+            return ResultResponse.success(groupService.add(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody WebGroupVO entity){
+    public ResultResponse update(@RequestBody WebGroupVO entityVO){
         try {
-            return ResultResponse.success(groupService.update(entity));
+            return ResultResponse.success(groupService.update(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PutMapping("/updateState")
-    public ResultResponse updateState(@RequestBody StateVO stateVO){
+    public ResultResponse updateState(@RequestBody UpdateState entityVO){
         try {
-            return ResultResponse.success(groupService.updateState(stateVO));
+            return ResultResponse.success(groupService.updateState(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -94,7 +94,7 @@ public class GroupController {
     }
 
     @PostMapping("/queryPage")
-    public ResultResponse queryPage(@RequestBody QueryAndPage query){
+    public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
             return ResultResponse.success(groupService.queryPage(query));
         }catch (Exception e){

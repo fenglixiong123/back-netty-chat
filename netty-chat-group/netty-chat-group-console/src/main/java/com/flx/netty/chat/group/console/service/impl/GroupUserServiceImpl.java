@@ -1,14 +1,14 @@
 package com.flx.netty.chat.group.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.flx.netty.chat.plugin.plugins.mybatis.entity.StateVO;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.QueryAndPage;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.group.api.vo.WebGroupUserVO;
 import com.flx.netty.chat.group.console.service.GroupUserService;
 import com.flx.netty.chat.group.crud.entity.WebGroupUser;
 import com.flx.netty.chat.group.crud.manager.GroupUserManager;
+import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,12 +51,12 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public boolean updateState(StateVO stateVO) throws Exception {
-        for (Long id : stateVO.getIds()){
+    public boolean updateState(UpdateState entityVO) throws Exception {
+        for (Long id : entityVO.getIds()){
             WebGroupUser entity = new WebGroupUser();
             entity.setId(id);
-            entity.setState(stateVO.getState());
-            entity.setUpdateUser(stateVO.getUpdateUser());
+            entity.setState(entityVO.getState());
+            entity.setUpdateUser(entityVO.getUpdateUser());
             groupManager.updateState(entity);
         }
         return true;
@@ -72,8 +72,8 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public IPage<WebGroupUserVO> queryPage(QueryAndPage queryAndPage) throws Exception {
-        IPage<WebGroupUser> iPage = groupManager.queryPage(queryAndPage.getPageNum(),queryAndPage.getPageSize(),queryAndPage.getQuery());
+    public IPage<WebGroupUserVO> queryPage(PageQuery pageQuery) throws Exception {
+        IPage<WebGroupUser> iPage = groupManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         IPage<WebGroupUserVO> voPage = PageConvert.pageConvert(iPage, WebGroupUserVO.class);
         convertVO(voPage.getRecords());
         return voPage;

@@ -16,7 +16,7 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-message")
+@FeignClient(name = "netty-chat-message",path = "/web/message")
 public interface IMessageService {
 
     @GetMapping("/get/{id}")
