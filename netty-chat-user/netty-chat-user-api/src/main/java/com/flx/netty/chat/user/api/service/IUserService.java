@@ -17,13 +17,13 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-user")
+@FeignClient(name = "netty-chat-user",path = "/web/user")
 public interface IUserService {
 
-    @RequestMapping(value = "/web/user/get/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
     ResultResponse<WebUserVO> get(@PathVariable(value = "id") Long id);
 
-    @PostMapping("/web/user/add")
+    @PostMapping("/add")
     ResultResponse<Long> add(@RequestBody WebUserVO entityVO);
 
     @PutMapping("/update")
