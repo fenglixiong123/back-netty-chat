@@ -17,6 +17,7 @@ public class PageVO<T> {
     private long total;
     private long size;
     private long current;
+    private long pages;
     private List<OrderItem> orders;
     private boolean optimizeCountSql;
     private boolean isSearchCount;
@@ -209,7 +210,18 @@ public class PageVO<T> {
         this.maxLimit = maxLimit;
     }
 
-    private long getPages() {
+    public long getPages() {
+        if(pages <= 0){
+            return countPages();
+        }
+        return pages;
+    }
+
+    public void setPages(long pages) {
+        this.pages = pages;
+    }
+
+    private long countPages() {
         if (this.getSize() == 0L) {
             return 0L;
         } else {
@@ -221,5 +233,7 @@ public class PageVO<T> {
             return pages;
         }
     }
+
+
 
 }

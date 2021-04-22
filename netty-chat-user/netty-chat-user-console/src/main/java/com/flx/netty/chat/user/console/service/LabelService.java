@@ -3,6 +3,7 @@ package com.flx.netty.chat.user.console.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.user.api.vo.WebLabelVO;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface LabelService {
     /**
      * 模糊分页查询
      */
-    IPage<WebLabelVO> queryPage(PageQuery pageQuery) throws Exception;
+    PageVO<WebLabelVO> queryPage(PageQuery pageQuery) throws Exception;
 
     /**
      * 通过Map模糊查询
@@ -51,13 +52,15 @@ public interface LabelService {
     List<WebLabelVO> query(Map<String, Object> query) throws Exception;
 
     /**
+     * 查询指定字段
+     */
+    List<WebLabelVO> querySome(Map<String, Object> query, String[] columns) throws Exception;
+
+    /**
      * 查询所有
      */
     List<WebLabelVO> queryAll(Map<String, Object> query) throws Exception;
 
-    /**
-     * 查询指定字段
-     */
-    List<WebLabelVO> querySome(Map<String, Object> query, String[] columns) throws Exception;
+
 
 }

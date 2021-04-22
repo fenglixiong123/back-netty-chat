@@ -2,6 +2,7 @@ package com.flx.netty.chat.plugin.plugins.mybatis.page;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 
 import java.util.ArrayList;
@@ -16,20 +17,20 @@ import java.util.stream.Collectors;
  */
 public class PageConvert {
 
-    public static <T, V> IPage<T> pageConvert(IPage<V> iPage) {
+    public static <T, V> PageVO<T> pageConvert(IPage<V> iPage) {
         return pageConvert(iPage,null);
     }
 
-    public static <T, V> IPage<T> pageConvert(IPage<V> iPage, Class<T> classV) {
-        Page<T> page = new Page<>();
+    public static <T, V> PageVO<T> pageConvert(IPage<V> iPage, Class<T> classV) {
+        PageVO<T> pageVO = new PageVO<>();
         if(classV!=null) {
-            page.setRecords(iPage.getRecords().parallelStream().map(e -> BeanUtils.copyProperties(e, classV)).collect(Collectors.toList()));
+            pageVO.setRecords(iPage.getRecords().parallelStream().map(e -> BeanUtils.copyProperties(e, classV)).collect(Collectors.toList()));
         }
-        page.setSize(iPage.getSize());
-        page.setCurrent(iPage.getCurrent());
-        page.setPages(iPage.getPages());
-        page.setTotal(iPage.getTotal());
-        return page;
+        pageVO.setSize(iPage.getSize());
+        pageVO.setCurrent(iPage.getCurrent());
+        pageVO.setPages(iPage.getPages());
+        pageVO.setTotal(iPage.getTotal());
+        return pageVO;
     }
 
     /**
@@ -47,8 +48,8 @@ public class PageConvert {
      * @return
      * @throws Exception
      */
-    public static <T, V> IPage<T> pageConvert(IPage<V> iPage, Class<T> classV, String split, String fieldName) throws Exception {
-        Page<T> page = new Page<>();
+    public static <T, V> PageVO<T> pageConvert(IPage<V> iPage, Class<T> classV, String split, String fieldName) throws Exception {
+        PageVO<T> pageVO = new PageVO<>();
         iPage.setSize(iPage.getSize());
         List<T> newEntityList = new ArrayList<>();
         String setter = "set" + fieldName.trim().substring(0, 1).toUpperCase() + fieldName.substring(1) + "List";
@@ -59,11 +60,11 @@ public class PageConvert {
             Objects.requireNonNull(newEntity).getClass().getMethod(setter, List.class).invoke(newEntity, Arrays.asList(value));
             newEntityList.add(newEntity);
         }
-        page.setRecords(newEntityList);
-        page.setCurrent(iPage.getCurrent());
-        page.setPages(iPage.getPages());
-        page.setTotal(iPage.getTotal());
-        return page;
+        pageVO.setRecords(newEntityList);
+        pageVO.setCurrent(iPage.getCurrent());
+        pageVO.setPages(iPage.getPages());
+        pageVO.setTotal(iPage.getTotal());
+        return pageVO;
     }
 
 }

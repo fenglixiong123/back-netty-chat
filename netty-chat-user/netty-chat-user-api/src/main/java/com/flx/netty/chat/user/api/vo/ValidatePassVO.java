@@ -25,4 +25,8 @@ public class ValidatePassVO {
     @Size(max = 64)
     private String password;
 
+    public static ValidatePassVO build(String username,String password){
+        return new ValidatePassVO(username,password);
+    }
+
 }

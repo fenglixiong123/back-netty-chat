@@ -17,13 +17,13 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-user",path = "/web/user")
+@FeignClient(name = "netty-chat-user")
 public interface IUserService {
 
-    @GetMapping("/get/{id}")
-    ResultResponse<WebUserVO> get(@PathVariable Long id);
+    @RequestMapping(value = "/web/user/get/{id}",method = RequestMethod.GET)
+    ResultResponse<WebUserVO> get(@PathVariable(value = "id") Long id);
 
-    @PostMapping("/add")
+    @PostMapping("/web/user/add")
     ResultResponse<Long> add(@RequestBody WebUserVO entityVO);
 
     @PutMapping("/update")
@@ -33,10 +33,13 @@ public interface IUserService {
     ResultResponse<Boolean> updateState(@RequestBody UpdateState entityVO);
 
     @DeleteMapping("/delete/{id}")
-    ResultResponse<Integer> delete(@PathVariable Long id);
+    ResultResponse<Integer> delete(@PathVariable(value = "id") Long id);
 
     @PostMapping("/query")
     ResultResponse<List<WebUserVO>> query(@RequestBody Map<String,Object> query);
+
+    @PostMapping("/querySome")
+    ResultResponse<List<WebUserVO>> querySome(@RequestBody Map<String,Object> query,@RequestParam(value = "columns") String[] columns);
 
     @PostMapping("/queryAll")
     ResultResponse<List<WebUserVO>> queryAll(@RequestBody Map<String,Object> query);
@@ -45,10 +48,10 @@ public interface IUserService {
     ResultResponse<PageVO<WebUserVO>> queryPage(@RequestBody PageQuery query);
 
     @GetMapping("/getByUsername")
-    ResultResponse<WebUserVO> getByUsername(@RequestParam String username);
+    ResultResponse<WebUserVO> getByUsername(@RequestParam(value = "username") String username);
 
     @GetMapping("/existByUsername")
-    ResultResponse<Boolean> existByUsername(@RequestParam String username);
+    ResultResponse<Boolean> existByUsername(@RequestParam(value = "username") String username);
 
     @PostMapping("/validateUser")
     ResultResponse<WebUserVO> validateUser(@RequestBody ValidatePassVO entityVO);

@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -80,6 +81,15 @@ public class UserController {
     public ResultResponse query(@RequestBody Map<String,Object> query){
         try {
             return ResultResponse.success(userService.query(query));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/querySome")
+    public ResultResponse querySome(@RequestBody Map<String,Object> query,@RequestParam String[] columns){
+        try {
+            return ResultResponse.success(userService.querySome(query,columns));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }

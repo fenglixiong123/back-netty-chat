@@ -17,10 +17,10 @@ import java.util.Map;
  * @Description:
  */
 @FeignClient(name = "netty-chat-user",path = "/web/label")
-interface ILabelService {
+public interface ILabelService {
 
     @GetMapping("/get/{id}")
-    ResultResponse<WebLabelVO> get(@PathVariable Long id);
+    ResultResponse<WebLabelVO> get(@PathVariable(value = "id") Long id);
 
     @PostMapping("/add")
     ResultResponse<Long> add(@RequestBody WebLabelVO entityVO);
@@ -32,10 +32,13 @@ interface ILabelService {
     ResultResponse<Boolean> updateState(@RequestBody UpdateState entityVO);
 
     @DeleteMapping("/delete/{id}")
-    ResultResponse<Integer> delete(@PathVariable Long id);
+    ResultResponse<Integer> delete(@PathVariable(value = "id") Long id);
 
     @PostMapping("/query")
     ResultResponse<List<WebLabelVO>> query(@RequestBody Map<String,Object> query);
+
+    @PostMapping("/querySome")
+    ResultResponse<List<WebLabelVO>> querySome(@RequestBody Map<String,Object> query, @RequestParam(value = "columns") String[] columns);
 
     @PostMapping("/queryAll")
     ResultResponse<List<WebLabelVO>> queryAll(@RequestBody Map<String,Object> query);

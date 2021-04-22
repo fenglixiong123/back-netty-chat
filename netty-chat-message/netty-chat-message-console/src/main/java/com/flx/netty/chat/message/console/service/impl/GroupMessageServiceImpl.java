@@ -3,6 +3,7 @@ package com.flx.netty.chat.message.console.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.message.api.vo.WebGroupMessageVO;
 import com.flx.netty.chat.message.console.service.GroupMessageService;
@@ -72,11 +73,11 @@ public class GroupMessageServiceImpl implements GroupMessageService {
     }
 
     @Override
-    public IPage<WebGroupMessageVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebGroupMessageVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebGroupMessage> iPage = groupMessageManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        IPage<WebGroupMessageVO> voPage = PageConvert.pageConvert(iPage, WebGroupMessageVO.class);
-        convertVO(voPage.getRecords());
-        return voPage;
+        PageVO<WebGroupMessageVO> pageVO = PageConvert.pageConvert(iPage, WebGroupMessageVO.class);
+        convertVO(pageVO.getRecords());
+        return pageVO;
     }
 
     @Override
@@ -85,13 +86,13 @@ public class GroupMessageServiceImpl implements GroupMessageService {
     }
 
     @Override
-    public List<WebGroupMessageVO> queryAll(Map<String, Object> query) throws Exception {
-        return groupMessageManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupMessageVO.class)).collect(Collectors.toList());
+    public List<WebGroupMessageVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
+        return groupMessageManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupMessageVO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public List<WebGroupMessageVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
-        return groupMessageManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupMessageVO.class)).collect(Collectors.toList());
+    public List<WebGroupMessageVO> queryAll(Map<String, Object> query) throws Exception {
+        return groupMessageManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupMessageVO.class)).collect(Collectors.toList());
     }
 
     

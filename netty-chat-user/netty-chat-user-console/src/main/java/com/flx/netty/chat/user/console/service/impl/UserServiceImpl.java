@@ -2,6 +2,7 @@ package com.flx.netty.chat.user.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.common.entity.UpdateState;
@@ -81,11 +82,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public IPage<WebUserVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebUserVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebUser> iPage = userManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        IPage<WebUserVO> voPage = PageConvert.pageConvert(iPage, WebUserVO.class);
-        convertVO(voPage.getRecords());
-        return voPage;
+        PageVO<WebUserVO> pageVO = PageConvert.pageConvert(iPage, WebUserVO.class);
+        convertVO(pageVO.getRecords());
+        return pageVO;
     }
 
     @Override
@@ -94,13 +95,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<WebUserVO> queryAll(Map<String, Object> query) throws Exception {
-        return userManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebUserVO.class)).collect(Collectors.toList());
+    public List<WebUserVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
+        return userManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebUserVO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public List<WebUserVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
-        return userManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebUserVO.class)).collect(Collectors.toList());
+    public List<WebUserVO> queryAll(Map<String, Object> query) throws Exception {
+        return userManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebUserVO.class)).collect(Collectors.toList());
     }
 
     @Override

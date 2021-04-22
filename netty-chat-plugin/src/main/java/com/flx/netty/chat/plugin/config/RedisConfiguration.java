@@ -1,9 +1,12 @@
 package com.flx.netty.chat.plugin.config;
 
+import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+import com.flx.netty.chat.plugin.plugins.cache.CustomCacheManager;
 import com.flx.netty.chat.plugin.plugins.redis.service.*;
 import com.flx.netty.chat.plugin.plugins.redis.service.impl.*;
 import com.flx.netty.chat.plugin.utils.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -20,18 +23,23 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfiguration {
 
+    @Autowired
+    private RedisConnectionFactory factory;
+
     @Bean
-    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+    public RedisTemplate<String,Object> redisTemplate(){
+
         RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-        Jackson2JsonRedisSerializer<Object> jacksonSerializer = JacksonUtils.getJacksonSerializer();
-        redisTemplate.setValueSerializer(jacksonSerializer);
-        redisTemplate.setHashValueSerializer(jacksonSerializer);
-        //用StringRedisSerializer来序列化和反序列化redis的key值
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        //序列化String类型的key,value
+        redisTemplate.setKeySerializer(CustomCacheManager.STRING_SERIALIZER);
+        redisTemplate.setValueSerializer(CustomCacheManager.FAST_JSON_SERIALIZER);
+        //序列化Hash类型的key,value
+        redisTemplate.setHashKeySerializer(CustomCacheManager.STRING_SERIALIZER);
+        redisTemplate.setHashValueSerializer(CustomCacheManager.FAST_JSON_SERIALIZER);
+        //设置factory
+        redisTemplate.setConnectionFactory(factory);
         redisTemplate.afterPropertiesSet();
+
         return redisTemplate;
     }
 

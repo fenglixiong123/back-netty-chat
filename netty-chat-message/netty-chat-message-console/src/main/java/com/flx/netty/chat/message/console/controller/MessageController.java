@@ -84,6 +84,15 @@ public class MessageController {
         }
     }
 
+    @PostMapping("/querySome")
+    public ResultResponse querySome(@RequestBody Map<String,Object> query,@RequestParam String[] columns){
+        try {
+            return ResultResponse.success(messageService.querySome(query,columns));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
     @PostMapping("/queryAll")
     public ResultResponse queryAll(@RequestBody Map<String,Object> query){
         try {

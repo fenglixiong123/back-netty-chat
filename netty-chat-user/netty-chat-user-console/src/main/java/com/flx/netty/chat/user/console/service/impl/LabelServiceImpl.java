@@ -2,6 +2,7 @@ package com.flx.netty.chat.user.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
@@ -72,11 +73,11 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public IPage<WebLabelVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebLabelVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebLabel> iPage = labelManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        IPage<WebLabelVO> voPage = PageConvert.pageConvert(iPage, WebLabelVO.class);
-        convertVO(voPage.getRecords());
-        return voPage;
+        PageVO<WebLabelVO> pageVO = PageConvert.pageConvert(iPage, WebLabelVO.class);
+        convertVO(pageVO.getRecords());
+        return pageVO;
     }
 
     @Override
@@ -85,14 +86,16 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
+    public List<WebLabelVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
+        return labelManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebLabelVO.class)).collect(Collectors.toList());
+    }
+
+    @Override
     public List<WebLabelVO> queryAll(Map<String, Object> query) throws Exception {
         return labelManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebLabelVO.class)).collect(Collectors.toList());
     }
 
-    @Override
-    public List<WebLabelVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
-        return labelManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebLabelVO.class)).collect(Collectors.toList());
-    }
+
 
     
 }

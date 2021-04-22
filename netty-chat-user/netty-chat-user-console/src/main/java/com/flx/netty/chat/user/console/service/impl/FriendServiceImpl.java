@@ -3,6 +3,7 @@ package com.flx.netty.chat.user.console.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.user.api.vo.WebFriendVO;
@@ -72,11 +73,11 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public IPage<WebFriendVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebFriendVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebFriend> iPage = friendManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        IPage<WebFriendVO> voPage = PageConvert.pageConvert(iPage, WebFriendVO.class);
-        convertVO(voPage.getRecords());
-        return voPage;
+        PageVO<WebFriendVO> pageVO = PageConvert.pageConvert(iPage, WebFriendVO.class);
+        convertVO(pageVO.getRecords());
+        return pageVO;
     }
 
     @Override
@@ -85,14 +86,13 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<WebFriendVO> queryAll(Map<String, Object> query) throws Exception {
-        return friendManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebFriendVO.class)).collect(Collectors.toList());
-    }
-
-    @Override
     public List<WebFriendVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
         return friendManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebFriendVO.class)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<WebFriendVO> queryAll(Map<String, Object> query) throws Exception {
+        return friendManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebFriendVO.class)).collect(Collectors.toList());
+    }
     
 }

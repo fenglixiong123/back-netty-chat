@@ -4,6 +4,7 @@ import com.flx.netty.chat.plugin.annotion.enable.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @Author: Fenglixiong
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @EnableBase
+@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = {"com.flx.netty.chat.user"})
 public class UserApplication {
 

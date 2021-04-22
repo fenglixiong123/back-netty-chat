@@ -3,6 +3,7 @@ package com.flx.netty.chat.group.console.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import com.flx.netty.chat.group.api.vo.WebGroupUserVO;
 import com.flx.netty.chat.group.console.service.GroupUserService;
@@ -72,11 +73,11 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public IPage<WebGroupUserVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebGroupUserVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebGroupUser> iPage = groupManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        IPage<WebGroupUserVO> voPage = PageConvert.pageConvert(iPage, WebGroupUserVO.class);
-        convertVO(voPage.getRecords());
-        return voPage;
+        PageVO<WebGroupUserVO> pageVO = PageConvert.pageConvert(iPage, WebGroupUserVO.class);
+        convertVO(pageVO.getRecords());
+        return pageVO;
     }
 
     @Override
@@ -85,14 +86,13 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public List<WebGroupUserVO> queryAll(Map<String, Object> query) throws Exception {
-        return groupManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupUserVO.class)).collect(Collectors.toList());
-    }
-
-    @Override
     public List<WebGroupUserVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
         return groupManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupUserVO.class)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<WebGroupUserVO> queryAll(Map<String, Object> query) throws Exception {
+        return groupManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebGroupUserVO.class)).collect(Collectors.toList());
+    }
     
 }

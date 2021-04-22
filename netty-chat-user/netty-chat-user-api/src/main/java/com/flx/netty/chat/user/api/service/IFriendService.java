@@ -17,10 +17,10 @@ import java.util.Map;
  * @Description:
  */
 @FeignClient(name = "netty-chat-user",path = "/web/friend")
-interface IFriendService {
+public interface IFriendService {
 
     @GetMapping("/get/{id}")
-    ResultResponse<WebFriendVO> get(@PathVariable Long id);
+    ResultResponse<WebFriendVO> get(@PathVariable(value = "id") Long id);
 
     @PostMapping("/add")
     ResultResponse<Long> add(@RequestBody WebFriendVO entityVO);
@@ -32,10 +32,13 @@ interface IFriendService {
     ResultResponse<Boolean> updateState(@RequestBody UpdateState entityVO);
 
     @DeleteMapping("/delete/{id}")
-    ResultResponse<Integer> delete(@PathVariable Long id);
+    ResultResponse<Integer> delete(@PathVariable(value = "id") Long id);
 
     @PostMapping("/query")
     ResultResponse<List<WebFriendVO>> query(@RequestBody Map<String,Object> query);
+
+    @PostMapping("/querySome")
+    ResultResponse<List<WebFriendVO>> querySome(@RequestBody Map<String,Object> query,@RequestParam(value = "columns") String[] columns);
 
     @PostMapping("/queryAll")
     ResultResponse<List<WebFriendVO>> queryAll(@RequestBody Map<String,Object> query);

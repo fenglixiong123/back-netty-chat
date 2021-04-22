@@ -1,6 +1,5 @@
 package com.flx.netty.chat.plugin.autoconfig;
 
-import com.flx.netty.chat.plugin.config.CacheConfiguration;
 import com.flx.netty.chat.plugin.config.RedisConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
@@ -13,7 +12,7 @@ import javax.annotation.PostConstruct;
  * @Description
  **/
 @Slf4j
-@Import({RedisConfiguration.class, CacheConfiguration.class})
+@Import({RedisConfiguration.class})
 public class RedisAutoConfiguration {
 
     @PostConstruct

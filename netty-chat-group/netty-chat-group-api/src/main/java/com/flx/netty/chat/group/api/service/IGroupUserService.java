@@ -20,7 +20,7 @@ import java.util.Map;
 public interface IGroupUserService {
 
     @GetMapping("/get/{id}")
-    ResultResponse<WebGroupUserVO> get(@PathVariable Long id);
+    ResultResponse<WebGroupUserVO> get(@PathVariable(value = "id") Long id);
 
     @PostMapping("/add")
     ResultResponse<Long> add(@RequestBody WebGroupUserVO entityVO);
@@ -32,10 +32,13 @@ public interface IGroupUserService {
     ResultResponse<Boolean> updateState(@RequestBody UpdateState entityVO);
 
     @DeleteMapping("/delete/{id}")
-    ResultResponse<Integer> delete(@PathVariable Long id);
+    ResultResponse<Integer> delete(@PathVariable(value = "id") Long id);
 
     @PostMapping("/query")
     ResultResponse<List<WebGroupUserVO>> query(@RequestBody Map<String,Object> query);
+
+    @PostMapping("/querySome")
+    ResultResponse<List<WebGroupUserVO>> querySome(@RequestBody Map<String,Object> query,@RequestParam(value = "columns") String[] columns);
 
     @PostMapping("/queryAll")
     ResultResponse<List<WebGroupUserVO>> queryAll(@RequestBody Map<String,Object> query);

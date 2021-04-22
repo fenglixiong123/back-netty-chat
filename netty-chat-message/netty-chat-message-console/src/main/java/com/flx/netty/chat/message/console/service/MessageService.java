@@ -3,6 +3,7 @@ package com.flx.netty.chat.message.console.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.message.api.vo.WebMessageVO;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface MessageService {
     /**
      * 模糊分页查询
      */
-    IPage<WebMessageVO> queryPage(PageQuery pageQuery) throws Exception;
+    PageVO<WebMessageVO> queryPage(PageQuery pageQuery) throws Exception;
 
     /**
      * 通过Map模糊查询
@@ -51,13 +52,13 @@ public interface MessageService {
     List<WebMessageVO> query(Map<String, Object> query) throws Exception;
 
     /**
-     * 查询所有
-     */
-    List<WebMessageVO> queryAll(Map<String, Object> query) throws Exception;
-
-    /**
      * 查询指定字段
      */
     List<WebMessageVO> querySome(Map<String, Object> query, String[] columns) throws Exception;
+
+    /**
+     * 查询所有
+     */
+    List<WebMessageVO> queryAll(Map<String, Object> query) throws Exception;
 
 }
