@@ -156,7 +156,7 @@ public class PropertyUtils {
             throw new IllegalArgumentException("key must not be empty.");
         }
 
-        log.info("Ready to load resource : isClassPath = {} , location = {} , key = {}",true,defaultLocation,key);
+        //log.info("Ready to load resource : isClassPath = {} , location = {} , key = {}",true,defaultLocation,key);
         return Objects.requireNonNull(getPropertyEntity(defaultLocation,true)).getProperty(key);
     }
 

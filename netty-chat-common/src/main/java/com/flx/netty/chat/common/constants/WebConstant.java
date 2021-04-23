@@ -7,6 +7,8 @@ package com.flx.netty.chat.common.constants;
  **/
 public class WebConstant {
 
+    public static final String SYSTEM_USER = "system";
+
     public static final String UTF_8 = "utf-8";
 
     public static final String en_us = "en-us";

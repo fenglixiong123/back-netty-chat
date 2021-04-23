@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
+import com.flx.netty.chat.plugin.plugins.mybatis.handler.SimpleMetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -50,6 +52,12 @@ public class MybatisPlusConfiguration {
         return plusProperties -> {
             plusProperties.setMapperLocations(new String[]{"classpath:mapper/*.xml"});
             plusProperties.getGlobalConfig().getDbConfig().setIdType(IdType.AUTO);
+            //增加字段填充处理
+            //plusProperties.getGlobalConfig().setMetaObjectHandler(new SimpleMetaObjectHandler());
+            //增加逻辑删除支持
+            //plusProperties.getGlobalConfig().getDbConfig().setLogicDeleteField("deleted");
+            //plusProperties.getGlobalConfig().getDbConfig().setLogicDeleteValue("1");
+            //plusProperties.getGlobalConfig().getDbConfig().setLogicDeleteValue("0");
         };
     }
 
@@ -74,11 +82,13 @@ public class MybatisPlusConfiguration {
 
     /**
      * 添加自动分页插件，会在mybatis拦截器中添加分页实现
+     * 添加乐观锁插件，会在执行updateById,update(entity, wrapper)的时候使用乐观锁
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor(){
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));//避免每次分页都去抓取数据库类型
+        //interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());//注册乐观锁插件
         return interceptor;
     }
 

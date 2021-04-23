@@ -14,7 +14,7 @@ public enum ErrorMsgEnum {
     SYS_ERROR(false, "500", "系统错误", "亲，系统出错了哦~"),
     PARAM_CHECK(false,"300","字段校验异常","字段校验出现问题了哦~"),
     PARAM_MISSING(false, "400", "少参异常", "请求缺少参数了哦~"),
-    PARAM_INVILAD(false, "600", "传参异常", "传参出现异常了哦~"),
+    PARAM_INVALID(false, "600", "传参异常", "传参出现异常了哦~"),
     JSON_CONVERT_ERROR(false, "700", "JSON解析异常", "JSON解析出现异常了哦~"),
     REDIS_ERROR(false, "800", "Redis操作异常", "Redis操作出现异常了哦~"),
     DATA_NO_COMPLETE(false, "5002", "数据填写不完整，请检查", "数据填写不完整，请检查");

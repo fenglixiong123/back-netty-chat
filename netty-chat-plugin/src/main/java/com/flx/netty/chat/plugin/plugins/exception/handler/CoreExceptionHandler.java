@@ -38,7 +38,7 @@ public class CoreExceptionHandler {
     public ResultResponse<String> paramExceptionHandler(HttpServletRequest request, Exception e){
         log.error("【异常地址】：{}",request.getRequestURL().toString());
         log.error("【异常类型】传参异常paramException：{}",e.getMessage());
-        return ResultResponse.error(ErrorMsgEnum.PARAM_INVILAD,e.getMessage());
+        return ResultResponse.error(ErrorMsgEnum.PARAM_INVALID,e.getMessage());
     }
 
     /**
