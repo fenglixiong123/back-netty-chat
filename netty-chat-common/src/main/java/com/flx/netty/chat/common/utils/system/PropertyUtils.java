@@ -30,75 +30,115 @@ public class PropertyUtils {
 
     private static final String defaultLocation = "application.properties";
 
-    /**
-     * 获取int类型配置项的值
-     * @param key 配置项
-     * @param def 默认值
-     * @return 配置项对应的值
-     */
-    public static int getInt(String key, int def) {
+    public static Integer getIntegerOrError(String key) throws Exception{
         String value = get(key);
         if (value == null) {
-            return def;
+            throw new Exception("Get Integer error !");
         }
-
         value = value.trim();
         try {
             return Integer.parseInt(value);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        log.warn(
-                "Unable to parse the integer system property '{}':{} - using the default value: {}",
-                key, value, def
-        );
-
-        return def;
+        throw new Exception("Get Integer error !");
     }
 
-    /**
-     * 获取long类型的配置的值
-     * @param key 配置项
-     * @param def 默认值
-     * @return 配置项对应的值
-     */
-    public static long getLong(String key, long def) {
+    public static Integer getInteger(String key) {
+        String value = get(key);
+        if (value == null) {
+            return null;
+        }
+        value = value.trim();
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static int getInteger(String key, int def) {
         String value = get(key);
         if (value == null) {
             return def;
         }
+        value = value.trim();
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return def;
+    }
 
+    public static long getLongOrError(String key) throws Exception{
+        String value = get(key);
+        if (value == null) {
+            throw new Exception("Get Long error !");
+        }
         value = value.trim();
         try {
             return Long.parseLong(value);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        throw new Exception("Get Long error !");
+    }
 
-        log.warn(
-                "Unable to parse the long integer system property '{}':{} - using the default value: {}",
-                key, value, def
-        );
-
+    public static long getLong(String key, long def) {
+        String value = get(key);
+        if (value == null) {
+            return def;
+        }
+        value = value.trim();
+        try {
+            return Long.parseLong(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return def;
     }
 
-    /**
-     * 获取boolean类型的配置的值
-     * @param key 配置项
-     * @param def 默认值
-     * @return 配置项对应的值
-     */
+    public static Long getLong(String key) {
+        String value = get(key);
+        if (value == null) {
+            return null;
+        }
+        value = value.trim();
+        try {
+            return Long.parseLong(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean getBooleanOrError(String key)throws Exception{
+        Boolean value = getBoolean(key);
+        if(value==null){
+            throw new Exception("Get boolean error !");
+        }
+        return value;
+    }
+
     public static boolean getBoolean(String key,boolean def){
+        Boolean value = getBoolean(key);
+        if(value==null){
+            return def;
+        }
+        return value;
+    }
+
+    public static Boolean getBoolean(String key){
         String value = get(key);
         if (value==null){
-            return def;
+            return null;
         }
 
         value = value.trim().toLowerCase();
         if (value.isEmpty()) {
-            return def;
+            return null;
         }
 
         if ("true".equals(value) || "yes".equals(value) || "1".equals(value)) {
@@ -109,24 +149,21 @@ public class PropertyUtils {
             return false;
         }
 
-        log.warn(
-                "Unable to parse the boolean system property '{}':{} - using the default value: {}",
-                key, value, def
-        );
-
-        return def;
+        return null;
     }
 
-    /**
-     * 获取字符串值
-     * @param key 配置项
-     * @param def 默认值
-     * @return 配置项对应的值
-     */
     public static String get(String key,String def){
         String value = get(key);
         if (value==null){
             return def;
+        }
+        return value;
+    }
+
+    public static String getOrError(String key)throws Exception{
+        String value = get(key);
+        if (value==null){
+            throw new Exception("Get key error !");
         }
         return value;
     }

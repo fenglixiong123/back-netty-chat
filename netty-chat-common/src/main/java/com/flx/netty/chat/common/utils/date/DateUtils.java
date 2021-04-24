@@ -21,43 +21,22 @@ import java.util.GregorianCalendar;
 @Slf4j
 public class DateUtils {
 
-    private static String DEFAULT_PATTEN = "yyyy-MM-dd HH:mm:ss";
-    private static String SIMPLE_PATTEN = "yyyyMMddHHmmss";
-
-    public static final String CN_DATE_FORMAT = "yyyy年MM月dd日";
+    public static final String DEFAULT_SIMPLE_PATTEN = "yyyyMMddHHmmss";
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
-    public static final String DEFAULT_DATETIME_FMT = "MM/dd/yyyy HH:mm:ss";
-    public static final String DEFAULT_DATE_FMT = "MM/dd/yyyy";
+    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_EN_DATETIME_FMT = "MM/dd/yyyy HH:mm:ss";
+    public static final String DEFAULT_EN_DATE_FMT = "MM/dd/yyyy";
+    public static final String DEFAULT_CN_DATETIME_FMT = "yyyy年MM月dd日HH时mm分ss秒";
+    public static final String DEFAULT_CN_DATE_FMT = "yyyy年MM月dd日";
+    public static final String DEFAULT_CN_TIME_FMT = "HH时mm分ss秒";
 
-    public static String dateToString(Date source){
-        return formatWithPatten(source,DEFAULT_PATTEN);
+    public static String nowStr() {
+        return dateTime2Str(new Date());
     }
 
-    public static String dateToSimpleString(Date source){
-        return formatWithPatten(source,SIMPLE_PATTEN);
-    }
-
-    /**
-     * 日期转换为字符串
-     * @param source
-     * @param patten
-     * @return
-     */
-    public static String formatWithPatten(Date source, String patten){
-        if(StringUtils.isBlank(patten)){
-            patten = DEFAULT_PATTEN;
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat(patten);
-        return sdf.format(source);
-    }
-
-
-
-
-    public static Date now() {
-        return new Date();
+    public static String nowSimpleStr() {
+        return dateTime2Str(new Date(),DEFAULT_SIMPLE_PATTEN);
     }
 
     public static boolean before(Date d1, Date d2) throws Exception {
@@ -190,6 +169,10 @@ public class DateUtils {
         }
     }
 
+    public static Date str2DateTime(String dateStr)throws Exception{
+        return str2DateTime(dateStr,DEFAULT_DATE_TIME_FORMAT);
+    }
+
     public static Date str2DateTime(String dateStr, String pattern) throws Exception {
         if (null == dateStr) {
             return null;
@@ -222,6 +205,10 @@ public class DateUtils {
             format.applyPattern(pattern);
             return format.format(date);
         }
+    }
+
+    public static String dateTime2Str(Date date){
+        return dateTime2Str(date,DEFAULT_DATE_TIME_FORMAT);
     }
 
     public static String dateTime2Str(Date date, String pattern) {

@@ -49,7 +49,7 @@ public class FileUploadUtils {
             for (MultipartFile file : files) {
                 if(file.getSize() > 0){
                     String originName = file.getOriginalFilename();
-                    String filePath = path+ DateUtils.dateToSimpleString(new Date())+"."+FileUtils.getExtension(originName);
+                    String filePath = path+ DateUtils.nowSimpleStr()+"."+FileUtils.getExtension(originName);
                     file.transferTo(new File(filePath));
                 }
             }

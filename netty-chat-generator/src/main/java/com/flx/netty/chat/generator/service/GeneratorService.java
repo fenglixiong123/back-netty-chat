@@ -12,9 +12,10 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.flx.netty.chat.common.constants.FileConstant;
+import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
-import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,45 +34,36 @@ public class GeneratorService {
      */
     private static String baseOutputPath = "/";
 
-    public static void generator(){
+    public static void generator() {
 
-        // 代码生成器
-        AutoGenerator autoCode = new AutoGenerator();
-
-        // 全局配置
-        autoCode.setGlobalConfig(globalConfig());
-
-        //数据源配置
-        autoCode.setDataSource(dataSourceConfig());
-
-        //代码包配置
-        autoCode.setPackageInfo(packageConfig());
-
-        //表配置
-        autoCode.setStrategy(strategyConfig());
-
-//        autoCode.setCfg(injectionConfig());
-//        autoCode.setTemplate(new TemplateConfig().setXml(null));
-
-        autoCode.execute();
+        new AutoGenerator()
+                .setGlobalConfig(globalConfig())// 全局配置
+                .setDataSource(dataSourceConfig())//数据源配置
+                .setPackageInfo(packageConfig())//代码包配置
+                .setStrategy(strategyConfig())//表配置
+                .setTemplate(templateConfig())//设置模板
+                .setTemplateEngine(new FreemarkerTemplateEngine())//设置模板引擎
+                .setCfg(injectionConfig())//自定义配置
+                .execute();
 
     }
 
     /**
      * 全局配置
      */
-    private static GlobalConfig globalConfig(){
+    private static GlobalConfig globalConfig() {
         GlobalConfig globalConfig = new GlobalConfig();
         baseOutputPath = System.getProperty("user.dir")+ FileConstant.pathSeparator;//user.dir为项目跟目录
         String moduleName = PropertyUtils.get("flx.generator.module.name");
         if(StringUtils.isNotBlank(moduleName)){
             baseOutputPath += moduleName + FileConstant.pathSeparator;
         }
-        String outputPath = baseOutputPath += "src/main/java";
+        String outputPath = baseOutputPath + "src/main/java";
+        log.info("BaseOutputPath = {}",baseOutputPath);
         log.info("FileOutputPath = {}",outputPath);
         globalConfig.setAuthor("Fenglixiong");// 设置作者
         globalConfig.setOutputDir(outputPath);//设置输出文件路径
-        globalConfig.setFileOverride(true);//是否覆盖代码
+        globalConfig.setFileOverride(PropertyUtils.getBoolean("flx.generator.override",true));//是否覆盖代码
         globalConfig.setActiveRecord(true);// 实体类只需继承 Model 类即可实现基本 CRUD 操作
         globalConfig.setEnableCache(false);// 是否开启二级缓存
         globalConfig.setBaseResultMap(true);// XML ResultMap
@@ -137,7 +129,10 @@ public class GeneratorService {
     private static StrategyConfig strategyConfig(){
         StrategyConfig strategy = new StrategyConfig();
         //----->表设置
-        strategy.setTablePrefix("web_");//表名前缀
+        boolean removePrefix = PropertyUtils.getBoolean("flx.generator.table.prefix.remove",false);
+        if(removePrefix) {
+            strategy.setTablePrefix(PropertyUtils.get("flx.generator.table.prefix"));//去除表名前缀
+        }
         strategy.setInclude(PropertyUtils.get("flx.generator.tables").split(","));// 需要生成的表
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setRestControllerStyle(true);//生成RestController模型
@@ -178,22 +173,37 @@ public class GeneratorService {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
-                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+                map.put("dateTime", DateUtils.nowStr());
                 this.setMap(map);
             }
         };
 
         //自定义文件输出位置
-        List<FileOutConfig> fileOutList = new ArrayList<>();
-        fileOutList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
+        List<FileOutConfig> fileOutConfigList = new ArrayList<>();
+        fileOutConfigList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return baseOutputPath + "src/main/resources/mappers/" + tableInfo.getEntityName() + ".xml";
+                return baseOutputPath + "src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper.xml";
             }
         });
-        injectionConfig.setFileOutConfigList(fileOutList);
+        injectionConfig.setFileOutConfigList(fileOutConfigList);
 
         return injectionConfig;
+    }
+
+    /**
+     * 代码模板设置
+     * 置空后使用自定义的
+     * @return
+     */
+    private static TemplateConfig templateConfig(){
+        return new TemplateConfig()
+                .setController(null)
+                .setService(null)
+                .setServiceImpl(null)
+                .setEntity(null)
+                .setMapper(null)
+                .setXml(null);
     }
 
 
