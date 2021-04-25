@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.flx.netty.chat.common.utils.ArrayUtils;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.generator.config.FileOutputConfig;
+import com.flx.netty.chat.generator.generator.CustomAutohenerator;
 import com.flx.netty.chat.generator.utils.property.custom.PropertyUtils;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDao;
@@ -47,8 +48,6 @@ public class CustomGeneratorService {
     private static boolean override;
     //父类包名
     private static String parentPackage;
-    //模块包名
-    private static String modulePackage;
 
     //去除表前缀
     private static String tablePrefix;
@@ -82,7 +81,7 @@ public class CustomGeneratorService {
 
     public static void generator() {
 
-        new AutoGenerator()
+        new CustomAutohenerator()
                 .setGlobalConfig(globalConfig())// 全局配置
                 .setDataSource(dataSourceConfig())//数据源配置
                 .setPackageInfo(packageConfig())//代码包配置
@@ -175,7 +174,7 @@ public class CustomGeneratorService {
         //----->字段设置
         strategy.setSuperEntityColumns(removeColumns.split(","));
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//字段生成策略
-        strategy.setEntityColumnConstant(false);//是否生成字段常量，public static final String ID = "test_id";
+        strategy.setEntityColumnConstant(true);//是否生成字段常量，public static final String ID = "test_id";
         strategy.setEntityTableFieldAnnotationEnable(true);//生成字段注解
         strategy.setEntitySerialVersionUID(true);//实体是否生成serialVersionUID
         strategy.setEntityLombokModel(true);//是否为lombok模型
@@ -196,7 +195,6 @@ public class CustomGeneratorService {
                 new TableFill("update_time", FieldFill.INSERT_UPDATE)
         ));
         strategy.setSuperMapperClass("com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDao");
-        strategy.setSuperServiceImplClass(BaseManager.class);
         strategy.setSuperEntityClass(BaseDO.class);
         return strategy;
     }
@@ -211,7 +209,7 @@ public class CustomGeneratorService {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
-                map.put("dateTime", DateUtils.nowStr());
+                map.put("parentPackage", parentPackage);
                 this.setMap(map);
             }
         };

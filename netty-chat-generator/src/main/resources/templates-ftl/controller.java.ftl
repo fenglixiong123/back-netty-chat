@@ -1,6 +1,6 @@
 package ${package.Controller};
 
-import ${package.Entity}.${entity};
+import ${cfg.parentPackage}.api.vo.${entity}VO;
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class ${table.controllerName} {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody ${entity} entityVO){
+    public ResultResponse add(@RequestBody ${entity}VO entityVO){
         try {
             ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
@@ -70,7 +70,7 @@ public class ${table.controllerName} {
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody ${entity} entityVO){
+    public ResultResponse update(@RequestBody ${entity}VO entityVO){
         try {
             return ResultResponse.success(${table.serviceName?uncap_first}.update(entityVO));
         }catch (Exception e){

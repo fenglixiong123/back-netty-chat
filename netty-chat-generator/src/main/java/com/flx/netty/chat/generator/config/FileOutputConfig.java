@@ -28,8 +28,10 @@ public class FileOutputConfig {
     private static String SERVICE_TEMPLATE = "templates-ftl/service.java.ftl";
     /** serviceImpl输出模板 */
     private static String SERVICE_IMPL_TEMPLATE = "templates-ftl/serviceImpl.java.ftl";
-    /** mapper.java输出模板 */
-    private static String MAPPER_TEMPLATE = "templates-ftl/mapper.java.ftl";
+    /** manager.java输出模板 */
+    private static String MANAGER_TEMPLATE = "templates-ftl/manager.java.ftl";
+    /** dao.java输出模板 */
+    private static String DAO_TEMPLATE = "templates-ftl/dao.java.ftl";
     /** mapper.xml输出模板 */
     private static String XML_TEMPLATE = "templates-ftl/mapper.xml.ftl";
     /** entity输出模板 */
@@ -42,6 +44,7 @@ public class FileOutputConfig {
     private static String controllerOutputPath;
     private static String serviceOutputPath;
     private static String serviceImplOutputPath;
+    private static String managerOutputPath;
     private static String daoOutputPath;
     private static String entityOutputPath;
     private static String mapperOutputPath;
@@ -54,6 +57,7 @@ public class FileOutputConfig {
         controllerOutputPath = getPath("controller");
         serviceOutputPath = getPath("service");
         serviceImplOutputPath = getPath("service.impl");
+        managerOutputPath = getPath("manager");
         daoOutputPath = getPath("dao");
         entityOutputPath = getPath("entity");
         mapperOutputPath = getPath("mapper");
@@ -61,6 +65,7 @@ public class FileOutputConfig {
         log.info("ControllerOutputPath = {}",controllerOutputPath);
         log.info("ServiceOutputPath = {}",serviceOutputPath);
         log.info("ServiceImplOutputPath = {}",serviceImplOutputPath);
+        log.info("ManagerOutputPath = {}",managerOutputPath);
         log.info("DaoOutputPath = {}",daoOutputPath);
         log.info("EntityOutputPath = {}",entityOutputPath);
         log.info("MapperOutputPath = {}",mapperOutputPath);
@@ -100,7 +105,7 @@ public class FileOutputConfig {
             }
         });
         // dao文件输出
-        outConfigList.add(new FileOutConfig(MAPPER_TEMPLATE) {
+        outConfigList.add(new FileOutConfig(DAO_TEMPLATE) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 return daoOutputPath + tableInfo.getMapperName() + StringPool.DOT_JAVA;
@@ -113,6 +118,7 @@ public class FileOutputConfig {
                 return entityOutputPath + tableInfo.getEntityName() + StringPool.DOT_JAVA;
             }
         });
+        /*
         // mapper xml文件输出
         outConfigList.add(new FileOutConfig(XML_TEMPLATE) {
             @Override
@@ -120,7 +126,14 @@ public class FileOutputConfig {
                 return mapperOutputPath + tableInfo.getEntityName()+ "Mapper" + StringPool.DOT_XML;
             }
         });
-
+        */
+        // manager文件输出
+        outConfigList.add(new FileOutConfig(MANAGER_TEMPLATE) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return managerOutputPath + tableInfo.getEntityName()+"Manager" + StringPool.DOT_JAVA;
+            }
+        });
         return outConfigList;
     }
 

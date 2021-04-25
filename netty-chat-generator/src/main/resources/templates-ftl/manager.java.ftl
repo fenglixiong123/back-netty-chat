@@ -6,7 +6,6 @@ import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.flx.netty.chat.common.enums.State;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -30,10 +29,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class ${table.serviceImplName} implements ${table.serviceName} {
-
-    @Autowired
-    private ${entity}Manager ${entity?uncap_first}Manager;
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${entity}, ${table.mapperName}> implements ${table.serviceName} {
 
     private void convertVO(List<${entity}VO> entityList){
    
@@ -42,16 +38,12 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long add(${entity}VO entityVO) throws Exception {
-        WebUserVO entity = getByUsername(entityVO.getId());
-        if(entity!=null){
-            throw new Exception("不能重复添加!");
-        }
-        return ${entity?uncap_first}Manager.add(BeanUtils.copyProperties(entityVO, ${entity}.class));
+        return super.add(BeanUtils.copyProperties(entityVO, ${entity}.class));
     }
    
     @Override
     public Integer delete(Long id) throws Exception {
-        return ${entity?uncap_first}Manager.delete(id);
+        return super.delete(id);
     }
    
     @Override
@@ -59,7 +51,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空!");
         }
-        return ${entity?uncap_first}Manager.update(BeanUtils.copyProperties(entityVO, ${entity}.class));
+        return super.update(BeanUtils.copyProperties(entityVO, ${entity}.class));
     }
    
     @Override
@@ -69,14 +61,18 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
             entity.setId(id);
             entity.setState(entityVO.getState());
             entity.setUpdateUser(entityVO.getUpdateUser());
-            ${entity?uncap_first}Manager.updateState(entity);
+            if(entity.getState().equals(State.deleted.name())){
+                super.delete(entity.getId());
+            }else {
+                super.update(entity);
+            }
         }
         return true;
     }
    
     @Override
     public ${entity}VO get(Long id) throws Exception {
-        ${entity} entity = ${entity?uncap_first}Manager.get(id);
+        ${entity} entity = super.get(id);
         if(entity==null){
             return null;
         }
@@ -85,7 +81,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
    
     @Override
     public PageVO<${entity}VO> queryPage(PageQuery pageQuery) throws Exception {
-        IPage<${entity}> iPage = ${entity?uncap_first}Manager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
+        IPage<${entity}> iPage = super.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         PageVO<${entity}VO> pageVO = PageConvert.pageConvert(iPage, ${entity}VO.class);
         convertVO(pageVO.getRecords());
         return pageVO;
@@ -93,17 +89,17 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
    
     @Override
     public List<${entity}VO> query(Map<String, Object> query) throws Exception {
-        return ${entity?uncap_first}Manager.query(query).parallelStream().map(e -> BeanUtils.copyProperties(e, ${entity}VO.class)).collect(Collectors.toList());
+        return super.query(query).parallelStream().map(e -> BeanUtils.copyProperties(e, ${entity}VO.class)).collect(Collectors.toList());
     }
    
     @Override
     public List<${entity}VO> querySome(Map<String, Object> query,String[] columns) throws Exception {
-        return ${entity?uncap_first}Manager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, ${entity}VO.class)).collect(Collectors.toList());
+        return super.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, ${entity}VO.class)).collect(Collectors.toList());
     }
    
     @Override
     public List<${entity}VO> queryAll(Map<String, Object> query) throws Exception {
-        return ${entity?uncap_first}Manager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, ${entity}VO.class)).collect(Collectors.toList());
+        return super.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, ${entity}VO.class)).collect(Collectors.toList());
     }
  
 }
