@@ -8,7 +8,7 @@ import com.flx.netty.chat.generator.enums.GeneratorType;
  * @Date: 2021/4/23 11:28
  * @Description:
  */
-public class AutoGenerateCode {
+public class AutoCodeApplication {
 
     public static void main(String[] args) {
 
