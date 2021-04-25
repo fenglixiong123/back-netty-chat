@@ -1,6 +1,7 @@
 package com.flx.netty.chat.generator;
 
-import com.flx.netty.chat.generator.service.GeneratorService;
+import com.flx.netty.chat.generator.service.CustomGeneratorService;
+import com.flx.netty.chat.generator.service.SimpleGeneratorService;
 
 /**
  * @Author: Fenglixiong
@@ -11,9 +12,8 @@ public class AutoGenerateCode {
 
     public static void main(String[] args) {
 
-        System.out.println("user.dir = "+System.getProperty("user.dir"));
-        GeneratorService.generator();
-
+//        SimpleGeneratorService.generator();
+        CustomGeneratorService.generator();
     }
 
 }

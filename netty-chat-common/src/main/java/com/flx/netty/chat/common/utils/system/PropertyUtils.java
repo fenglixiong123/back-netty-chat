@@ -30,8 +30,25 @@ public class PropertyUtils {
 
     private static final String defaultLocation = "application.properties";
 
+
+    public static boolean isExist(String key) {
+        return get(key) != null;
+    }
+
     public static Integer getIntegerOrError(String key) throws Exception{
-        String value = get(key);
+        return getIntegerFromLocationOrError(defaultLocation,key);
+    }
+
+    public static int getInteger(String key, int def) {
+        return getIntegerFromLocation(defaultLocation,key,def);
+    }
+
+    public static Integer getInteger(String key) {
+       return getIntegerFromLocation(defaultLocation,key);
+    }
+
+    public static Integer getIntegerFromLocationOrError(String location,String key) throws Exception{
+        String value = getFromLocation(location,key);
         if (value == null) {
             throw new Exception("Get Integer error !");
         }
@@ -44,8 +61,22 @@ public class PropertyUtils {
         throw new Exception("Get Integer error !");
     }
 
-    public static Integer getInteger(String key) {
-        String value = get(key);
+    public static int getIntegerFromLocation(String location,String key, int def) {
+        String value = getFromLocation(location,key);
+        if (value == null) {
+            return def;
+        }
+        value = value.trim();
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return def;
+    }
+
+    public static Integer getIntegerFromLocation(String location,String key) {
+        String value = getFromLocation(location,key);
         if (value == null) {
             return null;
         }
@@ -58,22 +89,20 @@ public class PropertyUtils {
         return null;
     }
 
-    public static int getInteger(String key, int def) {
-        String value = get(key);
-        if (value == null) {
-            return def;
-        }
-        value = value.trim();
-        try {
-            return Integer.parseInt(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return def;
+    public static long getLongOrError(String key) throws Exception{
+        return getLongFromLocationOrError(defaultLocation,key);
     }
 
-    public static long getLongOrError(String key) throws Exception{
-        String value = get(key);
+    public static long getLong(String key, long def) {
+        return getLongFromLocation(defaultLocation,key,def);
+    }
+
+    public static Long getLong(String key) {
+        return getLongFromLocation(defaultLocation,key);
+    }
+
+    public static long getLongFromLocationOrError(String location,String key) throws Exception{
+        String value = getFromLocation(location,key);
         if (value == null) {
             throw new Exception("Get Long error !");
         }
@@ -86,8 +115,8 @@ public class PropertyUtils {
         throw new Exception("Get Long error !");
     }
 
-    public static long getLong(String key, long def) {
-        String value = get(key);
+    public static long getLongFromLocation(String location,String key, long def) {
+        String value = getFromLocation(location,key);
         if (value == null) {
             return def;
         }
@@ -100,8 +129,8 @@ public class PropertyUtils {
         return def;
     }
 
-    public static Long getLong(String key) {
-        String value = get(key);
+    public static Long getLongFromLocation(String location,String key) {
+        String value = getFromLocation(location,key);
         if (value == null) {
             return null;
         }
@@ -115,23 +144,35 @@ public class PropertyUtils {
     }
 
     public static boolean getBooleanOrError(String key)throws Exception{
-        Boolean value = getBoolean(key);
+        return getBooleanFromLocationOrError(defaultLocation,key);
+    }
+
+    public static boolean getBoolean(String key,boolean def){
+        return getBooleanFromLocation(defaultLocation,key,def);
+    }
+
+    public static Boolean getBoolean(String key){
+        return getBooleanFromLocation(defaultLocation,key);
+    }
+
+    public static boolean getBooleanFromLocationOrError(String location,String key) throws Exception{
+        Boolean value = getBooleanFromLocation(location,key);
         if(value==null){
             throw new Exception("Get boolean error !");
         }
         return value;
     }
 
-    public static boolean getBoolean(String key,boolean def){
-        Boolean value = getBoolean(key);
+    public static boolean getBooleanFromLocation(String location,String key,boolean def){
+        Boolean value = getBooleanFromLocation(location,key);
         if(value==null){
             return def;
         }
         return value;
     }
 
-    public static Boolean getBoolean(String key){
-        String value = get(key);
+    public static Boolean getBooleanFromLocation(String location,String key){
+        String value = getFromLocation(location,key);
         if (value==null){
             return null;
         }
@@ -152,49 +193,32 @@ public class PropertyUtils {
         return null;
     }
 
-    public static String get(String key,String def){
-        String value = get(key);
-        if (value==null){
-            return def;
-        }
-        return value;
+    public static String getOrError(String key)throws Exception{
+        return getFromLocationOrError(defaultLocation,key);
     }
 
-    public static String getOrError(String key)throws Exception{
-        String value = get(key);
-        if (value==null){
+    public static String get(String key,String def){
+        return getFromLocation(defaultLocation,key,def);
+    }
+
+    public static String get(String key){
+        return getFromLocation(defaultLocation,key);
+    }
+
+    public static String getFromLocationOrError(String location,String key)throws Exception{
+        String value = getFromLocation(location,key);
+        if(value==null){
             throw new Exception("Get key error !");
         }
         return value;
     }
 
-    /**
-     * 是否存在某个配置项
-     * @param key 配置项
-     * @return 配置项对应的值
-     */
-    public static boolean isExist(String key) {
-        return get(key) != null;
-    }
-
-
-    /**
-     * 获取配置项
-     * @param key 配置项
-     * @return 配置项对应的值
-     */
-    public static String get(String key){
-
-        if (key == null) {
-            throw new NullPointerException("key");
+    public static String getFromLocation(String location,String key,String def){
+        String value = getFromLocation(location,key);
+        if (value==null){
+            return def;
         }
-
-        if (key.isEmpty()) {
-            throw new IllegalArgumentException("key must not be empty.");
-        }
-
-        //log.info("Ready to load resource : isClassPath = {} , location = {} , key = {}",true,defaultLocation,key);
-        return Objects.requireNonNull(getPropertyEntity(defaultLocation,true)).getProperty(key);
+        return value;
     }
 
     /**
@@ -204,7 +228,15 @@ public class PropertyUtils {
      * @return 配置项对应的值
      */
     public static String getFromLocation(String location,String key){
-        log.info("Ready to load resource : isClassPath = {} , location = {} , key = {}",true,location,key);
+
+        if (key == null) {
+            throw new NullPointerException("key");
+        }
+
+        if (key.isEmpty()) {
+            throw new IllegalArgumentException("key must not be empty.");
+        }
+
         return Objects.requireNonNull(getPropertyEntity(location,true)).getProperty(key);
     }
 
