@@ -8,6 +8,8 @@ import com.flx.netty.chat.generator.service.SimpleGeneratorService;
  * @Author: Fenglixiong
  * @Date: 2021/4/25 16:02
  * @Description:
+ * 参考：
+ * https://blog.csdn.net/weixin_43671737/article/details/106551387
  */
 public class GeneratorApp {
 

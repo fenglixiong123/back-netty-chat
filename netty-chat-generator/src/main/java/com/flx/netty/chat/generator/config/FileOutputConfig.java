@@ -23,17 +23,17 @@ import java.util.List;
 public class FileOutputConfig {
 
     /** controller输出模板 */
-    private static String CONTROLLER_TEMPLATE = "templates/controller.java.ftl";
+    private static String CONTROLLER_TEMPLATE = "templates-ftl/controller.java.ftl";
     /** service输出模板 */
-    private static String SERVICE_TEMPLATE = "templates/service.java.ftl";
+    private static String SERVICE_TEMPLATE = "templates-ftl/service.java.ftl";
     /** serviceImpl输出模板 */
-    private static String SERVICE_IMPL_TEMPLATE = "templates/serviceImpl.java.ftl";
+    private static String SERVICE_IMPL_TEMPLATE = "templates-ftl/serviceImpl.java.ftl";
     /** mapper.java输出模板 */
-    private static String MAPPER_TEMPLATE = "templates/mapper.java.ftl";
+    private static String MAPPER_TEMPLATE = "templates-ftl/mapper.java.ftl";
     /** mapper.xml输出模板 */
-    private static String XML_TEMPLATE = "templates/mapper.xml.ftl";
+    private static String XML_TEMPLATE = "templates-ftl/mapper.xml.ftl";
     /** entity输出模板 */
-    private static String ENTITY_TEMPLATE = "templates/entity.java.ftl";
+    private static String ENTITY_TEMPLATE = "templates-ftl/entity.java.ftl";
 
     private static String baseOutputPath;
     private static String parentPackage;
@@ -117,7 +117,7 @@ public class FileOutputConfig {
         outConfigList.add(new FileOutConfig(XML_TEMPLATE) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return mapperOutputPath + tableInfo.getMapperName() + StringPool.DOT_XML;
+                return mapperOutputPath + tableInfo.getEntityName()+ "Mapper" + StringPool.DOT_XML;
             }
         });
 

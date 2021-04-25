@@ -12,9 +12,14 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.flx.netty.chat.common.utils.ArrayUtils;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.generator.config.FileOutputConfig;
 import com.flx.netty.chat.generator.utils.property.custom.PropertyUtils;
+import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
+import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDao;
+import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseManager;
+import com.flx.netty.chat.plugin.plugins.mybatis.common.ColumnUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -49,6 +54,8 @@ public class CustomGeneratorService {
     private static String tablePrefix;
     //要生成的表
     private static String tables;
+    //要去除的列
+    private static String removeColumns;
 
     //逻辑删除
     private static String delete;
@@ -67,6 +74,7 @@ public class CustomGeneratorService {
 
         tablePrefix = PropertyUtils.get("flx.generator.table.prefix");
         tables = PropertyUtils.get("flx.generator.tables");
+        removeColumns = PropertyUtils.get("flx.generator.remove.columns");
 
         delete = PropertyUtils.get("flx.generator.logic.delete");
         version = PropertyUtils.get("flx.generator.optimis.version");
@@ -102,8 +110,8 @@ public class CustomGeneratorService {
         globalConfig.setDateType(DateType.ONLY_DATE);//配置时间采用utils包下的时间
         globalConfig.setSwagger2(true); //实体属性 Swagger2 注解
 
-        globalConfig.setMapperName("%sMapper");//自定义Dao名称
-        globalConfig.setXmlName("%sDao");//自定义mapper名称
+        globalConfig.setMapperName("%sDao");//自定义Dao名称
+        globalConfig.setXmlName("%sMapper");//自定义mapper名称
         globalConfig.setServiceName("%sService");//自定义service名称
         globalConfig.setServiceImplName("%sServiceImpl");//自定义serviceImpl名称
         globalConfig.setControllerName("%sController");//自定义Controller名称
@@ -165,6 +173,7 @@ public class CustomGeneratorService {
         strategy.setRestControllerStyle(true);//生成RestController模型
         strategy.setControllerMappingHyphenStyle(false);//驼峰转连字符@RequestMapping("/groupUser")===>@RequestMapping("/group-user")
         //----->字段设置
+        strategy.setSuperEntityColumns(removeColumns.split(","));
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//字段生成策略
         strategy.setEntityColumnConstant(false);//是否生成字段常量，public static final String ID = "test_id";
         strategy.setEntityTableFieldAnnotationEnable(true);//生成字段注解
@@ -186,6 +195,9 @@ public class CustomGeneratorService {
                 new TableFill("create_time", FieldFill.INSERT),
                 new TableFill("update_time", FieldFill.INSERT_UPDATE)
         ));
+        strategy.setSuperMapperClass("com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDao");
+        strategy.setSuperServiceImplClass(BaseManager.class);
+        strategy.setSuperEntityClass(BaseDO.class);
         return strategy;
     }
 
