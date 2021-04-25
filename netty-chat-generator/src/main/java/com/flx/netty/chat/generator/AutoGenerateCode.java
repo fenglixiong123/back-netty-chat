@@ -1,7 +1,7 @@
 package com.flx.netty.chat.generator;
 
-import com.flx.netty.chat.generator.service.CustomGeneratorService;
-import com.flx.netty.chat.generator.service.SimpleGeneratorService;
+import com.flx.netty.chat.generator.app.GeneratorApp;
+import com.flx.netty.chat.generator.enums.GeneratorType;
 
 /**
  * @Author: Fenglixiong
@@ -12,8 +12,9 @@ public class AutoGenerateCode {
 
     public static void main(String[] args) {
 
-//        SimpleGeneratorService.generator();
-        CustomGeneratorService.generator();
+//        GeneratorApp.generator(GeneratorType.SIMPLE);
+        GeneratorApp.generator(GeneratorType.CUSTOM);
+
     }
 
 }
