@@ -7,7 +7,7 @@ import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
 
 
 /**
- * ${table.comment!} Mapper 接口
+ * ${table.comment!} Dao层操作类
  *
  * @author ${author}
  * @since ${date}

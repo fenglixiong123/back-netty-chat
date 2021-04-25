@@ -23,7 +23,7 @@ import com.flx.netty.chat.common.entity.UpdateState;
 import java.util.Map;
 
 /**
- * ${table.comment!} 前端控制器
+ * ${table.comment!} Controller控制器
  *
  * @author ${author}
  * @since ${date}

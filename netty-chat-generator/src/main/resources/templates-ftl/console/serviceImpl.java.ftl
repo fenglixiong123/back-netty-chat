@@ -4,6 +4,7 @@ import ${cfg.parentPackage}.api.vo.${entity}VO;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
+import ${package.Xml}.${table.xmlName};
 import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * ${table.comment!} 服务实现类
+ * ${table.comment!} Service服务实现类
  *
  * @author ${author}
  * @since ${date}

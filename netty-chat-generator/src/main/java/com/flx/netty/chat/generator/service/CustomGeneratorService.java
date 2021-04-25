@@ -12,15 +12,10 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.flx.netty.chat.common.utils.ArrayUtils;
-import com.flx.netty.chat.common.utils.date.DateUtils;
+import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.generator.config.FileOutputConfig;
-import com.flx.netty.chat.generator.generator.CustomAutohenerator;
 import com.flx.netty.chat.generator.utils.property.custom.PropertyUtils;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
-import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDao;
-import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseManager;
-import com.flx.netty.chat.plugin.plugins.mybatis.common.ColumnUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -46,6 +41,8 @@ public class CustomGeneratorService {
 
     //是否覆盖代码
     private static boolean override;
+    //父模块名称
+    private static String parentModule;
     //父类包名
     private static String parentPackage;
 
@@ -69,6 +66,7 @@ public class CustomGeneratorService {
 
         override = PropertyUtils.getBoolean("flx.generator.override",true);
 
+        parentModule = PropertyUtils.get("flx.generator.module.parent.name");
         parentPackage = PropertyUtils.get("flx.generator.package.parent.name");
 
         tablePrefix = PropertyUtils.get("flx.generator.table.prefix");
@@ -81,7 +79,7 @@ public class CustomGeneratorService {
 
     public static void generator() {
 
-        new CustomAutohenerator()
+        new AutoGenerator()
                 .setGlobalConfig(globalConfig())// 全局配置
                 .setDataSource(dataSourceConfig())//数据源配置
                 .setPackageInfo(packageConfig())//代码包配置
@@ -110,7 +108,7 @@ public class CustomGeneratorService {
         globalConfig.setSwagger2(true); //实体属性 Swagger2 注解
 
         globalConfig.setMapperName("%sDao");//自定义Dao名称
-        globalConfig.setXmlName("%sMapper");//自定义mapper名称
+        globalConfig.setXmlName("%sManager");//自定义mapper名称
         globalConfig.setServiceName("%sService");//自定义service名称
         globalConfig.setServiceImplName("%sServiceImpl");//自定义serviceImpl名称
         globalConfig.setControllerName("%sController");//自定义Controller名称
@@ -152,7 +150,7 @@ public class CustomGeneratorService {
         packageConfig.setMapper(getModeulePackage("dao"));//生成代码的dao类包名
         packageConfig.setServiceImpl(getModeulePackage("service.impl"));//生成代码的serviceImpl类包名
         packageConfig.setEntity(getModeulePackage("entity"));//生成代码的实体类包名
-        packageConfig.setXml(getModeulePackage("dao.xml"));//生成代码的实体类xml包名
+        packageConfig.setXml(getModeulePackage("manager"));//生成代码的实体类xml包名
         return packageConfig;
     }
 
@@ -176,7 +174,7 @@ public class CustomGeneratorService {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//字段生成策略
         strategy.setEntityColumnConstant(true);//是否生成字段常量，public static final String ID = "test_id";
         strategy.setEntityTableFieldAnnotationEnable(true);//生成字段注解
-        strategy.setEntitySerialVersionUID(true);//实体是否生成serialVersionUID
+        strategy.setEntitySerialVersionUID(false);//实体是否生成serialVersionUID
         strategy.setEntityLombokModel(true);//是否为lombok模型
         strategy.setChainModel(false);//实体类的链式模型
         strategy.setEntityBooleanColumnRemoveIsPrefix(false);//Boolean类型字段是否移除is前缀
@@ -209,6 +207,7 @@ public class CustomGeneratorService {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
+                map.put("parentModule", parentModule);
                 map.put("parentPackage", parentPackage);
                 this.setMap(map);
             }

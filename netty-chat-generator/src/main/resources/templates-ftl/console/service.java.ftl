@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ${table.comment!} 服务类
+ * ${table.comment!} Service服务类
  *
  * @author ${author}
  * @since ${date}
