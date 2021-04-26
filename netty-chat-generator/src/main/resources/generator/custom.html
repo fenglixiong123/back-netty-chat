@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎来到定制化代码自动生成</title>
+    <script src="./js/utils/jquery.js"></script>
+    <script src="./js/custom.js"></script>
+</head>
+<body>
+
+<h1>======>定制化代码自动生成<======</h1>
+
+<a href="index.html">返回首页</a>
+
+<br/>
+<br/>
+<div style="color: red">
+    请输入参数：
+</div>
+<br/>
+
+<div style="float: left;width: 400px;height: 700px;border: 1px solid #5558ff;padding-left: 50px;padding-top: 30px">
+
+    <div>
+        一、数据源配置
+        <br/><br/>
+        <div>IP&nbsp;&nbsp;&nbsp;&nbsp;地址：<input type="text" size="30px" name="ip" value="127.0.0.1" placeholder="输入数据库Ip地址"/></div>
+        <div>登录用户：<input type="text" size="30px" name="username" value="root" placeholder="输入数据库用户名"/></div>
+        <div>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" size="30px" name="password" value="root123" placeholder="输入数据库密码"/></div>
+        <div>端&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;口：<input type="text" size="30px" name="port" value="3306" placeholder="输入数据库端口"/></div>
+        <div>数据库名：<input type="text" name="database" size="30px" value="web_chat" placeholder="输入要连接的数据库"/></div>
+
+    </div>
+
+    <br/>
+
+    <div>
+        二、表配置
+        <br/><br/>
+        <div>表名前缀：<input type="text" size="30px" name="tablePrefix" value="" placeholder="输入您要去除的前缀"/></div>
+        <div>表名列表：<input type="text" size="30px" name="tables" value="" placeholder="输入要生成的表"/></div>
+
+    </div>
+
+    <br/>
+
+    <div>
+        三、项目模块配置
+        <br/><br/>
+        <div>父级模块：<input type="text" size="30px" name="parentModule" value="" placeholder="输入父级模块"/></div>
+        <div>业务模块：<input type="text" size="30px" name="consoleModule" value="" placeholder="输入业务模块"/></div>
+        <div>基础模块：<input type="text" size="30px" name="crudModule" value="" placeholder="输入基础模块"/></div>
+        <div>远程模块：<input type="text" size="30px" name="clientModule" value="" placeholder="输入远程模块"/></div>
+
+    </div>
+
+    <br/>
+
+    <div>
+        四、生成包配置
+        <br/><br/>
+        <div>父类包名：<input type="text" size="30px" name="parentPackage" value="" placeholder="输入父级包名"/></div>
+        <div>业务包名：<input type="text" size="30px" name="consolePackage" value="" placeholder="输入业务包名"/></div>
+        <div>基础包名：<input type="text" size="30px" name="crudPackage" value="" placeholder="输入基础包名"/></div>
+        <div>远程包名：<input type="text" size="30px" name="clientPackage" value="" placeholder="输入远程包名"/></div>
+    </div>
+
+    <br/>
+
+    <div>
+        五、其他配置
+        <br/><br/>
+        <div>是否覆盖：覆盖<input type="radio" name="override" checked value="true"/>&nbsp;&nbsp;不覆盖<input type="radio" name="override" value="false"/></div>
+        <div>排除的列：<input type="text" size="30px" name="removeColumn" value="id,state,create_user,create_time,update_user,update_time" placeholder="输入要排除的列"/></div>
+
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <button onclick="submit()">确认生成</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="reset()">重&nbsp;&nbsp;&nbsp;&nbsp;置</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="fill()">填&nbsp;&nbsp;&nbsp;&nbsp;充</button>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+</div>
+
+<div style="float: left;margin-left: 100px;width: 500px;height: 700px;border: 1px solid #ff9433;padding: 20px">
+    <div>生成日志：</div>
+    <div id="logPan" style="padding: 20px">
+        请配置左边参数，然后点击生成按钮生成代码...
+    </div>
+</div>
+
+<div>
+    <br/>
+    <br/>
+    <br/>
+</div>
+
+</body>
+</html>

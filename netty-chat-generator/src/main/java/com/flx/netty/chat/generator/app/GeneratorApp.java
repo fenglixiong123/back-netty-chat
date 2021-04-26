@@ -13,15 +13,20 @@ import com.flx.netty.chat.generator.service.SimpleGeneratorService;
  */
 public class GeneratorApp {
 
+    public static void main(String[] args) {
+//        generator(GeneratorType.SIMPLE);
+        generator(GeneratorType.CUSTOM);
+    }
+
     /**
      * 按照类型生成代码
      * @param type
      */
     public static void generator(GeneratorType type){
         if(type.equals(GeneratorType.SIMPLE)){
-            SimpleGeneratorService.generator();
+            new SimpleGeneratorService().generator();
         }else if(type.equals(GeneratorType.CUSTOM)){
-            CustomGeneratorService.generator();
+            new CustomGeneratorService().generator();
         }
     }
 
