@@ -1,0 +1,42 @@
+
+.logBody {
+    background-color:#000;
+    margin:0px;
+    padding:0px;
+    color:rgb(0,198,83);
+    font:"微软雅黑";
+    font-size:14px;
+}
+.window {
+    border:2px #ccc outset;
+    width:500px;
+    height:450px;
+    background-color:rgb(20,23,41);
+    margin: 10px auto;
+    overflow:hidden;
+}
+.title {
+    background-color:#fff;
+    padding:2px;
+    color: #000;
+}
+#text {
+    background-color:rgb(20,23,41);
+    border-top:#ccc outset 2px;
+    height:420px;
+    overflow-y:scroll;
+    padding:5px;
+}
+ul {
+    margin:0px;
+    padding:0px;
+    list-style:none;
+}
+/*input {*/
+/*    background-color:#000;*/
+/*    border:0;*/
+/*    color:#fff;*/
+/*    outline:none;*/
+/*    !*font-size:12px;*!*/
+/*    width:100%;*/
+/*}*/
