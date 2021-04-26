@@ -1,7 +1,6 @@
 package ${package.Service};
 
-import ${cfg.parentPackage}.api.vo.${entity}VO;
-import ${superServiceClassPackage};
+import ${cfg.parentPackage}.vo.${entity}VO;
 
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
@@ -11,32 +10,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ${table.comment!} Service服务类
+ * ${table.comment!} 服务类
  *
  * @author ${author}
  * @since ${date}
  */
 public interface ${table.serviceName} {
-
     /**
     * 新增
     */
-    Long add(${entity}VO entity) throws Exception;
+    boolean add(${entity}VO entityVO) throws Exception;
     
     /**
     * 删除
     */
-    Integer delete(Long id) throws Exception;
+    boolean delete(Long id) throws Exception;
     
     /**
     * 更新
     */
-    Integer update(${entity}VO entity) throws Exception;
+    boolean update(${entity}VO entityVO) throws Exception;
     
     /**
     * 状态修改
     */
-    boolean updateState(UpdateState entity) throws Exception;
+    boolean updateState(UpdateState entityVO) throws Exception;
     
     /**
     * 查询
@@ -44,24 +42,18 @@ public interface ${table.serviceName} {
     ${entity}VO get(Long id) throws Exception;
     
     /**
-    * 模糊分页查询
+    * 分页查询
     */
     PageVO<${entity}VO> queryPage(PageQuery pageQuery) throws Exception;
-    
+
     /**
-    * 通过Map模糊查询
+    * 通过Map查询
     */
     List<${entity}VO> query(Map<String, Object> query) throws Exception;
-    
-    /**
-    * 查询指定字段
-    */
-    List<${entity}VO> querySome(Map<String, Object> query,String[] columns) throws Exception;
-  
+
     /**
     * 查询所有
     */
-    List<${entity}VO> queryAll(Map<String, Object> query) throws Exception;
-
-
+    List<${entity}VO> queryAll() throws Exception;
+   
 }

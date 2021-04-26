@@ -12,12 +12,11 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.flx.netty.chat.common.constants.FileConstant;
+import com.flx.netty.chat.generator.config.SimpleFileOutputConfig;
 import com.flx.netty.chat.generator.utils.property.simple.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: Fenglixiong
@@ -41,8 +40,6 @@ public class SimpleGeneratorService {
     private static boolean override;
     //父类包名
     private static String parentPackage;
-    //模块包名
-    private static String modulePackage;
 
     //去除表前缀
     private static String tablePrefix;
@@ -55,6 +52,8 @@ public class SimpleGeneratorService {
     private static String version;
 
     static {
+        override = PropertyUtils.getBoolean("flx.generator.override",true);
+
         url = PropertyUtils.get("spring.datasource.url");
         username = PropertyUtils.get("spring.datasource.username");
         password = PropertyUtils.get("spring.datasource.password");
@@ -62,10 +61,7 @@ public class SimpleGeneratorService {
 
         baseOutputPath = System.getProperty("user.dir") + FileConstant.pathSeparator;
         moduleName = PropertyUtils.get("flx.generator.module.name");
-        override = PropertyUtils.getBoolean("flx.generator.override",true);
-
         parentPackage = PropertyUtils.get("flx.generator.package.parent.name");
-        modulePackage = PropertyUtils.get("flx.generator.package.module.name");
 
         tablePrefix = PropertyUtils.get("flx.generator.table.prefix");
         tables = PropertyUtils.get("flx.generator.tables");
@@ -136,13 +132,11 @@ public class SimpleGeneratorService {
     private static PackageConfig packageConfig(){
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent(parentPackage);//生成代码的包名
-        packageConfig.setModuleName(modulePackage);//设置模块名称,会添加到包名后面
-        packageConfig.setEntity("entity");//生成代码的实体类包名
-        packageConfig.setXml("dao.xml");//生成代码的实体类xml包名
-        packageConfig.setMapper("dao");//生成代码的dao类包名
-        packageConfig.setService("service");//生成代码的service类包名
-        packageConfig.setServiceImpl("service.iml");//生成代码的serviceImpl类包名
         packageConfig.setController("controller");//生成代码的controller类包名
+        packageConfig.setService("service");//生成代码的service类包名
+        packageConfig.setServiceImpl("service.impl");//生成代码的serviceImpl类包名
+        packageConfig.setMapper("dao");//生成代码的dao类包名
+        packageConfig.setEntity("entity");//生成代码的实体类包名
         return packageConfig;
     }
 
@@ -155,7 +149,7 @@ public class SimpleGeneratorService {
         StrategyConfig strategy = new StrategyConfig();
         //----->表设置
         if(tablePrefix!=null) {
-            strategy.setTablePrefix(tablePrefix);//去除表名前缀
+            strategy.setTablePrefix(tablePrefix.split(","));//去除表名前缀
         }
         strategy.setInclude(tables.split(","));// 需要生成的表
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
@@ -200,19 +194,13 @@ public class SimpleGeneratorService {
         InjectionConfig injectionConfig = new InjectionConfig() {
             @Override
             public void initMap() {
-                //todo
+                Map<String, Object> map = new HashMap<>();
+                map.put("parentPackage", parentPackage);
+                this.setMap(map);
             }
         };
 
-        //自定义文件输出位置
-        List<FileOutConfig> fileOutConfigList = new ArrayList<>();
-        fileOutConfigList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return baseOutputPath + "src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper.xml";
-            }
-        });
-        injectionConfig.setFileOutConfigList(fileOutConfigList);
+        injectionConfig.setFileOutConfigList(SimpleFileOutputConfig.fileOutConfigList());
 
         return injectionConfig;
     }
@@ -223,7 +211,13 @@ public class SimpleGeneratorService {
      * @return
      */
     private static TemplateConfig templateConfig(){
-        return new TemplateConfig().setXml(null);
+        return new TemplateConfig()
+                .setController(null)
+                .setService(null)
+                .setServiceImpl(null)
+                .setEntity(null)
+                .setMapper(null)
+                .setXml(null);
     }
 
 

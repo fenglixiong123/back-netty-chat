@@ -18,7 +18,7 @@ import java.util.Map;
 * @author ${author}
 * @since ${date}
 */
-@FeignClient(name = "<#if cfg.parentModule?? && cfg.parentModule != "">${cfg.parentModule}</#if>",path = "<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/${table.entityPath}")
+@FeignClient(name = "${cfg.parentModule!}",path = "<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/${table.entityPath}")
 public interface ${entity}Client {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)

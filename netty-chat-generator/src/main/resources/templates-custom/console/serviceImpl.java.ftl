@@ -43,7 +43,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long add(${entity}VO entityVO) throws Exception {
-        WebUserVO entity = getByUsername(entityVO.getId());
+        ${entity} entity = ${entity?uncap_first}Manager.get(entityVO.getId());
         if(entity!=null){
             throw new Exception("不能重复添加!");
         }

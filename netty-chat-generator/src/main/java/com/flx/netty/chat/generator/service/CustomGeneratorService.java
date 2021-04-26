@@ -12,8 +12,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.flx.netty.chat.common.utils.page.PageQuery;
-import com.flx.netty.chat.generator.config.FileOutputConfig;
+import com.flx.netty.chat.generator.config.CustomFileOutputConfig;
 import com.flx.netty.chat.generator.utils.property.custom.PropertyUtils;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
 import lombok.extern.slf4j.Slf4j;
@@ -163,7 +162,7 @@ public class CustomGeneratorService {
         StrategyConfig strategy = new StrategyConfig();
         //----->表设置
         if(tablePrefix!=null) {
-            strategy.setTablePrefix(tablePrefix);//去除表名前缀
+            strategy.setTablePrefix(tablePrefix.split(","));//去除表名前缀
         }
         strategy.setInclude(tables.split(","));// 需要生成的表
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
@@ -214,7 +213,7 @@ public class CustomGeneratorService {
         };
 
         //自定义文件输出位置
-        injectionConfig.setFileOutConfigList(FileOutputConfig.fileOutConfigList());
+        injectionConfig.setFileOutConfigList(CustomFileOutputConfig.fileOutConfigList());
 
         return injectionConfig;
     }

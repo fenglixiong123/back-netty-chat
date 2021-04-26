@@ -19,26 +19,26 @@ import java.util.List;
  * @Description:
  */
 @Slf4j
-public class FileOutputConfig {
+public class CustomFileOutputConfig {
 
     /** controller输出模板 */
-    private static final String CONSOLE_CONTROLLER_TEMPLATE = "templates-ftl/console/controller.java.ftl";
+    private static final String CONSOLE_CONTROLLER_TEMPLATE = "templates-custom/console/controller.java.ftl";
     /** service输出模板 */
-    private static final String CONSOLE_SERVICE_TEMPLATE = "templates-ftl/console/service.java.ftl";
+    private static final String CONSOLE_SERVICE_TEMPLATE = "templates-custom/console/service.java.ftl";
     /** serviceImpl输出模板 */
-    private static final String CONSOLE_SERVICE_IMPL_TEMPLATE = "templates-ftl/console/serviceImpl.java.ftl";
+    private static final String CONSOLE_SERVICE_IMPL_TEMPLATE = "templates-custom/console/serviceImpl.java.ftl";
     /** manager.java输出模板 */
-    private static final String CRUD_MANAGER_TEMPLATE = "templates-ftl/crud/manager.java.ftl";
+    private static final String CRUD_MANAGER_TEMPLATE = "templates-custom/crud/manager.java.ftl";
     /** dao.java输出模板 */
-    private static final String CRUD_DAO_TEMPLATE = "templates-ftl/crud/dao.java.ftl";
+    private static final String CRUD_DAO_TEMPLATE = "templates-custom/crud/dao.java.ftl";
     /** mapper.xml输出模板 */
-    private static final String CRUD_XML_TEMPLATE = "templates-ftl/crud/mapper.xml.ftl";
+    private static final String CRUD_XML_TEMPLATE = "templates-custom/crud/mapper.xml.ftl";
     /** entity输出模板 */
-    private static final String CRUD_ENTITY_TEMPLATE = "templates-ftl/crud/entity.java.ftl";
+    private static final String CRUD_ENTITY_TEMPLATE = "templates-custom/crud/entity.java.ftl";
     /** vo输出模板 */
-    private static final String API_VO_TEMPLATE = "templates-ftl/api/vo.java.ftl";
+    private static final String API_VO_TEMPLATE = "templates-custom/api/vo.java.ftl";
     /** IService输出模板 */
-    private static final String API_CLIENT_TEMPLATE = "templates-ftl/api/client.java.ftl";
+    private static final String API_CLIENT_TEMPLATE = "templates-custom/api/client.java.ftl";
 
     private static final String baseOutputPath;
     private static final String parentModule;
@@ -138,6 +138,7 @@ public class FileOutputConfig {
                 return CrudEntityOutputPath + tableInfo.getEntityName() + StringPool.DOT_JAVA;
             }
         });
+
         /*
         // mapper xml文件输出
         outConfigList.add(new FileOutConfig(CRUD_XML_TEMPLATE) {
