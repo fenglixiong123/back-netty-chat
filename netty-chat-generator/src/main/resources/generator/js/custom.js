@@ -26,15 +26,34 @@ function submit() {
     var removeColumn = $("input[name=removeColumn]").val().trim();
 
     var body = {
-        "ip":ip,"port":port,
-        "username":username, "password":password,
-        "database":database,
-        "tablePrefix":tablePrefix,"tables":tables,
-        "parentModule":parentModule,"consoleModule":consoleModule,
-        "crudModule":crudModule,"clientModule":clientModule,
-        "parentPackage":parentPackage,"consolePackage":consolePackage,
-        "crudPackage":crudPackage,"clientPackage":clientPackage,
-        "override":override,"removeColumn":removeColumn
+        "dataSource":{
+            "ip":ip,
+            "port":port,
+            "username":username,
+            "password":password,
+            "database":database
+        },
+        "table":{
+            "tables":tables,
+            "tablePrefix":tablePrefix,
+            "removeColumn":removeColumn
+        },
+        "module":{
+            "parentModule":parentModule,
+            "consoleModule":consoleModule,
+            "crudModule":crudModule,
+            "clientModule":clientModule
+        },
+        "pack":{
+            "parentPackage":parentPackage,
+            "consolePackage":consolePackage,
+            "crudPackage":crudPackage,
+            "clientPackage":clientPackage
+        },
+        "global":{
+            "override":override
+        }
+
     };
 
     var url = baseUrl + "generator/custom";
