@@ -1,4 +1,4 @@
-package ${cfg.parentPackage}.api.vo;
+package ${cfg.parentPackage}.${cfg.voPackage};
 
 import com.flx.netty.chat.common.vo.BaseVO;
 import io.swagger.annotations.ApiModelProperty;

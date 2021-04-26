@@ -172,8 +172,8 @@ public class CustomGeneratorManager {
                 Map<String, Object> map = new HashMap<>();
                 map.put("parentModule", config.getModule().getParentModule());
                 map.put("parentPackage", config.getPack().getParentPackage());
-                map.put("voPackage", config.getPack().getVoPackage());
-                map.put("clientPackage", config.getPack().getClientPackage());
+                map.put("voPackage", config.getPack().getVoPackage()+"."+Module.VO);
+                map.put("clientPackage", config.getPack().getClientPackage()+"."+Module.CLIENT);
                 this.setMap(map);
             }
         };

@@ -1,4 +1,4 @@
-package ${cfg.parentPackage}.${cfg.clientPackage}.client;
+package ${cfg.parentPackage}.${cfg.clientPackage};
 
 import ${cfg.parentPackage}.${cfg.voPackage}.${entity}VO;
 
