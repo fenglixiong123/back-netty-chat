@@ -1,6 +1,6 @@
 package ${package.ServiceImpl};
 
-import ${cfg.parentPackage}.api.vo.${entity}VO;
+import ${cfg.parentPackage}.${cfg.voPackage}.${entity}VO;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
