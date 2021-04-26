@@ -6,6 +6,7 @@ import com.flx.netty.chat.generator.output.CustomFileOutput;
 import com.flx.netty.chat.generator.output.SimpleFileOutput;
 import com.flx.netty.chat.generator.entity.ConfigInfo;
 import com.flx.netty.chat.generator.service.CustomGeneratorService;
+import com.flx.netty.chat.generator.service.SimpleGeneratorService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,17 @@ public class GeneratorController {
 
     @Autowired
     private CustomGeneratorService customService;
+    @Autowired
+    private SimpleGeneratorService simpleService;
 
     /**
      * 简单生成代码
      */
     @PostMapping("/simple")
-    public ResultResponse simple(@RequestBody ConfigInfo entity){
+    public ResultResponse simple(@RequestBody ConfigInfo config){
         try {
-            log.info("SimpleGenerator params : {}",JsonUtils.toJsonMsg(entity));
+            log.info("SimpleGenerator params : {}",JsonUtils.toJsonMsg(config));
+            simpleService.generator(config);
             return ResultResponse.success(SimpleFileOutput.getPathMap());
         }catch (Exception e){
             return ResultResponse.error();

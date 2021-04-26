@@ -1,6 +1,6 @@
 package ${package.Controller};
 
-import ${cfg.parentPackage}.api.vo.${entity}VO;
+import ${cfg.parentPackage}.${cfg.voPackage}.${entity}VO;
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

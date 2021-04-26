@@ -6,6 +6,7 @@ import com.flx.netty.chat.generator.manager.SimpleGeneratorManager;
 import com.flx.netty.chat.generator.utils.property.simple.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @Author: Fenglixiong
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Description: 简单的自动生成代码
  */
 @Slf4j
+@Service
 @SuppressWarnings("all")
 public class SimpleGeneratorService {
 

@@ -1,16 +1,37 @@
 
+.formBody{
+    float: left;
+    width: 25%;
+    height: 700px;
+    border: 1px solid #5558ff;
+    padding-left: 50px;
+    padding-top: 30px
+}
+
+.confirmBody{
+    width: 20%;
+    /*border: 1px solid red;*/
+    float: left;
+    margin-left: 300px;
+    margin-top: 60px;
+}
+
 .logBody {
+    float: left;
     background-color:#000;
-    margin:0px;
-    padding:0px;
     color:rgb(0,198,83);
     font:"微软雅黑";
     font-size:14px;
+    width: 40%;
+    height: 460px;
+    margin-left: 100px;
+    padding: 15px;
+    border: 1px solid #ee0b0b;
 }
 .window {
     border:2px #ccc outset;
-    width:500px;
-    height:450px;
+    /*width:500px;*/
+    /*height:400px;*/
     background-color:rgb(20,23,41);
     margin: 10px auto;
     overflow:hidden;
@@ -23,20 +44,13 @@
 #text {
     background-color:rgb(20,23,41);
     border-top:#ccc outset 2px;
-    height:420px;
+    height:400px;
     overflow-y:scroll;
     padding:5px;
+    word-wrap:break-word;/*在div超出范围时候自动换行*/
 }
 ul {
     margin:0px;
     padding:0px;
     list-style:none;
 }
-/*input {*/
-/*    background-color:#000;*/
-/*    border:0;*/
-/*    color:#fff;*/
-/*    outline:none;*/
-/*    !*font-size:12px;*!*/
-/*    width:100%;*/
-/*}*/

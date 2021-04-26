@@ -1,31 +1,50 @@
 
-var baseUrl = "http://127.0.0.1:8080/";
+const baseUrl = "http://127.0.0.1:8080/";
+
+function show() {
+    if(keys.length===0) return;
+    let html = '';
+    html+='<div>'+keys[index]+'</div>';
+    html+='<div>'+values[index]+'</div>';
+    $("#text ul").append(html);
+    let scrollHeight = $("#text").prop("scrollHeight");
+    $("#text").scrollTop(scrollHeight,400);
+    index = index + 1;
+    if(index>=keys.length){
+        clearInterval(timer);
+    }
+}
+
+let keys = [];
+let values = [];
+let index = 0;
+let timer;
 
 function submit() {
 
-    var ip = $("input[name=ip]").val().trim();
-    var username = $("input[name=username]").val().trim();
-    var password = $("input[name=password]").val().trim();
-    var database = $("input[name=database]").val().trim();
-    var port = $("input[name=port]").val().trim();
+    let ip = $("input[name=ip]").val().trim();
+    let username = $("input[name=username]").val().trim();
+    let password = $("input[name=password]").val().trim();
+    let database = $("input[name=database]").val().trim();
+    let port = $("input[name=port]").val().trim();
 
-    var tablePrefix = $("input[name=tablePrefix]").val().trim();
-    var tables = $("input[name=tables]").val().trim();
+    let tablePrefix = $("input[name=tablePrefix]").val().trim();
+    let tables = $("input[name=tables]").val().trim();
 
-    var parentModule = $("input[name=parentModule]").val().trim();
-    var consoleModule = $("input[name=consoleModule]").val().trim();
-    var crudModule = $("input[name=crudModule]").val().trim();
-    var clientModule = $("input[name=clientModule]").val().trim();
+    let parentModule = $("input[name=parentModule]").val().trim();
+    let consoleModule = $("input[name=consoleModule]").val().trim();
+    let crudModule = $("input[name=crudModule]").val().trim();
+    let apiModule = $("input[name=apiModule]").val().trim();
 
-    var parentPackage = $("input[name=parentPackage]").val().trim();
-    var consolePackage = $("input[name=consolePackage]").val().trim();
-    var crudPackage = $("input[name=crudPackage]").val().trim();
-    var clientPackage = $("input[name=clientPackage]").val().trim();
+    let parentPackage = $("input[name=parentPackage]").val().trim();
+    let consolePackage = $("input[name=consolePackage]").val().trim();
+    let crudPackage = $("input[name=crudPackage]").val().trim();
+    let apiPackage = $("input[name=apiPackage]").val().trim();
 
-    var override = $("input[name=override]").val().trim();
-    var removeColumn = $("input[name=removeColumn]").val().trim();
+    let override = $("input[name=override]").val().trim();
+    let removeColumn = $("input[name=removeColumn]").val().trim();
 
-    var body = {
+    let body = {
         "dataSource":{
             "ip":ip,
             "port":port,
@@ -42,13 +61,13 @@ function submit() {
             "parentModule":parentModule,
             "consoleModule":consoleModule,
             "crudModule":crudModule,
-            "clientModule":clientModule
+            "apiModule":apiModule
         },
         "pack":{
             "parentPackage":parentPackage,
             "consolePackage":consolePackage,
             "crudPackage":crudPackage,
-            "clientPackage":clientPackage
+            "apiPackage":apiPackage
         },
         "global":{
             "override":override
@@ -56,7 +75,7 @@ function submit() {
 
     };
 
-    var url = baseUrl + "generator/custom";
+    let url = baseUrl + "generator/custom";
     $.ajax(url,{
         type : "post",
         dataType: "json",
@@ -66,21 +85,25 @@ function submit() {
             console.log(ret);
             if(ret && ret.success){
                 if(ret.data){
-                    var html = '';
+                    clearInterval(timer);
+                    $("#text ul").html('');
+                    keys = [];
+                    values = [];
+                    index = 0;
+                    timer = setInterval('show()',1000);
                     $.each(ret.data,function (k,v) {
-                        html+='<div>'+k+'</div>';
-                        html+='<div>'+v+'</div>';
+                        keys.push(k);
+                        values.push(v);
                     });
-                    $("#logPan").html(html);
                 }else {
-                    $("#logPan").html(ret.message);
+                    $("#text ul").html(ret.message);
                 }
             }else {
-                $("#logPan").html(ret.message);
+                $("#text ul").html(ret.message);
             }
         },
         error:function (err) {
-            $("#logPan").html(err);
+            $("#text ul").html(err);
         }
     })
 
@@ -100,12 +123,12 @@ function reset() {
     $("input[name=parentModule]").val('');
     $("input[name=consoleModule]").val('');
     $("input[name=crudModule]").val('');
-    $("input[name=clientModule]").val('');
+    $("input[name=apiModule]").val('');
 
     $("input[name=parentPackage]").val('');
     $("input[name=consolePackage]").val('');
     $("input[name=crudPackage]").val('');
-    $("input[name=clientPackage]").val('');
+    $("input[name=apiPackage]").val('');
 
     $("input[name=override]").val('');
     $("input[name=removeColumn]").val('');
@@ -126,12 +149,12 @@ function fill() {
     $("input[name=parentModule]").val('');
     $("input[name=consoleModule]").val('netty-chat-generator');
     $("input[name=crudModule]").val('netty-chat-generator');
-    $("input[name=clientModule]").val('netty-chat-generator');
+    $("input[name=apiModule]").val('netty-chat-generator');
 
     $("input[name=parentPackage]").val('com.flx.netty.chat');
     $("input[name=consolePackage]").val('user');
     $("input[name=crudPackage]").val('user');
-    $("input[name=clientPackage]").val('user');
+    $("input[name=apiPackage]").val('user');
 
     $("input[name=override]").val('true');
     $("input[name=removeColumn]").val('id,state,create_user,create_time,update_user,update_time');

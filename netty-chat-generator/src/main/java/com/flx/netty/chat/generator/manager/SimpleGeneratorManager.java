@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.flx.netty.chat.common.constants.FileConstant;
+import com.flx.netty.chat.generator.constants.Module;
 import com.flx.netty.chat.generator.output.SimpleFileOutput;
 import com.flx.netty.chat.generator.entity.ConfigInfo;
 import com.flx.netty.chat.generator.entity.config.*;
@@ -97,11 +98,11 @@ public class SimpleGeneratorManager {
         PackageInfo pack = config.getPack();
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent(pack.getParentPackage());//生成代码的包名
-        packageConfig.setController(pack.getControllerPackage());//生成代码的controller类包名
-        packageConfig.setService(pack.getServicePackage());//生成代码的service类包名
-        packageConfig.setServiceImpl(pack.getServiceImplPackage());//生成代码的serviceImpl类包名
-        packageConfig.setMapper(pack.getDaoPackage());//生成代码的dao类包名
-        packageConfig.setEntity(pack.getEntityPackage());//生成代码的实体类包名
+        packageConfig.setController(Module.CONTROLLER);//生成代码的controller类包名
+        packageConfig.setService(Module.SERVICE);//生成代码的service类包名
+        packageConfig.setServiceImpl(Module.SERVICE_IMPL);//生成代码的serviceImpl类包名
+        packageConfig.setMapper(Module.DAO);//生成代码的dao类包名
+        packageConfig.setEntity(Module.ENTITY);//生成代码的实体类包名
         return packageConfig;
     }
 

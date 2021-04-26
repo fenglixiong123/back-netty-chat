@@ -1,6 +1,6 @@
-package ${cfg.parentPackage}.api.client;
+package ${cfg.parentPackage}.${cfg.clientPackage}.client;
 
-import ${cfg.parentPackage}.api.vo.${entity}VO;
+import ${cfg.parentPackage}.${cfg.voPackage}.${entity}VO;
 
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;

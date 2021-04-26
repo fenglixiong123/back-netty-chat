@@ -1,6 +1,7 @@
 package com.flx.netty.chat.generator.output;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.flx.netty.chat.generator.constants.Module;
@@ -181,26 +182,25 @@ public class CustomFileOutput {
         PackageInfo pack = config.getPack();
         StringBuilder sb = new StringBuilder();
         sb.append(global.getBasePath());
-        if(module.getParentModule()!=null){
+        if(StringUtils.isNotBlank(module.getParentModule())){
             sb.append(module.getParentModule()).append("/");
         }
         String subModule = getSubModule(module,key);
-        if(subModule!=null) {
-            sb.append(subModule);
+        if(StringUtils.isNotBlank(subModule)) {
+            sb.append(subModule).append("/");
         }
         if(key.equals("mapper")){
-            sb.append("/src/main/resources/mapper/");
+            sb.append("src/main/resources/mapper/");
         }else {
-            sb.append("/src/main/java/");
-            sb.append(pack.getParentPackage().replace(".", "/"));
-            sb.append("/");
-            String subPackage = getSubPackage(pack,key);
-            if(subPackage!=null) {
-                sb.append(subPackage.replace(".", "/"));
+            sb.append("src/main/java/");
+            if(StringUtils.isNotBlank(pack.getParentPackage())) {
+                sb.append(pack.getParentPackage().replace(".", "/")).append("/");
             }
-            sb.append("/");
-            sb.append(key.replace(".","/"));
-            sb.append("/");
+            String subPackage = getSubPackage(pack,key);
+            if(StringUtils.isNotBlank(subPackage)) {
+                sb.append(subPackage.replace(".", "/")).append("/");
+            }
+            sb.append(key.replace(".","/")).append("/");
         }
         return sb.toString();
     }
