@@ -151,10 +151,10 @@ function fill() {
     $("input[name=crudModule]").val('netty-chat-generator');
     $("input[name=apiModule]").val('netty-chat-generator');
 
-    $("input[name=parentPackage]").val('com.flx.netty.chat');
-    $("input[name=consolePackage]").val('user');
-    $("input[name=crudPackage]").val('user');
-    $("input[name=apiPackage]").val('user');
+    $("input[name=parentPackage]").val('com.flx.netty.chat.user');
+    $("input[name=consolePackage]").val('console');
+    $("input[name=crudPackage]").val('crud');
+    $("input[name=apiPackage]").val('api');
 
     $("input[name=override]").val('true');
     $("input[name=removeColumn]").val('id,state,create_user,create_time,update_user,update_time');
