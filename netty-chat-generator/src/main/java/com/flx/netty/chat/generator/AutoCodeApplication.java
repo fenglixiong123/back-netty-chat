@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Author: Fenglixiong
  * @Date: 2021/4/23 11:28
  * @Description:
+ * http://127.0.0.1:9999/view/index.html
  */
 @Slf4j
 @EnableCross
