@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 /**
  * @Author: Fenglixiong
  * @Date: 2021/4/23 11:43
- * @Description: 自定义生成代码
+ * @Description: 自定义自动生成代码
  */
 @Slf4j
 @Service
+@SuppressWarnings("all")
 public class CustomGeneratorService {
 
     @Autowired

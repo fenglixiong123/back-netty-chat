@@ -1,6 +1,4 @@
 
-const baseUrl = "http://127.0.0.1:8080/";
-
 function show() {
     if(keys.length===0) return;
     let html = '';

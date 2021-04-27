@@ -1,9 +1,14 @@
 
+.tableDiv{
+    word-wrap:break-word;
+    width: 70%;
+}
+
 .formBody{
     float: left;
-    width: 25%;
-    height: 700px;
-    border: 1px solid #5558ff;
+    width: 22%;
+    height: 850px;
+    border: 1px solid #544bff;
     padding-left: 50px;
     padding-top: 30px
 }

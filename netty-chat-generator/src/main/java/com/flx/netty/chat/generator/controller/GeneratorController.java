@@ -7,13 +7,11 @@ import com.flx.netty.chat.generator.output.SimpleFileOutput;
 import com.flx.netty.chat.generator.entity.ConfigInfo;
 import com.flx.netty.chat.generator.service.CustomGeneratorService;
 import com.flx.netty.chat.generator.service.SimpleGeneratorService;
+import com.flx.netty.chat.generator.service.TableService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: Fenglixiong
@@ -30,6 +28,8 @@ public class GeneratorController {
     private CustomGeneratorService customService;
     @Autowired
     private SimpleGeneratorService simpleService;
+    @Autowired
+    private TableService tableService;
 
     /**
      * 简单生成代码
@@ -54,6 +54,20 @@ public class GeneratorController {
             log.info("CustomGenerator params : {}",JsonUtils.toJsonMsg(config));
             customService.generator(config);
             return ResultResponse.success(CustomFileOutput.getPathMap());
+        }catch (Exception e){
+            return ResultResponse.error();
+        }
+    }
+
+    @GetMapping("/tables")
+    public ResultResponse tables(@RequestParam String ip,
+                                 @RequestParam(required = false,defaultValue = "3306") int port,
+                                 @RequestParam String database,
+                                 @RequestParam String username,
+                                 @RequestParam String password){
+        try{
+            log.info(">>>>>>>getTables ip:{},port:{},database:{},username:{},password:{}",ip,port,database,username,password);
+            return ResultResponse.success(tableService.getTables(ip,port,database,username,password));
         }catch (Exception e){
             return ResultResponse.error();
         }
