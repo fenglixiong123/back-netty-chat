@@ -7,10 +7,11 @@
 .formBody{
     float: left;
     width: 22%;
-    height: 850px;
     border: 1px solid #544bff;
     padding-left: 50px;
-    padding-top: 30px
+    padding-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 50px;
 }
 
 .confirmBody{
