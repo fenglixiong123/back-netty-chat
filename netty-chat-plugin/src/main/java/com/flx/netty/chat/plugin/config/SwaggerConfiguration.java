@@ -1,14 +1,14 @@
 package com.flx.netty.chat.plugin.config;
 
 import com.flx.netty.chat.plugin.plugins.swagger.SwaggerService;
+import com.flx.netty.chat.plugin.plugins.swagger.controller.SwaggerController;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.system.JavaVersion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.context.request.async.DeferredResult;
-import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -30,20 +30,15 @@ public class SwaggerConfiguration {
     }
 
     @Bean
-    public Docket createRestApi(){
+    @ConditionalOnMissingBean(SwaggerController.class)
+    public SwaggerController swaggerController(){
+        return new SwaggerController();
+    }
+
+    @Bean
+    @ConditionalOnBean(SwaggerService.class)
+    public Docket docket(){
         return swaggerService().buildDocket();
-    }
-
-    @GetMapping(value = "/swagger")
-    public ModelAndView home() {
-        return new ModelAndView("redirect:/swagger-ui.html");
-    }
-
-    @GetMapping(value = "/swagger2")
-    public DeferredResult<ModelAndView> ui2() {
-        DeferredResult<ModelAndView> result = new DeferredResult<>();
-        result.setResult(new ModelAndView("redirect:/doc.html"));
-        return result;
     }
 
 }
