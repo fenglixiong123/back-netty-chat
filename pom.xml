@@ -21,6 +21,7 @@
         <module>netty-chat-login</module>
         <module>netty-chat-plugin</module>
         <module>netty-chat-generator</module>
+        <module>netty-chat-logger</module>
     </modules>
 
 </project>

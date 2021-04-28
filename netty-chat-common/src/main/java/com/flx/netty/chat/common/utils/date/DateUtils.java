@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author Fenglixiong
@@ -37,6 +38,32 @@ public class DateUtils {
 
     public static String nowSimpleStr() {
         return dateTime2Str(new Date(),DEFAULT_SIMPLE_PATTEN);
+    }
+
+    /**
+     * 获得毫秒
+     * @param time
+     * @param unit
+     * @return
+     */
+    public static long toMillis(long time, TimeUnit unit){
+        if(time <= 0){
+            return 0;
+        }
+        switch (unit){
+            case DAYS:
+                return TimeUnit.DAYS.toMillis(time);
+            case HOURS:
+                return TimeUnit.HOURS.toMillis(time);
+            case MINUTES:
+                return TimeUnit.MINUTES.toMillis(time);
+            case SECONDS:
+                return TimeUnit.SECONDS.toMillis(time);
+            case MILLISECONDS:
+                return time;
+            default:
+                return 0;
+        }
     }
 
     public static boolean before(Date d1, Date d2) throws Exception {

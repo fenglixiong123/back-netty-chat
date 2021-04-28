@@ -32,6 +32,7 @@
         <jxl.version>2.6.10</jxl.version>
         <jackson.version>2.11.2</jackson.version>
         <json.path.verson>2.4.0</json.path.verson>
+        <jwt.java.version>3.15.0</jwt.java.version>
         <kafka.version>2.2.0.RELEASE</kafka.version>
         <mybatis.version>2.1.2</mybatis.version>
         <mybatis.plus.version>3.4.2</mybatis.plus.version>
@@ -180,6 +181,12 @@
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${apache.collections.version}</version>
+            </dependency>
+            <!--jwt-utils-->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.java.version}</version>
             </dependency>
             <!--swagger-ui-->
             <dependency>
