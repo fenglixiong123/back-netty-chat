@@ -19,7 +19,6 @@ import static com.flx.netty.chat.common.constants.SecurityConstant.SHA1;
 public class SignUtils {
 
 
-
     public static String getParamSign(Map<String, String> params, String secret){
         return getParamSign(params,secret,MD5);
     }
@@ -77,10 +76,6 @@ public class SignUtils {
      */
     public static String getHmacSign(String content,String secretKey){
         return HmacUtils.getSign(content,secretKey);
-    }
-
-    public static String getHmacSign(String content,String secretKey,String macKey){
-        return HmacUtils.getSign(content,secretKey,macKey);
     }
 
     /**

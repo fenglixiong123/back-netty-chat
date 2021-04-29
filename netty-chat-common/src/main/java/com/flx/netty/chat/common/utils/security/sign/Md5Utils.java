@@ -5,8 +5,10 @@ import com.flx.netty.chat.common.utils.security.ByteUtils;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 import static com.flx.netty.chat.common.constants.SecurityConstant.MD5;
+import static com.flx.netty.chat.common.utils.security.codec.Base64Utils.encode;
 
 /**
  * @Author: Fenglixiong
@@ -31,11 +33,21 @@ public class Md5Utils {
      * @return
      */
     public static String getMD5(String source) {
-        return ByteUtils.byte2hex(digest(source.getBytes(StandardCharsets.UTF_8)));
+        return getMD5(source.getBytes(StandardCharsets.UTF_8));
     }
 
     public static String getMD5(byte[] source) {
         return ByteUtils.byte2hex(digest(source));
+    }
+
+    /**
+     * md5签名算法
+     * Md5签名+Base64编码+转十进制
+     * @param source
+     * @return
+     */
+    public static String getBase64MD5(byte[] source) {
+        return ByteUtils.byte2hex(Objects.requireNonNull(encode(digest(source))));
     }
 
     /**

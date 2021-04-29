@@ -29,39 +29,25 @@ public class HmacUtils {
 
 
     public static String getSign(String content,String secretKey) {
+        return getSign(content.getBytes(StandardCharsets.UTF_8),secretKey,DEFAULT_KEY_MAC);
+    }
+
+    public static String getSign(byte[] content,String secretKey) {
         return getSign(content,secretKey,DEFAULT_KEY_MAC);
     }
 
     /**
      * 签名
      * @param content 需要签名的内容
-     * @param secretKey 签名的密钥
-     * @param macKey 使用的签证方法
      * @return 签名后的签证
      */
-    public static String getSign(String content,String secretKey,String macKey) {
-        return ByteUtils.byte2hex(Objects.requireNonNull(getMac(secretKey,macKey),"Mac is null")
-                .doFinal(content.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    public static Mac getMac(String secretKey,String macKey) {
+    public static String getSign(byte[] content,String secretKey,String macKey) {
         try {
             SecretKey sk = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), macKey);
             Mac mac = Mac.getInstance(sk.getAlgorithm());
             mac.init(sk);
-            return mac;
-        } catch (Exception e) {
-            log.error("Create hmac failed , error = {}", e.getMessage());
-        }
-        return null;
-    }
-
-    public static Mac getMac(byte[] secretKey,String macKey) {
-        try {
-            SecretKey sk = new SecretKeySpec(secretKey, macKey);
-            Mac mac = Mac.getInstance(sk.getAlgorithm());
-            mac.init(sk);
-            return mac;
+            return ByteUtils.byte2hex(Objects.requireNonNull(mac,"Mac is null")
+                    .doFinal(content));
         } catch (Exception e) {
             log.error("Create hmac failed , error = {}", e.getMessage());
         }

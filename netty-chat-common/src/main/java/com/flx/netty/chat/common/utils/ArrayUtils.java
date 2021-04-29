@@ -10,6 +10,17 @@ import java.util.List;
  */
 public class ArrayUtils {
 
+    public static boolean isNull(byte[] array){
+        if(array==null || array.length==0){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNotNull(byte[] array){
+        return !isNull(array);
+    }
+
     public static boolean isNull(Object[] array){
         if(array==null || array.length==0){
             return true;
@@ -18,10 +29,7 @@ public class ArrayUtils {
     }
 
     public static boolean isNotNull(Object[] array){
-        if(array!=null && array.length>0){
-            return true;
-        }
-        return false;
+        return !isNull(array);
     }
 
     public static <T> List<T> asList(T ...t){
