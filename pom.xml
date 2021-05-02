@@ -13,6 +13,7 @@
         <module>netty-chat-dependencies</module>
         <module>netty-chat-parent</module>
         <module>netty-chat-common</module>
+        <module>netty-chat-gateway</module>
         <module>netty-chat-admin</module>
         <module>netty-chat-user</module>
         <module>netty-chat-message</module>

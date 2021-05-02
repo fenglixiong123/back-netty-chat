@@ -1,6 +1,7 @@
 package com.flx.netty.chat.plugin.plugins.redis.service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: Fenglixiong
@@ -17,7 +18,7 @@ public interface RedisBaseService {
      * @param expire 时间
      * @return
      */
-    boolean expire(String key,long expire);
+    boolean expire(String key, long expire, TimeUnit unit);
 
     /**
      * 获取key失效时间

@@ -1,5 +1,7 @@
 package com.flx.netty.chat.plugin.plugins.redis.service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Author: Fenglixiong
  * @Date: 2020/9/2 19:58
@@ -29,7 +31,17 @@ public interface RedisStringService {
      * @param expire
      * @return
      */
-    boolean setWithExpire(String key,Object value,long expire);
+    boolean set(String key, Object value, long expire, TimeUnit unit);
+
+    /**
+     * 不存在才设置
+     * @param key
+     * @param value
+     * @param expire
+     * @param unit
+     * @return
+     */
+    boolean setIfAbsent(String key,Object value,long expire,TimeUnit unit);
 
     /**
      * 递增

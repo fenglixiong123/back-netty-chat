@@ -35,7 +35,7 @@ public class RedisBaseServiceImpl implements RedisBaseService {
      * @param expire 时间
      * @return
      */
-    public boolean expire(String key,long expire){
+    public boolean expire(String key,long expire,TimeUnit unit){
         if(StringUtils.isBlank(key)){
             throw new RedisException("[expire] key is null !");
         }
@@ -43,7 +43,7 @@ public class RedisBaseServiceImpl implements RedisBaseService {
             throw new RedisException("[expire] expire time is illegal !");
         }
         try {
-            redisTemplate.expire(key, expire, TimeUnit.SECONDS);
+            redisTemplate.expire(key, expire, unit);
             return true;
         }catch (Exception e){
             throw new RedisException("[expire] method occur error : "+e.getMessage()+" !");

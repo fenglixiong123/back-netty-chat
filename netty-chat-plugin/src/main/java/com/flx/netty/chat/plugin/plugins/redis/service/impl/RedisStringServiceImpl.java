@@ -63,7 +63,7 @@ public class RedisStringServiceImpl implements RedisStringService {
      * @param expire
      * @return
      */
-    public boolean setWithExpire(String key,Object value,long expire){
+    public boolean set(String key,Object value,long expire,TimeUnit unit){
         if(StringUtils.isBlank(key)){
             throw new RedisException("[setWithExpire] key is null !");
         }
@@ -71,8 +71,33 @@ public class RedisStringServiceImpl implements RedisStringService {
             throw new RedisException("[setWithExpire] time is illegal !");
         }
         try{
-            redisTemplate.opsForValue().set(key,value,expire, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(key,value,expire, unit);
             return true;
+        }catch (Exception e){
+            throw new RedisException("[setWithExpire] method occur error : "+e.getMessage()+" !");
+        }
+    }
+
+    /**
+     * 设置带失效时间的值
+     * @param key
+     * @param value
+     * @param expire
+     * @return
+     */
+    public boolean setIfAbsent(String key,Object value,long expire,TimeUnit unit){
+        if(StringUtils.isBlank(key)){
+            throw new RedisException("[setWithExpire] key is null !");
+        }
+        if(expire<=0){
+            throw new RedisException("[setWithExpire] time is illegal !");
+        }
+        try{
+            Boolean result = redisTemplate.opsForValue().setIfAbsent(key, value, expire, unit);
+            if(result==null){
+                return false;
+            }
+            return result;
         }catch (Exception e){
             throw new RedisException("[setWithExpire] method occur error : "+e.getMessage()+" !");
         }

@@ -1,6 +1,5 @@
 package com.flx.netty.chat.common.utils;
 
-import com.flx.netty.chat.common.utils.page.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -74,34 +73,6 @@ public class CollectionUtils {
                 .collect(Collectors.toList()); // 转化为 List
     }
 
-    /**
-     * 返回list分页后的数据
-     */
-    public static <T> List<T> listPageA(List<T> dataList, int curPage, int pageSize) {
-        if (CollectionUtils.isEmpty(dataList)) {
-            return null;
-        }
-        int fromIndex; // 开始索引
-        int endIndex; // 结束索引
-        int totalSize = dataList.size(); // 记录总数
-        int totalPage = PageUtils.getTotalPage(totalSize,pageSize); // 页数
-        if (curPage != totalPage) {
-            fromIndex = (curPage - 1) * pageSize;
-            endIndex = fromIndex + pageSize;
-        } else {
-            fromIndex = (curPage - 1) * pageSize;
-            endIndex = totalSize;
-        }
 
-        return dataList.subList(fromIndex, endIndex);
-
-    }
-
-    /**
-     * 返回list分页后的数据
-     */
-    public static <T> List<T> listPageB(List<T> dataList,int page,int pageSize){
-        return dataList.stream().skip((page-1) * pageSize).limit(pageSize).collect(Collectors.toList());
-    }
 
 }
