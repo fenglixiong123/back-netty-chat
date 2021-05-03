@@ -1,6 +1,6 @@
 package com.flx.netty.chat.login.console.security.client;
 
-import com.flx.netty.chat.login.console.security.client.model.OAuthClient;
+import com.flx.netty.chat.login.console.security.model.OAuthClient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;

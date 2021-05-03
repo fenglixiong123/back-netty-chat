@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
 public class CustomSecurityProperties {
 
     /**
-     * 白名单资源resource
-     */
-    private String[] whiteResources;
-
-    /**
      * 白名单路径url
      */
     private String[] whitePermits;
+
+    /**
+     * 白名单资源resource
+     */
+    private String[] whiteResources;
 
     /**
      * token的存储方式

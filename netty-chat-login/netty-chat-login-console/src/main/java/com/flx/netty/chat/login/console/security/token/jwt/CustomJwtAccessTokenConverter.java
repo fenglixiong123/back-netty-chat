@@ -33,7 +33,12 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
         //得到用户名，去处理数据库可以拿到当前用户的信息和角色信息（需要传递到服务中用到的信息）
         final Map<String,Object> additionalInformation = new HashMap<>();
         //数据库拿到用户信息
+        //此处模拟用户信息
         WebUserVO userVO = new WebUserVO();
+        userVO.setId(1L);
+        userVO.setUserName("fenglixiong");
+        userVO.setEmail("fenglixiong123@163.com");
+        userVO.setAddress("上海市徐汇区");
         additionalInformation.put("userInfo", JsonUtils.toJsonMsg(userVO));
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInformation);
         return super.enhance(accessToken, authentication);

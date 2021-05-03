@@ -16,10 +16,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import java.util.Optional;
+
 /**
  * @Author: Fenglixiong
  * @Date: 2021/5/2 10:01
  * @Description: 安全认证配置，主要跟用户登录之后的验证有关
+ *
+ * http.permitAll与web.ignoring的区别:
+ *
+ * http.permitAll不会绕开springSecurity验证，相当于是允许该路径通过
+ * web.ignoring是直接绕开springSecurity的所有filter，直接跳过验证
  */
 @Configuration
 @EnableWebSecurity //开启web保护功能
@@ -78,11 +85,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 设置不拦截资源服务器的认证请求
+     * 比较适合配置前端相关的静态资源，
+     * WebSecurity：是完全绕过SpringSecurity的所有filter
+     * HttpSecurity：没有绕过SpringSecurity只是允许通过而已
      * @param web
      * @throws Exception
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(securityProperties.getWhiteResources());
+        web.ignoring().antMatchers(Optional.ofNullable(securityProperties.getWhiteResources()).orElse(new String[]{}));
     }
 }

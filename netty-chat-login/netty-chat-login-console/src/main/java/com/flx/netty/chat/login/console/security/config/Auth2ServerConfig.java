@@ -63,6 +63,8 @@ public class Auth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        //测试用,资源服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
+        accessTokenConverter.setSigningKey("SigningKey");
         endpoints.tokenStore(tokenStore.getTokenStore())//token存储方式
                 .accessTokenConverter(accessTokenConverter)//token通过的方法
                 .authenticationManager(authenticationManager)//用户授权信息管理
