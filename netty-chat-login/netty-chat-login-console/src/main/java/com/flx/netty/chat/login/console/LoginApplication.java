@@ -1,6 +1,6 @@
 package com.flx.netty.chat.login.console;
 
-import com.flx.netty.chat.plugin.annotion.enable.*;
+import com.flx.netty.chat.plugin.annotion.enable.EnableBase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

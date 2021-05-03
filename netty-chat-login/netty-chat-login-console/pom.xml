@@ -27,14 +27,16 @@
             <artifactId>netty-chat-user-api</artifactId>
         </dependency>
 
-        <!--引入SpringCloudSecurity-->
+        <!--引入auth2配置-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
+        <!--引入jwt服务-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.1.1.RELEASE</version>
         </dependency>
 
     </dependencies>

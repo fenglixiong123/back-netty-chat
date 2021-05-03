@@ -10,9 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>netty-chat-dependencies</module>
-        <module>netty-chat-parent</module>
-        <module>netty-chat-common</module>
         <module>netty-chat-gateway</module>
         <module>netty-chat-admin</module>
         <module>netty-chat-user</module>
@@ -20,9 +17,8 @@
         <module>netty-chat-group</module>
         <module>netty-chat-master</module>
         <module>netty-chat-login</module>
-        <module>netty-chat-plugin</module>
-        <module>netty-chat-generator</module>
         <module>netty-chat-logger</module>
+        <module>netty-chat-framework</module>
     </modules>
 
 </project>

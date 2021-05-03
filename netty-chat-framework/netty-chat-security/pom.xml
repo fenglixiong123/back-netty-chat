@@ -6,23 +6,23 @@
         <artifactId>netty-chat-parent</artifactId>
         <groupId>com.flx.chat</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../netty-chat-framework/netty-chat-parent/pom.xml</relativePath>
+        <relativePath>../netty-chat-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>netty-chat-gateway</artifactId>
+    <artifactId>netty-chat-security</artifactId>
 
     <dependencies>
+        <!--理论上所有的微服务都是资源服务，都需要受到auth2的保护-->
+        <!--引入SpringCloudSecurity-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-plugin</artifactId>
-            <exclusions>
-                <!--网关不需要被auth2保护所以需要排除掉-->
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-oauth2</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>netty-chat-common</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
