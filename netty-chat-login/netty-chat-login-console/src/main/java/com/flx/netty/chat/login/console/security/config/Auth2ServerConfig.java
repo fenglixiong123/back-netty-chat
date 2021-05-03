@@ -1,6 +1,6 @@
-package com.flx.netty.chat.login.console.config;
+package com.flx.netty.chat.login.console.security.config;
 
-import com.flx.netty.chat.login.console.security.CustomClientDetailsService;
+import com.flx.netty.chat.login.console.security.client.CustomClientDetailsService;
 import com.flx.netty.chat.login.console.security.token.jwt.CustomJwtAccessTokenConverter;
 import com.flx.netty.chat.login.console.security.token.store.CustomTokenStore;
 import org.springframework.beans.factory.annotation.Autowired;

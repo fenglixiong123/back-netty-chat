@@ -1,4 +1,4 @@
-package com.flx.netty.chat.login.console.security;
+package com.flx.netty.chat.login.console.security.user;
 
 import com.flx.netty.chat.user.api.vo.WebUserVO;
 import lombok.extern.slf4j.Slf4j;

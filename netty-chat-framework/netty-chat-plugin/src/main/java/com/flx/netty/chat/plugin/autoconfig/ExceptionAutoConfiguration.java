@@ -19,7 +19,7 @@ public class ExceptionAutoConfiguration {
     public void init() {
         log.info("*************************************************");
         log.info("*                                               *");
-        log.info("*           GlobalException Success             *");
+        log.info("*               Exception Success               *");
         log.info("*                                               *");
         log.info("*************************************************");
     }

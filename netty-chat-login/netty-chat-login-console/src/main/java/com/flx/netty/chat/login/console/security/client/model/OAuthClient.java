@@ -1,4 +1,4 @@
-package com.flx.netty.chat.login.console.security.model;
+package com.flx.netty.chat.login.console.security.client.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,8 @@
-package com.flx.netty.chat.login.console.config;
+package com.flx.netty.chat.login.console.security.config;
 
-import com.flx.netty.chat.login.console.security.CustomPasswordEncoder;
+import com.flx.netty.chat.login.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.login.console.security.property.CustomSecurityProperties;
-import com.flx.netty.chat.login.console.security.CustomUserDetailsService;
+import com.flx.netty.chat.login.console.security.user.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 //设置一个拒绝访问的提示链接
-                .and().exceptionHandling().accessDeniedPage("")
+                .and().exceptionHandling().accessDeniedPage("/needLogin.html")
                 .and().authorizeRequests().anyRequest().authenticated();
     }
 
