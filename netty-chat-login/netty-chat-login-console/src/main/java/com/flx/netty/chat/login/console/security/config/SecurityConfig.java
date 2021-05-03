@@ -1,7 +1,7 @@
 package com.flx.netty.chat.login.console.security.config;
 
-import com.flx.netty.chat.login.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.login.console.security.property.CustomSecurityProperties;
+import com.flx.netty.chat.login.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.login.console.security.user.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
