@@ -3,6 +3,10 @@
 
 https://blog.csdn.net/q438944209/article/details/82920461
 
+https://blog.csdn.net/w1054993544/article/details/109361170
+
+https://segmentfault.com/a/1190000023662197?utm_source=tag-newest
+
 # Auth2的四种授权模式
 
 * 授权码模式（authorization code）

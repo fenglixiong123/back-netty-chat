@@ -1,9 +1,14 @@
 package com.flx.netty.chat.common.utils.result;
 
+import com.flx.netty.chat.common.constants.WebConstant;
 import com.flx.netty.chat.common.enums.ErrorMsgEnum;
+import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Data;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @Author Fenglixiong
@@ -95,6 +100,46 @@ public class ResultResponse<E> {
 
     public static ResultResponse<String> error(ErrorMsgEnum errorMsgEnum, String userMsg) {
         return new ResultResponse<>(false,errorMsgEnum.getCode(),errorMsgEnum.getMessage(),userMsg);
+    }
+
+
+
+    public static void printSuccess(HttpServletResponse response){
+        printJson(response,true, ErrorMsgEnum.SUCCESS.getCode(),ErrorMsgEnum.SUCCESS.getMessage(),ErrorMsgEnum.SUCCESS.getUserMsg());
+    }
+
+    public static <E> void printSuccess(HttpServletResponse response,E data){
+        printJson(response,true,ErrorMsgEnum.SUCCESS.getCode(),ErrorMsgEnum.SUCCESS.getMessage(),data);
+    }
+
+    public static void printError(HttpServletResponse response) {
+        printJson(response,false,ErrorMsgEnum.SYS_ERROR.getCode(),ErrorMsgEnum.SYS_ERROR.getMessage(),ErrorMsgEnum.SYS_ERROR.getUserMsg());
+    }
+
+    public static void printError(HttpServletResponse response,String message) {
+        printJson(response,false,ErrorMsgEnum.SYS_ERROR.getCode(),message,ErrorMsgEnum.SYS_ERROR.getUserMsg());
+    }
+
+    public static void printError(HttpServletResponse response,String code, String message) {
+        printJson(response,false,code,message,null);
+    }
+
+    public static <E> void printJson(HttpServletResponse response,boolean success, String code, String message, E data) {
+        response.setContentType(WebConstant.CONTENT_TYPE_JSON);
+        try {
+            response.getWriter().print(JsonUtils.toJsonMsg(new ResultResponse<E>(success,code,message,data)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <E> void printHtml(HttpServletResponse response,String html) {
+        response.setContentType(WebConstant.CONTENT_TYPE_HTML);
+        try {
+            response.getWriter().print(html);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

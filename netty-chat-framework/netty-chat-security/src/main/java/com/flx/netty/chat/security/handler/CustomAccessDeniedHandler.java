@@ -1,6 +1,8 @@
 package com.flx.netty.chat.security.handler;
 
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -14,20 +16,15 @@ import java.io.PrintWriter;
 /**
  * @Author: Fenglixiong
  * @Date: 2021/5/3 16:31
- * @Description: 请求被拒绝的策略
+ * @Description: 自定义权限异常处理
  */
 @Slf4j
 @Component
-public class CustomDeniedHandler implements AccessDeniedHandler {
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.write("{\"status\":\"error\",\"msg\":\"权限不足，请联系管理员110!\"}");
-        out.flush();
-        out.close();
+        ResultResponse.printError(response, HttpStatus.FORBIDDEN.getReasonPhrase(), e.getMessage());
     }
 
 }

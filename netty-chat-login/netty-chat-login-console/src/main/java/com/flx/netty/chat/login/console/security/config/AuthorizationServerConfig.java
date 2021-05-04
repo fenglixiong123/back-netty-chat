@@ -1,6 +1,7 @@
 package com.flx.netty.chat.login.console.security.config;
 
 import com.flx.netty.chat.login.console.security.client.CustomClientDetailsService;
+import com.flx.netty.chat.login.console.security.token.info.CustomTokenEnhancer;
 import com.flx.netty.chat.login.console.security.token.jwt.CustomJwtAccessTokenConverter;
 import com.flx.netty.chat.login.console.security.token.store.CustomTokenStore;
 import com.flx.netty.chat.login.console.security.user.CustomUserDetailsService;
@@ -25,6 +26,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired//Token存储信息(客户端获取token的地方)
     private CustomTokenStore tokenStore;
+    @Autowired//Token信息增强
+    private CustomTokenEnhancer tokenEnhancer;
     @Autowired//授权信息管理(用户的授权信息)
     private AuthenticationManager authenticationManager;
     @Autowired//用户信息服务
@@ -69,6 +72,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //测试用,资源服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
         endpoints
                 .tokenStore(tokenStore.getTokenStore())//token存储方式
+                .tokenEnhancer(tokenEnhancer)//token信息增强
                 .userDetailsService(userDetailsService)//用户详细信息数据
                 .authenticationManager(authenticationManager)//启用auth2管理用户信息
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);

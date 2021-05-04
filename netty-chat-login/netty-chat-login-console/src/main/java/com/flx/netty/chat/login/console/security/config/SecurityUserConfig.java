@@ -1,8 +1,13 @@
 package com.flx.netty.chat.login.console.security.config;
 
+import com.flx.netty.chat.common.utils.ArrayUtils;
+import com.flx.netty.chat.common.utils.CollectionUtils;
+import com.flx.netty.chat.common.utils.json.JsonUtils;
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.login.console.security.property.CustomSecurityProperties;
 import com.flx.netty.chat.login.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.login.console.security.user.CustomUserDetailsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +20,16 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import java.util.Optional;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+
+import static com.flx.netty.chat.login.console.security.property.CustomSecurityProperties.list2Array;
 
 /**
  * @Author: Fenglixiong
@@ -28,6 +41,7 @@ import java.util.Optional;
  * http.permitAll不会绕开springSecurity验证，相当于是允许该路径通过
  * web.ignoring是直接绕开springSecurity的所有filter，直接跳过验证
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity //开启web保护功能
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启在方法上的保护功能
@@ -73,14 +87,28 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        List<String> whitePermits = securityProperties.getWhitePermits();
+        String[] permits = list2Array(whitePermits);
+        log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
         http.authorizeRequests()
                 //允许一些URL可以访问
-                .antMatchers(securityProperties.getWhitePermits()).permitAll()
+                .antMatchers(permits).permitAll()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 //设置一个拒绝访问的提示链接
-                .and().exceptionHandling().accessDeniedPage("/needLogin.html")
-                .and().authorizeRequests().anyRequest().authenticated();
+                .and().authorizeRequests().anyRequest().authenticated()
+                //设置登录地址
+                .and().formLogin().loginPage(securityProperties.getLoginFormUrl())
+                //设置登出地址
+                .and().logout().logoutUrl(securityProperties.getLogoutUrl()).logoutSuccessHandler((request, response, auth) -> {
+                        ResultResponse.printSuccess(response,"logout success !");
+                })
+                .and().exceptionHandling().authenticationEntryPoint((request, response, authException) ->{
+                    ResultResponse.printError(response,"401","UN_AUTHENTICATED");
+                })
+                .accessDeniedHandler((request, response, authException) ->{
+                    ResultResponse.printError(response,"403","PERMISSION_DENIED");
+                });
     }
 
     /**
@@ -93,6 +121,11 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(Optional.ofNullable(securityProperties.getWhiteResources()).orElse(new String[]{}));
+        List<String> whiteResources = securityProperties.getWhiteResources();
+        String[] resources = list2Array(whiteResources);
+        log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
+        if(ArrayUtils.isNotNull(resources)){
+            web.ignoring().antMatchers(resources);
+        }
     }
 }

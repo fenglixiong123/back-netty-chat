@@ -1,6 +1,6 @@
 package com.flx.netty.chat.security.config;
 
-import com.flx.netty.chat.security.handler.CustomDeniedHandler;
+import com.flx.netty.chat.security.handler.CustomAccessDeniedHandler;
 import com.flx.netty.chat.security.property.CustomSecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +20,8 @@ public class AppConfiguration {
      * @return
      */
     @Bean
-    public CustomDeniedHandler customDeniedHandler(){
-        return new CustomDeniedHandler();
+    public CustomAccessDeniedHandler customDeniedHandler(){
+        return new CustomAccessDeniedHandler();
     }
 
 }

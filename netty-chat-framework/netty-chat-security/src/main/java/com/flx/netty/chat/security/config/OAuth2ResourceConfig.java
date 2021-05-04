@@ -1,6 +1,7 @@
 package com.flx.netty.chat.security.config;
 
-import com.flx.netty.chat.security.handler.CustomDeniedHandler;
+import com.flx.netty.chat.security.handler.CustomAccessDeniedHandler;
+import com.flx.netty.chat.security.handler.CustomOAuth2AuthenticationEntryPoint;
 import com.flx.netty.chat.security.property.CustomSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.annotation.Resource;
-import java.util.Optional;
 
 /**
  * @Author: Fenglixiong
@@ -31,9 +31,11 @@ import java.util.Optional;
 public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 
 
-    @Resource
-    private CustomDeniedHandler customDeniedHandler;
-    @Resource
+    @Resource//自定义授权认证异常处理
+    private CustomOAuth2AuthenticationEntryPoint oAuth2AuthenticationEntryPoint;
+    @Resource//自定义权限异常处理
+    private CustomAccessDeniedHandler accessDeniedHandler;
+    @Resource//权限控制的配置属性
     private CustomSecurityProperties securityProperties;
 
     /**
@@ -69,7 +71,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
             defaultTokenServices.setTokenStore(this.tokenStore());
             resources.tokenServices(defaultTokenServices);
         }else {
-            super.configure(resources);
+            resources.authenticationEntryPoint(oAuth2AuthenticationEntryPoint)//自定义授权认证异常处理
+                    .accessDeniedHandler(accessDeniedHandler);//自定义权限异常处理
         }
     }
 
@@ -94,7 +97,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                     //设置一个拒绝访问的提示
                     //.and().exceptionHandling().accessDeniedPage("/permitNone.html")
-                    .and().exceptionHandling().accessDeniedHandler(customDeniedHandler)
+                    .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                     //剩下的必须经过授权访问
                     .and().authorizeRequests().anyRequest().authenticated();
         }
