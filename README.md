@@ -3,6 +3,16 @@
 Netty聊天系统
 
     一个全栈的聊天系统，用了各种技术栈
+    
+启动环境：
+
+1.下载windows版本的consul，启动consul
+
+consul agent -dev
+
+2.启动redis
+
+    
 
 # 一、技术栈：  
  

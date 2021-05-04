@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
@@ -39,6 +40,11 @@ public class OAuth2ClientConfig {
     public OAuth2FeignRequestInterceptor oauth2FeignRequestlnterceptor() {
         return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(),
                 this.clientCredentialsResourceDetails());
+    }
+
+    @Bean
+    public OAuth2RestTemplate oAuth2RestTemplate(){
+        return new OAuth2RestTemplate(clientCredentialsResourceDetails());
     }
 
 

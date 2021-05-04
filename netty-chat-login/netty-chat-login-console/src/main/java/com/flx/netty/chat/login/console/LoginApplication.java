@@ -1,6 +1,7 @@
 package com.flx.netty.chat.login.console;
 
 import com.flx.netty.chat.plugin.annotion.enable.EnableBase;
+import com.flx.netty.chat.plugin.annotion.enable.EnableRedis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @Slf4j
 @EnableBase
+@EnableRedis
 @EnableFeignClients(basePackages = {"com.flx.netty.chat.user.api"})
 @SpringBootApplication(scanBasePackages = {"com.flx.netty.chat.login"})
 public class LoginApplication {

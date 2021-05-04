@@ -31,4 +31,9 @@ public class CustomSecurityProperties {
      */
     private String tokenStore;
 
+    /**
+     * jwt签名秘钥，仅当启用jwt的token方式时候起作用
+     */
+    private String signingKey;
+
 }

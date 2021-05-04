@@ -31,7 +31,7 @@ import java.util.Optional;
 @Configuration
 @EnableWebSecurity //开启web保护功能
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启在方法上的保护功能
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomUserDetailsService userDetailService;
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @throws Exception
      */
     @Override
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)//注册成bean方便被Auth2使用
+    @Bean//注册成bean方便被Auth2使用
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }

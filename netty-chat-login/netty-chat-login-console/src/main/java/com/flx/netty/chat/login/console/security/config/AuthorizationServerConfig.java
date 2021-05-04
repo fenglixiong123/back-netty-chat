@@ -17,22 +17,20 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 /**
  * @Author: Fenglixiong
  * @Date: 2021/5/3 11:38
- * @Description: 配置认证服务，主要跟其他客户端访问我们这个sso服务中心有关
+ * @Description: 授权认证服务配置，主要跟其他客户端访问我们这个sso服务中心有关
  */
 @Configuration
 @EnableAuthorizationServer
-public class Auth2ServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired//Token存储信息(客户端获取token的地方)
     private CustomTokenStore tokenStore;
-    @Autowired//资源客户端信息(各个微服务)
-    private CustomClientDetailsService clientDetailsService;
     @Autowired//授权信息管理(用户的授权信息)
     private AuthenticationManager authenticationManager;
-    @Autowired
+    @Autowired//用户信息服务
     private CustomUserDetailsService userDetailsService;
-    @Autowired//Jwt信息
-    private CustomJwtAccessTokenConverter accessTokenConverter;
+    @Autowired//资源客户端信息(各个微服务)
+    private CustomClientDetailsService clientDetailsService;
 
     /**
      * 配置客户端信息
@@ -49,12 +47,14 @@ public class Auth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
      *
-     * @param oauthServer
+     * @param security
      * @throws Exception
      */
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.allowFormAuthenticationForClients();//允许表单认证
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.tokenKeyAccess("permitAll()");//获取token不需要验证
+        security .checkTokenAccess("isAuthenticated()");//检查token需要事先登录
+        security.allowFormAuthenticationForClients();//允许表单认证
     }
 
 
@@ -67,11 +67,10 @@ public class Auth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //测试用,资源服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
-        accessTokenConverter.setSigningKey("SigningKey");
-        endpoints.tokenStore(tokenStore.getTokenStore())//token存储方式
-                .accessTokenConverter(accessTokenConverter)//token通过的方法
-                .authenticationManager(authenticationManager)//用户授权信息管理
-                .userDetailsService(userDetailsService)
+        endpoints
+                .tokenStore(tokenStore.getTokenStore())//token存储方式
+                .userDetailsService(userDetailsService)//用户详细信息数据
+                .authenticationManager(authenticationManager)//启用auth2管理用户信息
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
     }
 }
