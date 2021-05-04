@@ -3,6 +3,7 @@ package com.flx.netty.chat.login.console.security.config;
 import com.flx.netty.chat.login.console.security.client.CustomClientDetailsService;
 import com.flx.netty.chat.login.console.security.token.jwt.CustomJwtAccessTokenConverter;
 import com.flx.netty.chat.login.console.security.token.store.CustomTokenStore;
+import com.flx.netty.chat.login.console.security.user.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,8 @@ public class Auth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     private CustomClientDetailsService clientDetailsService;
     @Autowired//授权信息管理(用户的授权信息)
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
     @Autowired//Jwt信息
     private CustomJwtAccessTokenConverter accessTokenConverter;
 
@@ -68,6 +71,7 @@ public class Auth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         endpoints.tokenStore(tokenStore.getTokenStore())//token存储方式
                 .accessTokenConverter(accessTokenConverter)//token通过的方法
                 .authenticationManager(authenticationManager)//用户授权信息管理
+                .userDetailsService(userDetailsService)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
     }
 }

@@ -7,14 +7,17 @@ import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @Author: Fenglixiong
- * @Date: 2021/5/3 23:42
+ * @Date: 2021/5/4 12:17
  * @Description:
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleGrantedAuthority implements GrantedAuthority {
+public class CustomGrantedAuthority implements GrantedAuthority {
 
+    /**
+     * 角色或者权限
+     */
     private String code;
 
     @Override
