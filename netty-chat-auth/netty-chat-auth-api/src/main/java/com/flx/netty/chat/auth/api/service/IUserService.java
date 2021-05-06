@@ -17,7 +17,7 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-user",path = "/web/user")
+@FeignClient(name = "netty-chat-auth",path = "/auth/user")
 public interface IUserService {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)

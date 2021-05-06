@@ -36,11 +36,11 @@ public class OAuth2ClientConfig {
         return new ClientCredentialsResourceDetails();
     }
 
-    @Bean
-    public RequestInterceptor oauth2FeignRequestlnterceptor() {
-        return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(),
-                this.clientCredentialsResourceDetails());
-    }
+//    @Bean
+//    public RequestInterceptor oauth2FeignRequestlnterceptor() {
+//        return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(),
+//                this.clientCredentialsResourceDetails());
+//    }
 
     @Bean
     public OAuth2RestTemplate oAuth2RestTemplate(){
