@@ -1,6 +1,9 @@
 
 # 参考文章
 
+Auth2角色和流程
+https://www.cnblogs.com/lihaoyang/p/12045480.html
+
 https://blog.csdn.net/q438944209/article/details/82920461
 
 https://blog.csdn.net/w1054993544/article/details/109361170

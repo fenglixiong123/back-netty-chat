@@ -1,67 +1,66 @@
--- used in tests that use HSQL
-create table oauth_client_details (
-  client_id VARCHAR(256) PRIMARY KEY,
-  resource_ids VARCHAR(256),
-  client_secret VARCHAR(256),
-  scope VARCHAR(256),
-  authorized_grant_types VARCHAR(256),
-  web_server_redirect_uri VARCHAR(256),
-  authorities VARCHAR(256),
-  access_token_validity INTEGER,
-  refresh_token_validity INTEGER,
-  additional_information VARCHAR(4096),
-  autoapprove VARCHAR(256)
-);
 
-create table oauth_client_token (
-  token_id VARCHAR(256),
-  token BLOB,
-  authentication_id VARCHAR(256) PRIMARY KEY,
-  user_name VARCHAR(256),
-  client_id VARCHAR(256)
-);
+-- 数据库说明
+-- https://andaily.com/spring-oauth-server/db_table_description.html
 
-create table oauth_access_token (
-  token_id VARCHAR(256),
-  token BLOB,
-  authentication_id VARCHAR(256) PRIMARY KEY,
-  user_name VARCHAR(256),
-  client_id VARCHAR(256),
-  authentication BLOB,
-  refresh_token VARCHAR(256)
-);
+-- Sql脚本
+-- https://github.com/spring-projects/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql
 
-create table oauth_refresh_token (
-  token_id VARCHAR(256),
-  token BLOB,
-  authentication BLOB
-);
+-- 访问令牌
+CREATE TABLE IF NOT EXISTS `oauth_access_token` (
+    `token_id` varchar(255) DEFAULT NULL COMMENT '加密的access_token的值',
+    `token` longblob COMMENT 'OAuth2AccessToken.java对象序列化后的二进制数据',
+    `authentication_id` varchar(255) DEFAULT NULL COMMENT '加密过的username,client_id,scope',
+    `user_name` varchar(255) DEFAULT NULL COMMENT '登录的用户名',
+    `client_id` varchar(255) DEFAULT NULL COMMENT '客户端ID',
+    `authentication` longblob COMMENT 'OAuth2Authentication.java对象序列化后的二进制数据',
+    `refresh_token` varchar(255) DEFAULT NULL COMMENT '加密的refresh_token的值'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table oauth_code (
-  code VARCHAR(256), authentication BLOB
-);
+-- 更新令牌
+CREATE TABLE IF NOT EXISTS `oauth_refresh_token` (
+    `token_id` varchar(255) DEFAULT NULL COMMENT '加密过的refresh_token的值',
+    `token` longblob COMMENT 'OAuth2RefreshToken.java对象序列化后的二进制数据 ',
+    `authentication` longblob COMMENT 'OAuth2Authentication.java对象序列化后的二进制数据'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table oauth_approvals (
-	userId VARCHAR(256),
-	clientId VARCHAR(256),
-	scope VARCHAR(256),
-	status VARCHAR(10),
-	expiresAt TIMESTAMP,
-	lastModifiedAt TIMESTAMP
-);
+-- 授权记录
+CREATE TABLE IF NOT EXISTS `oauth_approvals` (
+    `userId` varchar(255) DEFAULT NULL COMMENT '登录的用户名',
+    `clientId` varchar(255) DEFAULT NULL COMMENT '客户端ID',
+    `scope` varchar(255) DEFAULT NULL COMMENT '申请的权限范围',
+    `status` varchar(10) DEFAULT NULL COMMENT '状态（Approve或Deny）',
+    `expiresAt` datetime DEFAULT NULL COMMENT '过期时间',
+    `lastModifiedAt` datetime DEFAULT NULL COMMENT '最终修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 客户端信息
+CREATE TABLE IF NOT EXISTS `oauth_client_details` (
+    `client_id` varchar(255) NOT NULL COMMENT '用于唯一标识每一个客户端(client)也称为(appKey)',
+    `resource_ids` varchar(255) DEFAULT NULL COMMENT '客户端所能访问的资源id集合,多个资源时用逗号(,)分隔',
+    `client_secret` varchar(255) DEFAULT NULL COMMENT '用于指定客户端(client)的访问密匙也称为(appSecret)',
+    `scope` varchar(255) DEFAULT NULL COMMENT '指定客户端申请的权限范围,可选值包括read,write,trust',
+    `authorized_grant_types` varchar(255) DEFAULT NULL COMMENT '客户端支持的grant_type',
+    `web_server_redirect_uri` varchar(255) DEFAULT NULL COMMENT '重定向URI',
+    `authorities` varchar(255) DEFAULT NULL COMMENT '客户端所拥有的Spring Security的权限值(ROLE_USER)，多个用逗号(,)分隔',
+    `access_token_validity` int(11) DEFAULT NULL COMMENT '访问令牌有效时间值(单位:秒)',
+    `refresh_token_validity` int(11) DEFAULT NULL COMMENT '更新令牌有效时间值(单位:秒)',
+    `additional_information` varchar(255) DEFAULT NULL COMMENT '预留字段',
+    `autoapprove` varchar(255) DEFAULT NULL COMMENT '用户是否自动Approval操作'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 客户端用来记录token信息
+CREATE TABLE IF NOT EXISTS `oauth_client_token` (
+    `token_id` varchar(255) DEFAULT NULL COMMENT '加密的access_token值',
+    `token` longblob COMMENT 'OAuth2AccessToken.java对象序列化后的二进制数据',
+    `authentication_id` varchar(255) DEFAULT NULL COMMENT '加密过的username,client_id,scope',
+    `user_name` varchar(255) DEFAULT NULL COMMENT '登录的用户名',
+    `client_id` varchar(255) DEFAULT NULL COMMENT '客户端ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 授权码
+CREATE TABLE IF NOT EXISTS `oauth_code` (
+    `code` varchar(255) DEFAULT NULL COMMENT '授权码(未加密)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- customized oauth_client_details table
-create table ClientDetails (
-  appId VARCHAR(256) PRIMARY KEY,
-  resourceIds VARCHAR(256),
-  appSecret VARCHAR(256),
-  scope VARCHAR(256),
-  grantTypes VARCHAR(256),
-  redirectUrl VARCHAR(256),
-  authorities VARCHAR(256),
-  access_token_validity INTEGER,
-  refresh_token_validity INTEGER,
-  additionalInformation VARCHAR(4096),
-  autoApproveScopes VARCHAR(256)
-);
+

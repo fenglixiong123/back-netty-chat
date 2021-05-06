@@ -23,7 +23,7 @@ public class CustomSecurityProperties {
     /**
      * 登录地址
      */
-    private String loginFormUrl;
+    private String loginFormUrl = "/web/login";
 
     /**
      * 登出路径

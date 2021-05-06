@@ -45,7 +45,7 @@ import static com.flx.netty.chat.login.console.security.property.CustomSecurityP
 @Configuration
 @EnableWebSecurity //开启web保护功能
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启在方法上的保护功能
-public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
+public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomUserDetailsService userDetailService;
@@ -73,9 +73,8 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService)//配置用户来源于数据库
+        auth.userDetailsService(userDetailService)//配置获取用户信息
                 .passwordEncoder(passwordEncoder);//配置密码加密方式,添加用户加密的时候请也用这个加密
-        super.configure(auth);
     }
 
 
