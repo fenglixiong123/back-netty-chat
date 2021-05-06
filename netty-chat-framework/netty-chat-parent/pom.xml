@@ -45,7 +45,7 @@
         <swagger.version>2.9.2</swagger.version>
         <swagger.ui.version>1.8.4</swagger.ui.version>
         <spring.boot.version>2.3.10.RELEASE</spring.boot.version>
-        <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
+        <spring.cloud.version>Hoxton.SR11</spring.cloud.version>
 
         <chat.depency.version>1.0-SNAPSHOT</chat.depency.version>
 

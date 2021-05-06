@@ -3,38 +3,42 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>netty-chat-parent</artifactId>
+        <artifactId>netty-chat-auth</artifactId>
         <groupId>com.flx.chat</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../netty-chat-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>netty-chat-security</artifactId>
+    <artifactId>netty-chat-auth-console</artifactId>
 
     <dependencies>
-        <!--理论上所有的微服务都是资源服务，都需要受到auth2的保护-->
-        <!--引入SpringCloudSecurity-->
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-auth-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-auth-crud</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-user-api</artifactId>
+        </dependency>
+
+        <!--引入auth2配置-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
+        <!--引入jwt服务-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
             <version>1.1.1.RELEASE</version>
         </dependency>
-        <!--web服务-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-common</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
     </dependencies>
 
 </project>

@@ -37,7 +37,7 @@ public class OAuth2ClientConfig {
     }
 
     @Bean
-    public OAuth2FeignRequestInterceptor oauth2FeignRequestlnterceptor() {
+    public RequestInterceptor oauth2FeignRequestlnterceptor() {
         return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(),
                 this.clientCredentialsResourceDetails());
     }

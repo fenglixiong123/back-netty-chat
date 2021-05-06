@@ -21,8 +21,8 @@
         <netty.chat.master.api.version>1.0-SNAPSHOT</netty.chat.master.api.version>
         <netty.chat.master.crud.version>1.0-SNAPSHOT</netty.chat.master.crud.version>
 
-        <netty.chat.login.api.version>1.0-SNAPSHOT</netty.chat.login.api.version>
-        <netty.chat.login.crud.version>1.0-SNAPSHOT</netty.chat.login.crud.version>
+        <netty.chat.auth.api.version>1.0-SNAPSHOT</netty.chat.auth.api.version>
+        <netty.chat.auth.crud.version>1.0-SNAPSHOT</netty.chat.auth.crud.version>
 
         <netty.chat.user.api.version>1.0-SNAPSHOT</netty.chat.user.api.version>
         <netty.chat.user.crud.version>1.0-SNAPSHOT</netty.chat.user.crud.version>
@@ -89,13 +89,13 @@
             <!--登录相关依赖-->
             <dependency>
                 <groupId>com.flx.chat</groupId>
-                <artifactId>netty-chat-login-api</artifactId>
-                <version>${netty.chat.login.api.version}</version>
+                <artifactId>netty-chat-auth-api</artifactId>
+                <version>${netty.chat.auth.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.flx.chat</groupId>
-                <artifactId>netty-chat-login-crud</artifactId>
-                <version>${netty.chat.login.crud.version}</version>
+                <artifactId>netty-chat-auth-crud</artifactId>
+                <version>${netty.chat.auth.crud.version}</version>
             </dependency>
 
             <!--用户相关依赖-->

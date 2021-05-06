@@ -16,7 +16,7 @@
         <module>netty-chat-message</module>
         <module>netty-chat-group</module>
         <module>netty-chat-master</module>
-        <module>netty-chat-login</module>
+        <module>netty-chat-auth</module>
         <module>netty-chat-logger</module>
         <module>netty-chat-framework</module>
     </modules>
