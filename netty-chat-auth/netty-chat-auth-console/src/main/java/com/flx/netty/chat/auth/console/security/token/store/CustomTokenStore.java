@@ -1,6 +1,10 @@
 package com.flx.netty.chat.auth.console.security.token.store;
 
 import com.flx.netty.chat.auth.console.security.property.CustomSecurityProperties;
+import com.flx.netty.chat.auth.console.security.token.store.way.impl.JdbcTokenWay;
+import com.flx.netty.chat.auth.console.security.token.store.way.impl.JwtTokenWay;
+import com.flx.netty.chat.auth.console.security.token.store.way.impl.MemoryTokenWay;
+import com.flx.netty.chat.auth.console.security.token.store.way.impl.RedisTokenWay;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,18 +40,18 @@ public class CustomTokenStore {
     private final static String TOKEN_STORE_JDBC = "jdbc";//jwt模式
     private final static String TOKEN_STORE_JWT = "jwt";//jwt模式
 
-    private final static String JWT_WAY_SY = "sy";//jwt对称加密模式
-    private final static String JWT_WAY_ASY = "asy";//jwt非对称加密模式
+    @Autowired
+    private MemoryTokenWay memoryTokenWay;
+    @Autowired
+    private JdbcTokenWay jdbcTokenWay;
+    @Autowired
+    private RedisTokenWay redisTokenWay;
+    @Autowired
+    private JwtTokenWay jwtTokenWay;
 
-    @Autowired(required = false)
-    private DataSource dataSource;
-    @Autowired(required = false)
+    @Autowired
     private CustomSecurityProperties securityProperties;
-    @Autowired(required = false)
-    private RedisConnectionFactory redisConnectionFactory;
-    @Qualifier("")
-    @Autowired(required = false)
-    private JwtAccessTokenConverter accessTokenConverter;
+
 
     public TokenStore getTokenStore(){
         String storeWay = Optional.ofNullable(securityProperties.getTokenStore()).orElse(TOKEN_STORE_MEMORY);
@@ -56,50 +60,23 @@ public class CustomTokenStore {
              * Token存储在内存中
              */
             case TOKEN_STORE_MEMORY:
-                log.info("Token store in memory !");
-                return new InMemoryTokenStore();
+                return memoryTokenWay.getTokenStore();
             /**
              * Token存储在Redis中
              */
             case TOKEN_STORE_REDIS:
-                if(redisConnectionFactory==null){
-                    log.info("Token store in memory !");
-                    return new InMemoryTokenStore();
-                }
-                log.info("Token store in redis !");
-                RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-                redisTokenStore.setAuthenticationKeyGenerator(auth->"FLX"+ UUID.randomUUID().toString().replace("-", ""));
-                return redisTokenStore;
+                return redisTokenWay.getTokenStore();
             /**
              * Token存储在jwt中
              * jwt的缺点：已发布令牌不可控
              */
             case TOKEN_STORE_JWT:
-                String jwtWay = Optional.ofNullable(securityProperties.getTokenStore()).orElse(JWT_WAY_SY);
-                if(jwtWay.equals(JWT_WAY_SY)) {//对称加密
-                    accessTokenConverter.setSigningKey(securityProperties.getSigningKey());//设置JWT签名密钥
-                }else if(jwtWay.equals(JWT_WAY_ASY)){//非对称加密
-//                KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("fyk-jwt.jks"),
-//                        "fyk123".toCharArray());
-//                converter.setKeyPair(keyStoreKeyFactory.getKeyPair("fyk-jwt"));
-                }else {//非对称加密
-                    log.info("Token store in memory !");
-                    return new InMemoryTokenStore();
-                }
-                log.info("Token store in jwt !");
-                return new JwtTokenStore(accessTokenConverter);
+                return jwtTokenWay.getTokenStore();
             /**
              * 采用数据库存储方式
              */
             case TOKEN_STORE_JDBC:
-                if(dataSource==null){
-                    log.info("Token store in memory !");
-                    return new InMemoryTokenStore();
-                }
-                JdbcTokenStore jdbcTokenStore = new JdbcTokenStore(dataSource);
-                jdbcTokenStore.setAuthenticationKeyGenerator(auth->"FLX"+ UUID.randomUUID().toString().replace("-", ""));
-                log.info("Token store in database !");
-                return jdbcTokenStore;
+                return jdbcTokenWay.getTokenStore();
             default:
                 return null;
         }

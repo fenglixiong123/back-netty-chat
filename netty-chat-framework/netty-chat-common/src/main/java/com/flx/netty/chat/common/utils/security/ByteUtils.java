@@ -16,10 +16,10 @@ public class ByteUtils {
     }
 
 
-
     /**
      * 字节转换成16进制
      * 推荐，用时1毫秒
+     * 等同于：String.format("%032x", new BigInteger(1, bytes))
      */
     public static String byte2hex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();

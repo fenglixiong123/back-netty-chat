@@ -13,14 +13,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomPasswordEncoder extends BCryptPasswordEncoder {
 
+    /**
+     * 加密
+     * @param source
+     * @return
+     */
     @Override
-    public String encode(CharSequence charSequence) {
-        return super.encode(charSequence);
+    public String encode(CharSequence source) {
+        return super.encode(source);
     }
 
+    /**
+     * 比较
+     * @param source 源密码
+     * @param secret 加密后的密码
+     * @return
+     */
     @Override
-    public boolean matches(CharSequence charSequence, String s) {
-        return super.matches(charSequence,s);
+    public boolean matches(CharSequence source, String secret) {
+        return super.matches(source,secret);
     }
 
     @Override

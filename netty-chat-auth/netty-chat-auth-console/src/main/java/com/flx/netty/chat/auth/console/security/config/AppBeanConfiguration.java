@@ -10,14 +10,14 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
  * @Description: 注入一些常用的bean
  */
 @Configuration
-public class AppConfiguration {
+public class AppBeanConfiguration {
 
     /**
      * 权限不足处理方式
      * @return
      */
     @Bean
-    public JwtAccessTokenConverter customDeniedHandler(){
+    public JwtAccessTokenConverter jwtAccessTokenConverter(){
         return new JwtAccessTokenConverter();
     }
 

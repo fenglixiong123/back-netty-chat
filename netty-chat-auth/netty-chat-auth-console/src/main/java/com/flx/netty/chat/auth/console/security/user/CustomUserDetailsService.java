@@ -5,7 +5,6 @@ import com.flx.netty.chat.auth.console.security.model.CustomGrantedAuthority;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
 import com.flx.netty.chat.common.utils.date.DateUtils;
-import com.flx.netty.chat.user.api.vo.WebUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
