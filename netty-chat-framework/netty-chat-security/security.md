@@ -38,6 +38,25 @@ https://segmentfault.com/a/1190000023662197?utm_source=tag-newest
     9.资源服务器返回资源。
     ~~~
 
+* 客户端模式（client credentials）
+    
+    ~~~
+    1.客户端向认证服务器进行身份认证，并要求一个访问令牌；
+    2.认证服务器确认无误后，向客户端提供访问令牌；
+    3.客户端携带令牌向资源服务器请求访问资源；
+    4.资源服务器返回资源。
+    ~~~
+  
+  常用于访问公共资源（无需登录）：网站首页
+  ~~~
+      请求参数：
+      {
+          grant_type:client_credentials  
+          client_id:46582ae7217343a8b252e3977e7cc421  
+          client_secret:cgGvf5Rotv7D76m9JaArfY3YG6fDec47  
+      }
+  ~~~
+  
 * 密码模式（resource owner password credentials）
 
     ~~~
@@ -47,16 +66,28 @@ https://segmentfault.com/a/1190000023662197?utm_source=tag-newest
     4.客户端携带令牌向资源服务器请求访问资源；
     5.资源服务器返回资源。
     ~~~
+   常用于访问个人资源
+ 
+     ~~~
+     请求参数
+     获取令牌：
+        {
+             grant_type:password
+             client_id:46582ae7217343a8b252e3977e7cc421
+             username:18565783136
+             password:AC1DAdo9ZcY4dKAdtyPRzoICWZlkR7WDgtO06S5fVCUS6A/67rMxeW+2mKKbo2N1FQ==
+             client_secret:cgGvf5Rotv7D76m9JaArfY3YG6fDec47
+        } 
+     刷新令牌：
+        {
+            grant_type:refresh_token
+            client_id:46582ae7217343a8b252e3977e7cc421
+            client_secret:cgGvf5Rotv7D76m9JaArfY3YG6fDec47
+            refresh_token:1ba402f7-394b-420b-9805-39578d6176f8
+        }
+     ~~~
 
-* 客户端模式（client credentials）
-    
-    ~~~
-    1.客户端向认证服务器进行身份认证，并要求一个访问令牌；
-    2.认证服务器确认无误后，向客户端提供访问令牌；
-    3.客户端携带令牌向资源服务器请求访问资源；
-    4.资源服务器返回资源。
-    ~~~
-
+  
 # 安全服务
 
 也称为资源服务
