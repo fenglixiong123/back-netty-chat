@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Api(tags = "登录管理")
 @RestController
-@RequestMapping("/web")
+@RequestMapping("/auth")
 public class LoginController {
 
     @Autowired
