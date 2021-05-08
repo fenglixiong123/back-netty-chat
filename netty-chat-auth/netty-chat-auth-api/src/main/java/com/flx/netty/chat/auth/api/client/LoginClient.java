@@ -1,4 +1,4 @@
-package com.flx.netty.chat.auth.api.service;
+package com.flx.netty.chat.auth.api.client;
 
 import com.flx.netty.chat.auth.api.vo.LoginVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Description:
  */
 @FeignClient(name = "netty-chat-auth",path = "/web")
-interface ILoginService {
+interface LoginClient {
 
     @PostMapping("/login")
     ResultResponse<String> add(@RequestBody LoginVO entity);

@@ -1,4 +1,4 @@
-package com.flx.netty.chat.auth.api.service;
+package com.flx.netty.chat.auth.api.client;
 
 import com.flx.netty.chat.auth.api.vo.ValidatePassVO;
 import com.flx.netty.chat.auth.api.vo.WebUserVO;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @Description:
  */
 @FeignClient(name = "netty-chat-auth",path = "/auth/user")
-public interface IUserService {
+public interface UserClient {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
     ResultResponse<WebUserVO> get(@PathVariable(value = "id") Long id);
