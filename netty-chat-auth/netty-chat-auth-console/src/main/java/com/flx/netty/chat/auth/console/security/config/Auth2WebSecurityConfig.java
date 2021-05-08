@@ -1,5 +1,7 @@
 package com.flx.netty.chat.auth.console.security.config;
 
+import com.flx.netty.chat.auth.console.security.exception.AuthenticationDeniedHandler;
+import com.flx.netty.chat.auth.console.security.exception.PermissionDeniedHandler;
 import com.flx.netty.chat.auth.console.security.property.CustomSecurityProperties;
 import com.flx.netty.chat.auth.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.console.security.user.CustomUserDetailsService;
@@ -43,6 +45,11 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomPasswordEncoder passwordEncoder;
     @Autowired
     private CustomSecurityProperties securityProperties;
+
+    @Autowired
+    private AuthenticationDeniedHandler authenticationDeniedHandler;
+    @Autowired
+    private PermissionDeniedHandler permissionDeniedHandler;
 
     /**
      * 最终将返回值AuthenticationManager作为一个bean交由spring来管理，他会被授权服务配置类用到
@@ -92,12 +99,9 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutUrl(securityProperties.getLogoutUrl()).logoutSuccessHandler((request, response, auth) -> {
                         ResultResponse.printSuccess(response,"logout success !");
                 })
-                .and().exceptionHandling().authenticationEntryPoint((request, response, authException) ->{
-                    ResultResponse.printError(response,"401","UN_AUTHENTICATED");
-                })
-                .accessDeniedHandler((request, response, authException) ->{
-                    ResultResponse.printError(response,"403","PERMISSION_DENIED");
-                });
+                .and().exceptionHandling()
+                    .authenticationEntryPoint(authenticationDeniedHandler)
+                    .accessDeniedHandler(permissionDeniedHandler);
     }
 
     /**
