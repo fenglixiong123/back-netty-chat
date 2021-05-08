@@ -1,4 +1,4 @@
-package com.flx.netty.chat.auth.console.security.exception;
+package com.flx.netty.chat.auth.console.security.handler;
 
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;

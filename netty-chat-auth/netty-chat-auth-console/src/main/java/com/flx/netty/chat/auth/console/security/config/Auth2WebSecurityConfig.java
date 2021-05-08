@@ -1,7 +1,8 @@
 package com.flx.netty.chat.auth.console.security.config;
 
-import com.flx.netty.chat.auth.console.security.exception.AuthenticationDeniedHandler;
-import com.flx.netty.chat.auth.console.security.exception.PermissionDeniedHandler;
+import com.flx.netty.chat.auth.console.security.handler.AuthenticationDeniedHandler;
+import com.flx.netty.chat.auth.console.security.handler.PermissionDeniedHandler;
+import com.flx.netty.chat.auth.console.security.handler.UserLogoutSuccessHandler;
 import com.flx.netty.chat.auth.console.security.property.CustomSecurityProperties;
 import com.flx.netty.chat.auth.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.console.security.user.CustomUserDetailsService;
@@ -47,9 +48,12 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomSecurityProperties securityProperties;
 
     @Autowired
+    private UserLogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
     private AuthenticationDeniedHandler authenticationDeniedHandler;
     @Autowired
     private PermissionDeniedHandler permissionDeniedHandler;
+
 
     /**
      * 最终将返回值AuthenticationManager作为一个bean交由spring来管理，他会被授权服务配置类用到
@@ -94,11 +98,12 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //设置一个拒绝访问的提示链接
                 .and().authorizeRequests().anyRequest().authenticated()
                 //设置登录地址
-                .and().formLogin().loginPage(securityProperties.getLoginFormUrl())
+                .and().formLogin()
+                    .loginPage(securityProperties.getLoginFormUrl())
                 //设置登出地址
-                .and().logout().logoutUrl(securityProperties.getLogoutUrl()).logoutSuccessHandler((request, response, auth) -> {
-                        ResultResponse.printSuccess(response,"logout success !");
-                })
+                .and().logout()
+                    .logoutUrl(securityProperties.getLogoutUrl())
+                    .logoutSuccessHandler(logoutSuccessHandler)
                 .and().exceptionHandling()
                     .authenticationEntryPoint(authenticationDeniedHandler)
                     .accessDeniedHandler(permissionDeniedHandler);
