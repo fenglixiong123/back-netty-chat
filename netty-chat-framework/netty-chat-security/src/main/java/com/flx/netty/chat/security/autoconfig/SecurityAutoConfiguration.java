@@ -1,6 +1,6 @@
 package com.flx.netty.chat.security.autoconfig;
 
-import com.flx.netty.chat.security.config.AppConfiguration;
+import com.flx.netty.chat.security.config.AppBeanConfiguration;
 import com.flx.netty.chat.security.config.OAuth2ResourceConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 @Import(value = {
-        AppConfiguration.class,
+        AppBeanConfiguration.class,
         OAuth2ResourceConfig.class})
 public class SecurityAutoConfiguration {
 
@@ -22,7 +22,7 @@ public class SecurityAutoConfiguration {
     public void init() {
         log.info("*************************************************");
         log.info("*                                               *");
-        log.info("*            SecurityConfig Success             *");
+        log.info("*           SecurityResource Success            *");
         log.info("*                                               *");
         log.info("*************************************************");
     }

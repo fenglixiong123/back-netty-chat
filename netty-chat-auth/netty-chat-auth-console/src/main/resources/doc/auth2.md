@@ -4,6 +4,9 @@
 Auth2角色和流程
 https://www.cnblogs.com/lihaoyang/p/12045480.html
 
+资源服务器深度讲解：
+https://blog.csdn.net/m0_37834471/article/details/81814233
+
 https://blog.csdn.net/q438944209/article/details/82920461
 
 https://blog.csdn.net/w1054993544/article/details/109361170
@@ -14,14 +17,12 @@ https://segmentfault.com/a/1190000023662197?utm_source=tag-newest
 # Auth2流程
 
 ![Auth2登录流程](../static/img/auth_01.png)
-
 ---
-
 ![Auth2登录流程](https://img2018.cnblogs.com/blog/702434/201912/702434-20191215212721179-1386291187.png)
-
 ---
-
 ![Auth2登录流程](../static/img/auth_02.png)
+---
+![Auth2登录流程](../static/img/auth_03.png)
 
 
 # Auth2介绍

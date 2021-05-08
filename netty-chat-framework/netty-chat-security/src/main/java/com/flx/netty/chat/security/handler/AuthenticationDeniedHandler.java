@@ -17,10 +17,10 @@ import java.io.IOException;
  * @Description: 自定义授权认证异常处理
  */
 @Component
-public class CustomOAuth2AuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
+public class AuthenticationDeniedHandler extends OAuth2AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        ResultResponse.printError(response, HttpStatus.UNAUTHORIZED.getReasonPhrase(),e.getMessage());
+        ResultResponse.printError(response,"401","[Resource] Sorry, authenticate failed !");
     }
 }

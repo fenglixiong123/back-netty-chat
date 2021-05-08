@@ -22,7 +22,7 @@ public class PermissionDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        ResultResponse.printError(response,"403","Sorry,you have no permission !");
+        ResultResponse.printError(response,"403","[Server] Sorry,you have no permission !");
     }
 
 }

@@ -20,11 +20,11 @@ import java.io.PrintWriter;
  */
 @Slf4j
 @Component
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class PermissionDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        ResultResponse.printError(response, HttpStatus.FORBIDDEN.getReasonPhrase(), e.getMessage());
+        ResultResponse.printError(response, "[Resource] Sorry,you have no permission !", e.getMessage());
     }
 
 }
