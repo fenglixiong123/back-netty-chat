@@ -3,6 +3,7 @@ package com.flx.netty.chat.auth.console.security.client;
 import com.flx.netty.chat.auth.crud.entity.ClientDetail;
 import com.flx.netty.chat.auth.crud.manager.ClientDetailManager;
 import com.flx.netty.chat.common.utils.StringUtils;
+import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,10 +33,11 @@ public class CustomClientDetailsService implements ClientDetailsService {
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-
         try {
+            log.info("loadClientByClientId clientId = {}",clientId);
             //从数据库获取client信息
             ClientDetail oAuthClient = clientManager.get("clientId",clientId);
+            log.info("loadClientByClientId clientDetails = {}", JsonUtils.toJsonMsg(oAuthClient));
             return new ClientDetails() {
 
                 /**
@@ -53,6 +55,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
 
                 /**
                  * 注册填写或者服务端自动生成，实际应用也有叫app_secret, 必须要有前缀代表加密方式
+                 * 必须加密处理(采用BCryptPasswordEncoder进行加密处理,否则报错Bad client credentials)
                  */
                 @Override
                 public String getClientSecret() {

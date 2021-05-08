@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @Slf4j
 @EnableBase
 @EnableRedis
-@EnableFeignClients(basePackages = {"com.flx.netty.chat.user.api"})
+@EnableFeignClients
 @SpringBootApplication(scanBasePackages = {"com.flx.netty.chat.auth"})
 public class AuthApplication {
 

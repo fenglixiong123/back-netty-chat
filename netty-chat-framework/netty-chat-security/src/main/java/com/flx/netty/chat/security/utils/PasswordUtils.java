@@ -13,11 +13,11 @@ public class PasswordUtils {
 
     public static void main(String[] args) {
 
-        String pass = encode("admin123");
+        String pass = encode("netty-chat-front-secret");
 
         System.out.println(pass);
 
-        System.out.println(matches("admin123",pass));
+        System.out.println(matches("netty-chat-front-secret",pass));
 
     }
 

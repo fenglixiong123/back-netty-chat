@@ -110,9 +110,6 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
                 .tokenEnhancer(tokenEnhancer)//token信息增强
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
-        //配置grant_type模式，如果不配置则默认使用密码模式、简化模式、授权码模式以及刷新token模式
-        //具体可以查询AuthorizationServerEndpointsConfigurer中的getDefaultTokenGranters方法
-        //.tokenGranter(tokenGranter(endpoints));//配置开启了所有的验证类型
     }
 
 

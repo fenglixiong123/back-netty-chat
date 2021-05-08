@@ -5,6 +5,7 @@ import com.flx.netty.chat.auth.console.security.model.CustomGrantedAuthority;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
 import com.flx.netty.chat.common.utils.date.DateUtils;
+import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,16 +34,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        log.info("loadUserByUsername username = {}",username);
         try {
             //从数据库查询用户
+            log.info("loadUserByUsername username = {}",username);
             WebUser user = userManager.get("userName", username);
-            boolean enabled = user.getState().equals(UserStateEnum.effective.getDesc());
-            boolean expired = user.getState().equals(UserStateEnum.expired.getDesc())|| DateUtils.afterNow(user.getExpireTime());
-            boolean locked = user.getState().equals(UserStateEnum.locked.getDesc());
+            log.info("loadUserByUsername user = {}", JsonUtils.toJsonMsg(user));
+            boolean enabled = user.getState().equals(UserStateEnum.effective.name());
+            boolean expired = user.getState().equals(UserStateEnum.expired.name())|| (user.getExpireTime() != null && DateUtils.beforeNow(user.getExpireTime()));
+            boolean locked = user.getState().equals(UserStateEnum.locked.name());
             return new User(user.getUserName(), user.getPassword(), enabled, !expired, true, !locked, getAuthorities());
         } catch (Exception e) {
-            log.error("loadUserByUsername error !");
+            log.error("loadUserByUsername error username = {},message = {} !",username,e.getMessage());
             throw new UsernameNotFoundException("User [" + username + "] not exist !");
         }
 

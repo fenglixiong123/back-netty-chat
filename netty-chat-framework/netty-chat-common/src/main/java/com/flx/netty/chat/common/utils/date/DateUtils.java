@@ -90,7 +90,7 @@ public class DateUtils {
 
     public static boolean beforeNow(Date d) throws Exception {
         if (d == null) {
-            log.error("d is null");
+            log.error("date is null");
             throw new Exception("存在空的日期");
         } else {
             Date now = new Date();
@@ -100,7 +100,7 @@ public class DateUtils {
 
     public static boolean afterNow(Date d) throws Exception {
         if (d == null) {
-            log.error("d is null");
+            log.error("date is null");
             throw new Exception("存在空的日期");
         } else {
             Date now = new Date();
@@ -122,7 +122,7 @@ public class DateUtils {
 
     public static boolean betweenDates(Date d, Date start, Date end) throws Exception {
         if (d == null) {
-            log.error("d is null");
+            log.error("date is null");
             throw new Exception("存在空的日期");
         } else if (start == null) {
             log.error("start is null");

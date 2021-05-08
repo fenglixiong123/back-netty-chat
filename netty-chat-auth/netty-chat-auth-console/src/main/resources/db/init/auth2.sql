@@ -34,17 +34,7 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_token` (
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='令牌刷新表';
 
--- 授权记录(给用户发的token记录)
-CREATE TABLE IF NOT EXISTS `oauth_approvals` (
-    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `userId` varchar(255) DEFAULT NULL COMMENT '登录的用户名',
-    `clientId` varchar(255) DEFAULT NULL COMMENT '客户端ID',
-    `scope` varchar(255) DEFAULT NULL COMMENT '申请的权限范围',
-    `status` varchar(10) DEFAULT NULL COMMENT '状态（Approve或Deny）',
-    `expiresAt` datetime DEFAULT NULL COMMENT '过期时间',
-    `lastModifiedAt` datetime DEFAULT NULL COMMENT '最终修改时间',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='授权记录表';
+
 
 -- 客户端信息(必须，一般我们自己另外定义)
 -- 参考实现类：JdbcClientDetailsService.java
@@ -65,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `oauth_client_details` (
 
 
 
+
 -- 授权码模式下存储服务端产生的授权码
 -- 只有当grant_type为"authorization_code"时,该表中才会有数据产生; 其他的grant_type没有使用该表.
 -- 参考实现类：JdbcAuthorizationCodeServices.java
@@ -73,6 +64,20 @@ CREATE TABLE IF NOT EXISTS `oauth_code` (
     `code` varchar(255) DEFAULT NULL COMMENT '授权码(未加密)',
     `authentication` longblob COMMENT '存储AuthorizationRequestHolder.java对象序列化后的二进制数据.'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='授权码表';
+
+-- 授权码模式下存储是否跳过用过授权步骤
+-- 授权记录(给用户发的token记录)
+CREATE TABLE IF NOT EXISTS `oauth_approvals` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `userId` varchar(255) DEFAULT NULL COMMENT '登录的用户名',
+    `clientId` varchar(255) DEFAULT NULL COMMENT '客户端ID',
+    `scope` varchar(255) DEFAULT NULL COMMENT '申请的权限范围',
+    `status` varchar(10) DEFAULT NULL COMMENT '状态（Approve或Deny）',
+    `expiresAt` datetime DEFAULT NULL COMMENT '过期时间',
+    `lastModifiedAt` datetime DEFAULT NULL COMMENT '最终修改时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='授权记录表';
+
 
 
 /**
