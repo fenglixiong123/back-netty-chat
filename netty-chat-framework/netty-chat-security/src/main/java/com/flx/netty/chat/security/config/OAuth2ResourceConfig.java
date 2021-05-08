@@ -1,5 +1,6 @@
 package com.flx.netty.chat.security.config;
 
+import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.security.property.CustomSecurityProperties;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: Fenglixiong
@@ -52,11 +54,17 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
         if(securityProperties.isPermitAll()){
             http.authorizeRequests().anyRequest().permitAll();
         }else {
+            List<String> whitePermits = securityProperties.getWhitePermits();
+            List<String> whiteResources = securityProperties.getWhiteResources();
+            String[] permits = CustomSecurityProperties.list2Array(whitePermits);
+            String[] resources = CustomSecurityProperties.list2Array(whiteResources);
+            log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
+            log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(permits));
             http.authorizeRequests()
                     //允许一些资源可以访问
-                    .antMatchers(securityProperties.getWhiteResources()).permitAll()
+                    .antMatchers(permits).permitAll()
                     //允许一些URL可以访问
-                    .antMatchers(securityProperties.getWhitePermits()).permitAll()
+                    .antMatchers(resources).permitAll()
                     //禁用跨站请求伪造
                     .and().csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
