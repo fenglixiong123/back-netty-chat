@@ -1,11 +1,11 @@
 package com.flx.netty.chat.auth.console.controller;
 
+import com.flx.netty.chat.auth.api.vo.RegisterUserVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
 import com.flx.netty.chat.auth.api.vo.LoginVO;
 import com.flx.netty.chat.auth.console.service.LoginService;
-import com.flx.netty.chat.user.api.vo.WebUserVO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +44,13 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public ResultResponse register(@RequestBody WebUserVO entityVO){
+    public ResultResponse register(@RequestBody RegisterUserVO entityVO){
         try {
             ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
                 return validate.toResponse();
             }
-            Long id = loginService.register(entityVO);
+            Long id = loginService.register(null);
             log.info("注册成功：id = "+id);
             return ResultResponse.success("恭喜您，注册成功！");
         }catch (Exception e){

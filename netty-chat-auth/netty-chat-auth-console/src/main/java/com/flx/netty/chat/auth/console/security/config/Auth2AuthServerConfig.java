@@ -57,7 +57,8 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        //暂时先用内存的方式
+        /*
+        //内存的方式
         clients.inMemory()//配置在内存里，后面修改为数据库里
                 //~============== 注册【客户端应用】使客户端应用能够访问认证服务器，获得令牌 ===========
                 .withClient("netty-chat-front")
@@ -75,15 +76,15 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
                 .accessTokenValiditySeconds(3600) //token的有效期
                 .resourceIds("") //资源服务器的id
                 .authorizedGrantTypes("password");//授权方式
-
-        // todo 将客户端信息入库自己管理
-        //clients.withClientDetails(clientDetailsService);
-
+        */
         //使用内存模式将客户端信息存入数据库中
         //下面是自带的，不如自己来进行数据库管理
         //表为：oauth_client_details
         //JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
         //clients.withClientDetails(clientDetailsService);
+
+        //自定义数据库管理
+        clients.withClientDetails(clientDetailsService);
 
     }
 

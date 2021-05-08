@@ -1,8 +1,10 @@
 package com.flx.netty.chat.auth.console.security.token.info;
 
+import com.flx.netty.chat.auth.api.vo.WebUserVO;
+import com.flx.netty.chat.auth.console.service.UserService;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
-import com.flx.netty.chat.user.api.vo.WebUserVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -21,6 +23,9 @@ import java.util.Map;
 @Component
 public class CustomTokenEnhancer implements TokenEnhancer {
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
@@ -29,16 +34,17 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         final Map<String,Object> customInfoMap = new HashMap<>();
         //数据库拿到用户信息
         //此处模拟用户信息
-        WebUserVO userVO = new WebUserVO();
-        userVO.setId(1L);
-        userVO.setUserName("fenglixiong");
-        userVO.setEmail("fenglixiong123@163.com");
-        userVO.setAddress("上海市徐汇区");
-        customInfoMap.put("userInfo", JsonUtils.toJsonMsg(userVO));
-        customInfoMap.put("slogin","I am a good man!");
-        ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(customInfoMap);
+        try {
+            WebUserVO userVO = userService.getByUsername(username);
+            customInfoMap.put("userInfo", JsonUtils.toJsonMsg(userVO));
+            customInfoMap.put("slogin","I am a good man!");
+            ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(customInfoMap);
 
-        return accessToken;
+            return accessToken;
+        } catch (Exception e) {
+            log.error("TokenEnhancer get user error : {}"+e.getMessage());
+            return accessToken;
+        }
     }
 
 }

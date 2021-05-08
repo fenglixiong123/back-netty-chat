@@ -2,7 +2,7 @@ package com.flx.netty.chat.auth.console.service;
 
 
 import com.flx.netty.chat.auth.api.vo.LoginVO;
-import com.flx.netty.chat.user.api.vo.WebUserVO;
+import com.flx.netty.chat.auth.api.vo.WebUserVO;
 
 /**
  * @Author: Fenglixiong

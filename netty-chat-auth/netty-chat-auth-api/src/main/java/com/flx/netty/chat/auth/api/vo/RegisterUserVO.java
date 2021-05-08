@@ -9,11 +9,11 @@ import java.util.Date;
 
 /**
  * @Author: Fenglixiong
- * @Date: 2021/4/11 16:48
- * @Description:
+ * @Date: 2021/5/8 16:05
+ * @Description: 注册用户
  */
 @Data
-public class WebUserVO extends BaseVO {
+public class RegisterUserVO extends BaseVO {
 
     /**
      * 昵称
@@ -28,6 +28,27 @@ public class WebUserVO extends BaseVO {
     @NotNull
     @Size(max = 64)
     private String userName;
+
+    /**
+     * 密码
+     */
+    @NotNull
+    @Size(max = 64)
+    private String password;
+
+    /**
+     * 密码问题
+     */
+    @NotNull
+    @Size(max = 128)
+    private String passwordQuestion;
+
+    /**
+     * 密码答案
+     */
+    @NotNull
+    @Size(max = 128)
+    private String passwordAnswer;
 
     /**
      * 头像

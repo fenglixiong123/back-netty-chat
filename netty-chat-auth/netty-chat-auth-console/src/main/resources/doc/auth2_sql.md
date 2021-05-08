@@ -6,9 +6,9 @@ Oauth2相关的5张表：
 * oauth_access_token：访问令牌
 * oauth_refresh_token：更新令牌  
 * oauth_client_details：客户端信息  
+* oauth_client_token:  客户端用来记录token信息
 * oauth_code：授权码  
 * oauth_approvals：授权记录  
-* oauth_client_token:  客户端用来记录token信息
 
 ## oauth_access_token：访问令牌
 
