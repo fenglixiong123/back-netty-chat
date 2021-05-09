@@ -5,6 +5,8 @@ import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.security.property.CustomSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,11 +30,11 @@ import java.util.List;
 public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 
 
-    @Resource//自定义授权认证异常处理
+    @Resource(name = "resourceAuthenticationDeniedHandler")//自定义授权认证异常处理
     private AuthenticationDeniedHandler oAuth2AuthenticationEntryPoint;
-    @Resource//自定义权限异常处理
+    @Resource(name = "resourcePermissionDeniedHandler")//自定义权限异常处理
     private PermissionDeniedHandler accessDeniedHandler;
-    @Resource//权限控制的配置属性
+    @Autowired//权限控制的配置属性
     private CustomSecurityProperties securityProperties;
 
     @Override

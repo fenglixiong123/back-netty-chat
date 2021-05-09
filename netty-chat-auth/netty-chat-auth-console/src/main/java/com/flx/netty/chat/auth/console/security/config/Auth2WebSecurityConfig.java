@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -46,12 +47,11 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomPasswordEncoder passwordEncoder;
     @Autowired
     private CustomSecurityProperties securityProperties;
-
     @Autowired
     private UserLogoutSuccessHandler logoutSuccessHandler;
-    @Autowired
+    @Resource(name = "serverAuthenticationDeniedHandler")
     private AuthenticationDeniedHandler authenticationDeniedHandler;
-    @Autowired
+    @Resource(name = "serverPermissionDeniedHandler")
     private PermissionDeniedHandler permissionDeniedHandler;
 
 
