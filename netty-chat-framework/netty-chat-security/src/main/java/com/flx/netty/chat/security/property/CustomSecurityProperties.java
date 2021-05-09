@@ -1,14 +1,14 @@
 package com.flx.netty.chat.security.property;
 
 import com.flx.netty.chat.common.utils.CollectionUtils;
+import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.annotation.PostConstruct;
+import java.util.*;
 
 /**
  * @Author: Fenglixiong
@@ -16,7 +16,9 @@ import java.util.Set;
  * @Description:
  */
 @Data
-@PropertySource(value = "classpath:/security-resource.properties")
+@Slf4j
+//不知道为什么打成jar包就不生效，但是可以读取application.properties中的配置
+//@PropertySource(value = "classpath:/security-resource.properties",ignoreResourceNotFound = true)
 @ConfigurationProperties(prefix = "flx.security")
 public class CustomSecurityProperties {
 
@@ -54,5 +56,6 @@ public class CustomSecurityProperties {
         }
         return whiteSet.toArray(new String[source.size()]);
     }
+
 
 }

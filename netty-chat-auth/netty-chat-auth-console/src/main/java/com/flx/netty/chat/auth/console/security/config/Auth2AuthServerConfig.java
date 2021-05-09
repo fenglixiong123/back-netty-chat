@@ -24,8 +24,6 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer //当前应用是一个认证服务器
 public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired//数据源
-    private DataSource dataSource;
     @Autowired//Token存储信息(客户端获取token的地方)
     private CustomTokenStore tokenStore;
     @Autowired//Token信息增强
@@ -43,7 +41,9 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
      *  微服务中最起码两个客户端，一个是你的前端app来申请token令牌的，另一个是用户要访问的微服务订单系统
      *  前端app将申请到的token带到微服务订单系统中，订单系统开始向认证服务验证token是否有效
      *
-     * 客户端的配置信息既可以放在内存中，也可以放在数据库中，也可以是直接搞的一些策略。
+     * 客户端的配置信息
+     * 既可以放在内存中(clients.inMemory())，
+     * 也可以放在数据库中(clients.withClientDetails(new JdbcClientDetailsService))，也可以是直接搞的一些策略。
      * 客户端在获取token的时候，会给你个clientId，然后根据这个clientId返回ClientDetails
      *
      * clientId //客户端id
@@ -56,33 +56,6 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
-        /*
-        //内存的方式
-        clients.inMemory()//配置在内存里，后面修改为数据库里
-                //~============== 注册【客户端应用】使客户端应用能够访问认证服务器，获得令牌 ===========
-                .withClient("netty-chat-front")
-                .secret("123456") //正常需要加密,aes加密
-                .scopes("read","write") //前端app有哪些权限，读(get)写(post)权限
-                .accessTokenValiditySeconds(3600) //token的有效期
-                .resourceIds("netty-chat-message") //资源服务器的id。获得的token，能访问哪些资源服务器，可以多个
-                .authorizedGrantTypes("authorization_code","password","refresh_token","client_credentials")//授权方式，此客户端可以使用的授权方式
-                //~=============客户端应用配置结束 =====================
-                .and()
-                //~============== 注册【资源服务器-消息服务】使消息服务也能够访问认证服务器，验证令牌 ===========
-                .withClient("netty-chat-message")
-                .secret("123456") //生产需要加密处理
-                .scopes("read","write") //有哪些权限，读(get)写(post)权限
-                .accessTokenValiditySeconds(3600) //token的有效期
-                .resourceIds("") //资源服务器的id
-                .authorizedGrantTypes("password");//授权方式
-        */
-        //使用内存模式将客户端信息存入数据库中
-        //下面是自带的，不如自己来进行数据库管理
-        //表为：oauth_client_details
-        //JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
-        //clients.withClientDetails(clientDetailsService);
-
         //自定义数据库管理
         clients.withClientDetails(clientDetailsService);
 
@@ -120,8 +93,6 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        //security.tokenKeyAccess("permitAll()");//获取token不需要验证
-        //security .checkTokenAccess("isAuthenticated()");//检查token需要事先登录
         security.allowFormAuthenticationForClients();//允许postman表单认证
     }
 

@@ -59,7 +59,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
             String[] permits = CustomSecurityProperties.list2Array(whitePermits);
             String[] resources = CustomSecurityProperties.list2Array(whiteResources);
             log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
-            log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(permits));
+            log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
             http.authorizeRequests()
                     //允许一些资源可以访问
                     .antMatchers(permits).permitAll()
