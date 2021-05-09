@@ -93,20 +93,23 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 //允许一些URL可以访问
                 .antMatchers(permits).permitAll()
-                .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                //设置一个拒绝访问的提示链接
-                .and().authorizeRequests().anyRequest().authenticated()
                 //设置登录地址
                 .and().formLogin()
                     .loginPage(securityProperties.getLoginFormUrl())
+                    .loginProcessingUrl(securityProperties.getLoginProcessingUrl())
                 //设置登出地址
                 .and().logout()
                     .logoutUrl(securityProperties.getLogoutUrl())
                     .logoutSuccessHandler(logoutSuccessHandler)
                 .and().exceptionHandling()
                     .authenticationEntryPoint(authenticationDeniedHandler)
-                    .accessDeniedHandler(permissionDeniedHandler);
+                    .accessDeniedHandler(permissionDeniedHandler)
+                //设置一个拒绝访问的提示链接
+                .and().authorizeRequests()
+                    .anyRequest().authenticated()
+                .and().csrf().disable()
+                    .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 
     /**

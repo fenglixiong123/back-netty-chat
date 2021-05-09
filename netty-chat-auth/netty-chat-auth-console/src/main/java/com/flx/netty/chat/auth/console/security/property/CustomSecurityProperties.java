@@ -21,9 +21,14 @@ import java.util.*;
 public class CustomSecurityProperties {
 
     /**
-     * 登录地址
+     * 登录页面
      */
-    private String loginFormUrl = "/web/login";
+    private String loginFormUrl = "/login.html";
+
+    /**
+     * 登录处理地址
+     */
+    private String loginProcessingUrl = "/auth/login";
 
     /**
      * 登出路径

@@ -31,6 +31,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserManager userManager;
 
+    /**
+     * 根据用户名获取用户
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -58,6 +61,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      *
      * 所以角色信息存储的时候可以没有"ROLE_"前缀，但是包装成GrantedAuthority对象的时候必须要有。
      *
+     * 获取权限 AuthorityUtils.commaSeparatedStringToAuthorityList("admin")
      * @return 权限角色集合
      */
     public Collection<? extends GrantedAuthority> getAuthorities() {
