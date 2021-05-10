@@ -79,14 +79,8 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(tokenStore.getTokenStore());
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 7);//默认12小时
-        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//默认30天
         endpoints
                 .tokenStore(tokenStore.getTokenStore())//token存储方式
-                .tokenServices(tokenServices)//默认的token服务类
                 .tokenEnhancer(tokenEnhancer)//token信息增强
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
