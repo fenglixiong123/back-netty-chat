@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -59,6 +60,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * 配置资源服务id
+     * 配置Token的校验方式
      * @param resources
      * @throws Exception
      */
@@ -70,7 +72,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
         }
         resources.stateless(true);//无状态
         resources.resourceId(resourceId);//资源Id
-        resources.tokenStore(tokenStore());//Redis存储方式
+        resources.tokenStore(tokenStore());//配置Token的校验方式
     }
 
     /**
@@ -95,6 +97,9 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                 .csrf().disable().exceptionHandling()
                     .authenticationEntryPoint(oAuth2AuthenticationEntryPoint)//自定义授权认证异常处理
                     .accessDeniedHandler(accessDeniedHandler)//自定义权限异常处理
+                .and()
+                    .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.NEVER)//
                 .and()
                     .authorizeRequests()//需要授权的访问地址
                         .antMatchers(permits).permitAll()//允许一些URL可以访问
