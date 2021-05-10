@@ -1,5 +1,6 @@
 package com.flx.netty.chat.auth.console.security.client;
 
+import com.flx.netty.chat.auth.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.crud.entity.ClientDetail;
 import com.flx.netty.chat.auth.crud.manager.ClientDetailManager;
 import com.flx.netty.chat.common.utils.StringUtils;
@@ -30,6 +31,8 @@ public class CustomClientDetailsService implements ClientDetailsService {
 
     @Autowired
     private ClientDetailManager clientManager;
+    @Autowired
+    private CustomPasswordEncoder passwordEncoder;
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
@@ -59,7 +62,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
                  */
                 @Override
                 public String getClientSecret() {
-                    return oAuthClient.getClientSecret();
+                    return passwordEncoder.encode(oAuthClient.getClientSecret());
                 }
 
                 /**
