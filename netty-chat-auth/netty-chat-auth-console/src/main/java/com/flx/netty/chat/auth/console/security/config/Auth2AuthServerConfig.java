@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -78,9 +79,14 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        //测试用,资源服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(tokenStore.getTokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 7);//默认12小时
+        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//默认30天
         endpoints
                 .tokenStore(tokenStore.getTokenStore())//token存储方式
+                .tokenServices(tokenServices)//默认的token服务类
                 .tokenEnhancer(tokenEnhancer)//token信息增强
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);

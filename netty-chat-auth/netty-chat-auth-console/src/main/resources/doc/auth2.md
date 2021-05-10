@@ -33,6 +33,14 @@ Spring OAuth2分为两部分：OAuth2 Provider和OAuth2 Client。
 
 OAuth2 Provider分为授权服务和资源服务：
 
+* 客户端
+
+    * 前端App，代替用户进行访问资源
+    * 手机
+    * Pad
+    
+    客户端是需要访问资源服务的，首先要申请token然后带着token令牌进行资源访问
+
 * 授权服务
 
     * 用户认证服务
