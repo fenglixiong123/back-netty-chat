@@ -84,7 +84,6 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .tokenStore(tokenStore)//token存储方式
-                .tokenServices(tokenService())//tokenService实现
                 .tokenEnhancer(tokenEnhancer)//token信息增强
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
@@ -101,22 +100,5 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.allowFormAuthenticationForClients();//允许postman表单认证
     }
-
-    @Bean
-    public DefaultTokenServices tokenService() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        //配置token存储
-        tokenServices.setTokenStore(tokenStore);
-        //开启支持refresh_token，此处如果之前没有配置，启动服务后再配置重启服务，可能会导致不返回token的问题，解决方式：清除redis对应token存储
-        tokenServices.setSupportRefreshToken(true);
-        //复用refresh_token
-        tokenServices.setReuseRefreshToken(true);
-        //token有效期，设置12小时
-        tokenServices.setAccessTokenValiditySeconds(12 * 60 * 60);
-        //refresh_token有效期，设置一周
-        tokenServices.setRefreshTokenValiditySeconds(7 * 24 * 60 * 60);
-        return tokenServices;
-    }
-
 
 }
