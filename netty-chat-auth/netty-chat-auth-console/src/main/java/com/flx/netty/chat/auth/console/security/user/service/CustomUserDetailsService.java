@@ -1,22 +1,20 @@
-package com.flx.netty.chat.auth.console.security.user;
+package com.flx.netty.chat.auth.console.security.user.service;
 
 import com.flx.netty.chat.auth.api.enums.UserStateEnum;
-import com.flx.netty.chat.auth.console.security.model.CustomGrantedAuthority;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
+import com.flx.netty.chat.security.entity.CustomAuthority;
+import com.flx.netty.chat.security.entity.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * @Author: Fenglixiong
@@ -45,7 +43,13 @@ public class CustomUserDetailsService implements UserDetailsService {
             boolean enabled = user.getState().equals(UserStateEnum.effective.name());
             boolean expired = user.getState().equals(UserStateEnum.expired.name())|| (user.getExpireTime() != null && DateUtils.beforeNow(user.getExpireTime()));
             boolean locked = user.getState().equals(UserStateEnum.locked.name());
-            return new User(user.getUserName(), user.getPassword(), enabled, !expired, true, !locked, getAuthorities());
+            return new CustomUserDetails()
+                    .setUsername(user.getUserName())
+                    .setPassword(user.getPassword())
+                    .setEnabled(enabled).setAccountNonExpired(!expired)
+                    .setAccountNonLocked(!locked)
+                    .setCredentialsNonExpired(true)
+                    .setAuthorities(getAuthorities());
         } catch (Exception e) {
             log.error("loadUserByUsername error username = {},message = {} !",username,e.getMessage());
             throw new UsernameNotFoundException("User [" + username + "] not exist !");
@@ -64,11 +68,11 @@ public class CustomUserDetailsService implements UserDetailsService {
      * 获取权限 AuthorityUtils.commaSeparatedStringToAuthorityList("admin")
      * @return 权限角色集合
      */
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<CustomAuthority> getAuthorities() {
         //设置两个角色加一个权限
-        return Arrays.asList(
-                new CustomGrantedAuthority("ROLE_USER"),
-                new CustomGrantedAuthority("ROLE_ADMIN")
+        return new HashSet<>(Arrays.asList(
+                new CustomAuthority("ROLE_USER"),
+                new CustomAuthority("ROLE_ADMIN"))
         );
     }
 

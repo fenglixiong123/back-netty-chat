@@ -7,6 +7,7 @@ import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.security.property.SecurityClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.annotation.Resource;
@@ -40,10 +42,10 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
      */
     private final static String DEFAULT_RESOURCE_ID = "flx-oauth2-resource";
 
-    @Autowired//自定义授权认证异常处理
-    private AuthenticationDeniedHandler oAuth2AuthenticationEntryPoint;
-    @Autowired//自定义权限异常处理
-    private PermissionDeniedHandler accessDeniedHandler;
+    @Resource(name = "resourceAuthenticationDeniedHandler")//自定义授权认证异常处理
+    private AuthenticationDeniedHandler authenticationDeniedHandler;
+    @Resource(name = "resourcePermissionDeniedHandler")//自定义权限异常处理
+    private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired//权限控制的配置属性
     private SecurityClientProperties securityProperties;
     @Autowired//Redis连接工厂
@@ -53,7 +55,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
      * 设置token存储，这一点配置要与授权服务器相一致
      */
     @Bean
-    public RedisTokenStore tokenStore(){
+    @ConditionalOnMissingBean
+    public TokenStore tokenStore(){
         log.info("[Resource] Token store in redis !");
         return new RedisTokenStore(redisConnectionFactory);
     }
@@ -95,8 +98,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
             http
                 //设置一个拒绝访问的提示
                 .csrf().disable().exceptionHandling()
-                    .authenticationEntryPoint(oAuth2AuthenticationEntryPoint)//自定义授权认证异常处理
-                    .accessDeniedHandler(accessDeniedHandler)//自定义权限异常处理
+                    .authenticationEntryPoint(authenticationDeniedHandler)//自定义授权认证异常处理
+                    .accessDeniedHandler(permissionDeniedHandler)//自定义权限异常处理
                 .and()
                     .sessionManagement()
                         .sessionCreationPolicy(SessionCreationPolicy.NEVER)//

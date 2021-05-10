@@ -4,8 +4,8 @@ import com.flx.netty.chat.auth.console.security.handler.AuthenticationDeniedHand
 import com.flx.netty.chat.auth.console.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.auth.console.security.handler.UserLogoutSuccessHandler;
 import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
-import com.flx.netty.chat.auth.console.security.user.CustomPasswordEncoder;
-import com.flx.netty.chat.auth.console.security.user.CustomUserDetailsService;
+import com.flx.netty.chat.auth.console.security.user.password.CustomPasswordEncoder;
+import com.flx.netty.chat.auth.console.security.user.service.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -45,9 +45,9 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecurityServerProperties securityProperties;
     @Autowired
     private UserLogoutSuccessHandler logoutSuccessHandler;
-    @Autowired
+    @Resource(name = "serverAuthenticationDeniedHandler")
     private AuthenticationDeniedHandler authenticationDeniedHandler;
-    @Autowired
+    @Resource(name = "serverPermissionDeniedHandler")
     private PermissionDeniedHandler permissionDeniedHandler;
 
 

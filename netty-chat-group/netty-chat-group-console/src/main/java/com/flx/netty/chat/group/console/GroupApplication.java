@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @EnableBase
+@EnableRedis
 @SpringBootApplication(scanBasePackages = {"com.flx.netty.chat.group"})
 public class GroupApplication {
 

@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.console.security.client;
 
-import com.flx.netty.chat.auth.console.security.user.CustomPasswordEncoder;
+import com.flx.netty.chat.auth.console.security.user.password.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.crud.entity.ClientDetail;
 import com.flx.netty.chat.auth.crud.manager.ClientDetailManager;
 import com.flx.netty.chat.common.utils.StringUtils;

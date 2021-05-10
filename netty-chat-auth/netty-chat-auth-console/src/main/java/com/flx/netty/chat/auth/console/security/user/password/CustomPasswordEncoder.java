@@ -1,4 +1,4 @@
-package com.flx.netty.chat.auth.console.security.user;
+package com.flx.netty.chat.auth.console.security.user.password;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

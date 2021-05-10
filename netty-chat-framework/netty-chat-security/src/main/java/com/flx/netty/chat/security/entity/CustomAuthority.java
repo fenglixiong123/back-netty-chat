@@ -1,4 +1,4 @@
-package com.flx.netty.chat.auth.console.security.model;
+package com.flx.netty.chat.security.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomGrantedAuthority implements GrantedAuthority {
+public class CustomAuthority implements GrantedAuthority {
 
     /**
      * 角色或者权限

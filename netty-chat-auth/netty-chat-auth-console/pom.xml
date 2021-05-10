@@ -22,6 +22,11 @@
             <artifactId>netty-chat-auth-crud</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-security</artifactId>
+        </dependency>
+
         <!--引入auth2配置-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
