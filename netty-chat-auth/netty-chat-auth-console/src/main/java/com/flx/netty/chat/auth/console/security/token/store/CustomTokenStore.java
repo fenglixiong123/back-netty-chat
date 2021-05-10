@@ -1,25 +1,16 @@
 package com.flx.netty.chat.auth.console.security.token.store;
 
-import com.flx.netty.chat.auth.console.security.property.CustomSecurityProperties;
+import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
 import com.flx.netty.chat.auth.console.security.token.store.way.impl.JdbcTokenWay;
 import com.flx.netty.chat.auth.console.security.token.store.way.impl.JwtTokenWay;
 import com.flx.netty.chat.auth.console.security.token.store.way.impl.MemoryTokenWay;
 import com.flx.netty.chat.auth.console.security.token.store.way.impl.RedisTokenWay;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @Author: Fenglixiong
@@ -50,7 +41,7 @@ public class CustomTokenStore {
     private JwtTokenWay jwtTokenWay;
 
     @Autowired
-    private CustomSecurityProperties securityProperties;
+    private SecurityServerProperties securityProperties;
 
 
     public TokenStore getTokenStore(){

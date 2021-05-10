@@ -17,8 +17,8 @@ import java.util.Set;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "flx.security")
-public class CustomSecurityProperties {
+@ConfigurationProperties(prefix = "flx.auth.server")
+public class SecurityServerProperties {
 
     /**
      * 登录页面

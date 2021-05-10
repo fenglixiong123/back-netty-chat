@@ -3,12 +3,9 @@ package com.flx.netty.chat.auth.console.security.config;
 import com.flx.netty.chat.auth.console.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.auth.console.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.auth.console.security.handler.UserLogoutSuccessHandler;
-import com.flx.netty.chat.auth.console.security.property.CustomSecurityProperties;
+import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
 import com.flx.netty.chat.auth.console.security.user.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.console.security.user.CustomUserDetailsService;
-import com.flx.netty.chat.common.utils.ArrayUtils;
-import com.flx.netty.chat.common.utils.json.JsonUtils;
-import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +20,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import javax.annotation.Resource;
-import java.util.*;
 
 /**
  * @Author: Fenglixiong
@@ -46,7 +42,7 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomPasswordEncoder passwordEncoder;
     @Autowired
-    private CustomSecurityProperties securityProperties;
+    private SecurityServerProperties securityProperties;
     @Autowired
     private UserLogoutSuccessHandler logoutSuccessHandler;
     @Resource(name = "serverAuthenticationDeniedHandler")
@@ -96,9 +92,9 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                     .authenticationEntryPoint(authenticationDeniedHandler)//Token不正确时候处理
                     .accessDeniedHandler(permissionDeniedHandler)//权限不足时候处理方式
-            .and()
-                .authorizeRequests()
-                    .antMatchers("/oauth/**").permitAll()
+//            .and()
+//                .authorizeRequests()
+//                    .antMatchers("").permitAll()
             //设置登录地址
             .and()
                 .formLogin()

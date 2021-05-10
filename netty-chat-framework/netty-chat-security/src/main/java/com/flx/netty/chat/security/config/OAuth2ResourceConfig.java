@@ -1,16 +1,15 @@
 package com.flx.netty.chat.security.config;
 
+import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
-import com.flx.netty.chat.security.property.CustomSecurityProperties;
+import com.flx.netty.chat.security.property.SecurityClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -30,13 +29,31 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启了方法级别的保护
 public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 
+    /**
+     * 默认服务资源ID
+     */
+    private final static String DEFAULT_RESOURCE_ID = "flx-oauth2-resource";
 
     @Resource(name = "resourceAuthenticationDeniedHandler")//自定义授权认证异常处理
     private AuthenticationDeniedHandler oAuth2AuthenticationEntryPoint;
     @Resource(name = "resourcePermissionDeniedHandler")//自定义权限异常处理
     private PermissionDeniedHandler accessDeniedHandler;
     @Autowired//权限控制的配置属性
-    private CustomSecurityProperties securityProperties;
+    private SecurityClientProperties securityProperties;
+
+    /**
+     * 配置资源服务id
+     * @param resources
+     * @throws Exception
+     */
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        String resourceId = securityProperties.getResourceId();
+        if(StringUtils.isBlank(resourceId)){
+            resourceId = DEFAULT_RESOURCE_ID;
+        }
+        resources.resourceId(resourceId).stateless(true);
+    }
 
     /**
      * 配置资源访问规则
@@ -51,8 +68,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
         }else {
             List<String> whitePermits = securityProperties.getWhitePermits();
             List<String> whiteResources = securityProperties.getWhiteResources();
-            String[] permits = CustomSecurityProperties.list2Array(whitePermits);
-            String[] resources = CustomSecurityProperties.list2Array(whiteResources);
+            String[] permits = SecurityClientProperties.list2Array(whitePermits);
+            String[] resources = SecurityClientProperties.list2Array(whiteResources);
             log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
             log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
             http

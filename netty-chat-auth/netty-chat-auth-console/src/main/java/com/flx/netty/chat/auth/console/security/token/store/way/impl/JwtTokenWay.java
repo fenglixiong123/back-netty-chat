@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.console.security.token.store.way.impl;
 
-import com.flx.netty.chat.auth.console.security.property.CustomSecurityProperties;
+import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
 import com.flx.netty.chat.auth.console.security.token.store.way.TokenWay;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class JwtTokenWay implements TokenWay {
     private final static String JWT_WAY_ASY = "asy";//jwt非对称加密模式
 
     @Autowired
-    private CustomSecurityProperties securityProperties;
+    private SecurityServerProperties securityProperties;
     @Autowired
     @Qualifier("jwtAccessTokenConverter")
     private JwtAccessTokenConverter accessTokenConverter;
