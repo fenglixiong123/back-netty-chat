@@ -1,14 +1,10 @@
 package com.flx.netty.chat.auth.console.security.property;
 
-import com.flx.netty.chat.common.utils.CollectionUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @Author: Fenglixiong
@@ -17,8 +13,18 @@ import java.util.Set;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "flx.auth.server")
+@ConfigurationProperties(prefix = "flx.security")
 public class SecurityServerProperties {
+
+    /**
+     * Auth服务的资源ID
+     */
+    private String resourceId;
+
+    /**
+     * 所有资源可以访问
+     */
+    private boolean permitAll = false;
 
     /**
      * 登录页面
@@ -59,20 +65,5 @@ public class SecurityServerProperties {
      * jwt签名秘钥，仅当启用jwt的token方式时候起作用
      */
     private String signingKey;
-
-    /**
-     * list转换成不重复的数组
-     * @param source
-     * @return
-     */
-    public static String[] list2Array(List<String> source){
-        Set<String> whiteSet = new HashSet<>();
-        if(CollectionUtils.isNotEmpty(source)){
-            for (String item : source){
-                whiteSet.addAll(Arrays.asList(item.split(",")));
-            }
-        }
-        return whiteSet.toArray(new String[source.size()]);
-    }
 
 }

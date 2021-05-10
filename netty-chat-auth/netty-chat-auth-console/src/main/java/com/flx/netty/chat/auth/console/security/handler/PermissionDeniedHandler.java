@@ -17,7 +17,7 @@ import java.io.IOException;
  * @Description: 权限不足异常处理
  */
 @Slf4j
-@Component(value = "serverPermissionDeniedHandler")
+@Component
 public class PermissionDeniedHandler implements AccessDeniedHandler {
 
     @Override

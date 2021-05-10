@@ -1,9 +1,11 @@
 package com.flx.netty.chat.auth.console.security.config;
 
 import com.flx.netty.chat.auth.console.security.token.info.CustomTokenEnhancer;
+import com.flx.netty.chat.auth.console.security.token.service.CustomTokenService;
 import com.flx.netty.chat.auth.console.security.token.store.CustomTokenStore;
 import com.flx.netty.chat.auth.console.security.client.CustomClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -27,7 +30,7 @@ import javax.sql.DataSource;
 public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired//Token存储信息(客户端获取token的地方)
-    private CustomTokenStore tokenStore;
+    private TokenStore tokenStore;
     @Autowired//Token信息增强
     private CustomTokenEnhancer tokenEnhancer;
     @Autowired//授权信息管理(用户的授权信息)
@@ -80,10 +83,12 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenStore(tokenStore.getTokenStore())//token存储方式
+                .tokenStore(tokenStore)//token存储方式
+                .tokenServices(tokenService())//tokenService实现
                 .tokenEnhancer(tokenEnhancer)//token信息增强
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
+
     }
 
 
@@ -97,7 +102,21 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
         security.allowFormAuthenticationForClients();//允许postman表单认证
     }
 
-
+    @Bean
+    public DefaultTokenServices tokenService() {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        //配置token存储
+        tokenServices.setTokenStore(tokenStore);
+        //开启支持refresh_token，此处如果之前没有配置，启动服务后再配置重启服务，可能会导致不返回token的问题，解决方式：清除redis对应token存储
+        tokenServices.setSupportRefreshToken(true);
+        //复用refresh_token
+        tokenServices.setReuseRefreshToken(true);
+        //token有效期，设置12小时
+        tokenServices.setAccessTokenValiditySeconds(12 * 60 * 60);
+        //refresh_token有效期，设置一周
+        tokenServices.setRefreshTokenValiditySeconds(7 * 24 * 60 * 60);
+        return tokenServices;
+    }
 
 
 }

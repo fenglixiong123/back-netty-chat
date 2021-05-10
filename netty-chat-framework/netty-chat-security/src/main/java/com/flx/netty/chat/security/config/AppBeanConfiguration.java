@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(value = SecurityClientProperties.class)
 public class AppBeanConfiguration {
 
-    @Bean(value = "resourceAuthenticationDeniedHandler")
+    @Bean
     public AuthenticationDeniedHandler authenticationDeniedHandler(){
         return new AuthenticationDeniedHandler();
     }
@@ -24,7 +24,7 @@ public class AppBeanConfiguration {
      * 权限不足处理方式
      * @return
      */
-    @Bean(value = "resourcePermissionDeniedHandler")
+    @Bean
     public PermissionDeniedHandler permissionDeniedHandler(){
         return new PermissionDeniedHandler();
     }

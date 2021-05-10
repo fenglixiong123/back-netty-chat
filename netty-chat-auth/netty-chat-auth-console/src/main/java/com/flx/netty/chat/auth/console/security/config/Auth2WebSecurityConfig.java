@@ -45,9 +45,9 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecurityServerProperties securityProperties;
     @Autowired
     private UserLogoutSuccessHandler logoutSuccessHandler;
-    @Resource(name = "serverAuthenticationDeniedHandler")
+    @Autowired
     private AuthenticationDeniedHandler authenticationDeniedHandler;
-    @Resource(name = "serverPermissionDeniedHandler")
+    @Autowired
     private PermissionDeniedHandler permissionDeniedHandler;
 
 
@@ -92,9 +92,6 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                     .authenticationEntryPoint(authenticationDeniedHandler)//Token不正确时候处理
                     .accessDeniedHandler(permissionDeniedHandler)//权限不足时候处理方式
-//            .and()
-//                .authorizeRequests()
-//                    .antMatchers("").permitAll()
             //设置登录地址
             .and()
                 .formLogin()

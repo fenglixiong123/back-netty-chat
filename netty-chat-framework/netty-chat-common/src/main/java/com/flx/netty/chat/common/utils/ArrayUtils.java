@@ -1,9 +1,6 @@
 package com.flx.netty.chat.common.utils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: Fenglixiong
@@ -11,6 +8,8 @@ import java.util.List;
  * @Description:
  */
 public class ArrayUtils {
+
+    public final static String DEFAULT_SPLIT = ",";
 
     public static boolean isNull(byte[] array){
         if(array==null || array.length==0){
@@ -36,6 +35,31 @@ public class ArrayUtils {
 
     public static <T> List<T> asList(T ...t){
         return Arrays.asList(t);
+    }
+
+    public static String[] list2Array(List<String> source){
+        return list2Array(source,DEFAULT_SPLIT,true);
+    }
+    /**
+     * list转换成不重复的数组
+     * @param source
+     * @return
+     */
+    public static String[] list2Array(List<String> source,String split,boolean unique){
+        if(StringUtils.isBlank(split)){
+            split = DEFAULT_SPLIT;
+        }
+        if(unique) {
+            Set<String> whiteSet = new HashSet<>();
+            if (CollectionUtils.isNotEmpty(source)) {
+                for (String item : source) {
+                    whiteSet.addAll(Arrays.asList(item.split(split)));
+                }
+            }
+            return whiteSet.toArray(new String[source.size()]);
+        }else {
+            return source.toArray(new String[0]);
+        }
     }
 
 }

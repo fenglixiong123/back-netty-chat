@@ -17,7 +17,7 @@ import java.io.IOException;
  * @Description: 认证失败的处理方式,Token不正确时候处理方式
  */
 @Slf4j
-@Component(value = "serverAuthenticationDeniedHandler")
+@Component
 public class AuthenticationDeniedHandler implements AuthenticationEntryPoint {
 
     @Override
