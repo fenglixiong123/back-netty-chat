@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * @Author: Fenglixiong
  * @Date: 2021/5/8 19:03
- * @Description: 认证失败的处理方式
+ * @Description: 认证失败的处理方式,Token不正确时候处理方式
  */
 @Slf4j
 @Component(value = "serverAuthenticationDeniedHandler")

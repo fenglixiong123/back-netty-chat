@@ -87,29 +87,35 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        List<String> whitePermits = securityProperties.getWhitePermits();
-        String[] permits = CustomSecurityProperties.list2Array(whitePermits);
-        log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
-        http.authorizeRequests()
-                //允许一些URL可以访问
-                .antMatchers(permits).permitAll()
-                //设置登录地址
-                .and().formLogin()
-                    .loginPage(securityProperties.getLoginFormUrl())
-                    .loginProcessingUrl(securityProperties.getLoginProcessingUrl())
-                //设置登出地址
-                .and().logout()
-                    .logoutUrl(securityProperties.getLogoutUrl())
-                    .logoutSuccessHandler(logoutSuccessHandler)
-                .and().exceptionHandling()
-                    .authenticationEntryPoint(authenticationDeniedHandler)
-                    .accessDeniedHandler(permissionDeniedHandler)
-                //设置一个拒绝访问的提示链接
-                .and().authorizeRequests()
-                    .anyRequest().authenticated()
-                .and().csrf().disable()
-                    .sessionManagement()
-                        .sessionCreationPolicy(SessionCreationPolicy.NEVER);
+
+        http
+            .csrf().disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+            .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(authenticationDeniedHandler)//Token不正确时候处理
+                    .accessDeniedHandler(permissionDeniedHandler)//权限不足时候处理方式
+            .and()
+                .authorizeRequests()
+                    .antMatchers("/oauth/**").permitAll()
+            //设置登录地址
+            .and()
+                .formLogin()
+                    .usernameParameter("username")//用户名字段
+                    .passwordParameter("password")//密码字段
+                    .loginPage(securityProperties.getLoginFormUrl())//登录页面
+                    .loginProcessingUrl(securityProperties.getLoginProcessingUrl())//登录后台处理
+            //设置登出地址
+            .and()
+                .logout()
+                    .logoutUrl(securityProperties.getLogoutUrl())//登出地址
+                    .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理
+            //设置一个拒绝访问的提示链接
+            .and()
+                .authorizeRequests()
+                    .anyRequest().authenticated();
+
     }
 
     /**
@@ -122,11 +128,11 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        List<String> whiteResources = securityProperties.getWhiteResources();
-        String[] resources = CustomSecurityProperties.list2Array(whiteResources);
-        log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
-        if(ArrayUtils.isNotNull(resources)){
-            web.ignoring().antMatchers(resources);
-        }
+//        List<String> whiteResources = securityProperties.getWhiteResources();
+//        String[] resources = CustomSecurityProperties.list2Array(whiteResources);
+//        log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
+//        if(ArrayUtils.isNotNull(resources)){
+//            web.ignoring().antMatchers(resources);
+//        }
     }
 }

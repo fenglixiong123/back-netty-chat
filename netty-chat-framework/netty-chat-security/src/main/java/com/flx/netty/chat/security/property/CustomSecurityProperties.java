@@ -48,13 +48,15 @@ public class CustomSecurityProperties {
      * @return
      */
     public static String[] list2Array(List<String> source){
-        Set<String> whiteSet = new HashSet<>();
         if(CollectionUtils.isNotEmpty(source)){
+            Set<String> whiteSet = new HashSet<>();
             for (String item : source){
                 whiteSet.addAll(Arrays.asList(item.split(",")));
             }
+            return whiteSet.toArray(new String[source.size()]);
+        }else {
+            return new String[]{};
         }
-        return whiteSet.toArray(new String[source.size()]);
     }
 
 

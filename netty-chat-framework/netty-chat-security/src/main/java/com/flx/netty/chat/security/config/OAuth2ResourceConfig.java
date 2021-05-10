@@ -22,6 +22,7 @@ import java.util.List;
  * @Author: Fenglixiong
  * @Date: 2021/5/3 15:42
  * @Description: 配置资源服务,微服务本身就是资源服务
+ * ResourceServerConfig是比SecurityConfig的优先级低的
  */
 @Slf4j
 @Configuration
@@ -36,14 +37,6 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     private PermissionDeniedHandler accessDeniedHandler;
     @Autowired//权限控制的配置属性
     private CustomSecurityProperties securityProperties;
-
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-
-        resources.authenticationEntryPoint(oAuth2AuthenticationEntryPoint)//自定义授权认证异常处理
-                    .accessDeniedHandler(accessDeniedHandler);//自定义权限异常处理
-
-    }
 
     /**
      * 配置资源访问规则
@@ -62,19 +55,19 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
             String[] resources = CustomSecurityProperties.list2Array(whiteResources);
             log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
             log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
-            http.authorizeRequests()
-                    //允许一些资源可以访问
-                    .antMatchers(permits).permitAll()
-                    //允许一些URL可以访问
-                    .antMatchers(resources).permitAll()
-                    //禁用跨站请求伪造
-                    .and().csrf().disable()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                    //设置一个拒绝访问的提示
-                    //.and().exceptionHandling().accessDeniedPage("/permitNone.html")
-                    .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-                    //剩下的必须经过授权访问
-                    .and().authorizeRequests().anyRequest().authenticated();
+            http
+                //设置一个拒绝访问的提示
+                .csrf().disable().exceptionHandling()
+                    .authenticationEntryPoint(oAuth2AuthenticationEntryPoint)//自定义授权认证异常处理
+                    .accessDeniedHandler(accessDeniedHandler)//自定义权限异常处理
+                .and()
+                    .authorizeRequests()//需要授权的访问地址
+                        .antMatchers(permits).permitAll()//允许一些URL可以访问
+                        .antMatchers(resources).permitAll()//允许一些资源可以访问
+                //剩下的必须经过授权访问
+                .and()
+                    .authorizeRequests()
+                        .anyRequest().authenticated();
         }
 
     }
