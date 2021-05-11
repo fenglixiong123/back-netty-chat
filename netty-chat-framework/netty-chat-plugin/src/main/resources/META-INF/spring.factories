@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.flx.netty.chat.plugin.autoconfig.PropertyAutoConfiguration
+com.flx.netty.chat.plugin.autoconfig.AppBeanAutoConfiguration

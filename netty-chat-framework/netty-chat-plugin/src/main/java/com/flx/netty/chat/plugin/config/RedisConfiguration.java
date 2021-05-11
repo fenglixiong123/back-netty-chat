@@ -1,18 +1,14 @@
 package com.flx.netty.chat.plugin.config;
 
-import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import com.flx.netty.chat.plugin.plugins.cache.CustomCacheManager;
 import com.flx.netty.chat.plugin.plugins.redis.service.*;
 import com.flx.netty.chat.plugin.plugins.redis.service.impl.*;
-import com.flx.netty.chat.plugin.utils.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @Author: Fenglixiong

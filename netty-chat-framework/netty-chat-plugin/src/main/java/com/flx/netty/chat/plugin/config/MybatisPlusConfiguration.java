@@ -5,14 +5,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
-import com.flx.netty.chat.plugin.plugins.mybatis.handler.SimpleMetaObjectHandler;
+import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
+import com.flx.netty.chat.plugin.property.MybatisPlusProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,16 +27,18 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 public class MybatisPlusConfiguration {
+
     /**
      * 配置mybatis的配置项
      */
     @Bean
-    public ConfigurationCustomizer configurationCustomizer() {
+    public ConfigurationCustomizer configurationCustomizer(MybatisPlusProperties plusProperties) {
         return configuration -> {
             configuration.setMapUnderscoreToCamelCase(true);
             configuration.setCacheEnabled(false);
             //配置是否打印log日志，默认不打印
-            boolean logOpen = PropertyUtils.getBoolean("flx.mybatis.log",false);
+            boolean logOpen = plusProperties.isLogOpen();
+            log.info("Sql print status >>>>> logOpen = {}",logOpen);
             if(logOpen) {
                 configuration.setLogImpl(StdOutImpl.class);
             }

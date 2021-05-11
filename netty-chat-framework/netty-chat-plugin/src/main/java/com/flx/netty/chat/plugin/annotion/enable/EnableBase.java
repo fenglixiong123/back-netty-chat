@@ -1,8 +1,5 @@
 package com.flx.netty.chat.plugin.annotion.enable;
 
-import com.flx.netty.chat.plugin.autoconfig.CrossAutoConfiguration;
-import org.springframework.context.annotation.Import;
-
 import java.lang.annotation.*;
 
 /**
@@ -12,7 +9,6 @@ import java.lang.annotation.*;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({CrossAutoConfiguration.class})
 @Documented
 @EnableCross        //加入跨域处理
 @EnableFlyway       //加入Flyway数据库

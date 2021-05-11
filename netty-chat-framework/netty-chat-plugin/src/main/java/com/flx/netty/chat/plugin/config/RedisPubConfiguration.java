@@ -23,16 +23,13 @@ import java.util.Map;
 @Configuration
 public class RedisPubConfiguration {
 
-    @Autowired
-    private RedisMessageProperties messageProperties;
-
     /**
      * Redis消息监听器容器
      * @param connectionFactory
      * @return
      */
     @Bean
-    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
+    RedisMessageListenerContainer container(RedisMessageProperties messageProperties,RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         //订阅消息的通道,多通道
