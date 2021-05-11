@@ -7,6 +7,7 @@ import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
 import com.flx.netty.chat.group.api.vo.WebGroupVO;
 import com.flx.netty.chat.group.console.service.GroupService;
+import com.flx.netty.chat.security.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,15 @@ public class GroupController {
 
     @Autowired
     private GroupService groupService;
+
+    @GetMapping("/currentUser")
+    public ResultResponse getCurrentUser(){
+        try {
+            return ResultResponse.success(SecurityUtils.currentUser());
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
 
     @GetMapping("/get/{id}")
     public ResultResponse get(@PathVariable Long id){

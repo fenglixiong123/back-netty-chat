@@ -33,7 +33,7 @@ public class CustomUserDetails implements UserDetails {
     /**
      * 角色集合
      */
-    private Set<String> roleCode;
+    private Set<String> roleCodes;
 
     /**
      * 用户权限
