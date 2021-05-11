@@ -80,6 +80,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * 配置资源访问规则
+     * 由于ResourceServer优先级比较高这里会拦截一切请求导致WebSecurity的配置失效
      * @throws Exception
      */
     @Override

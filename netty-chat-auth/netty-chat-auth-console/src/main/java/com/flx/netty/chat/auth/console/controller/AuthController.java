@@ -15,14 +15,13 @@ import java.security.Principal;
  */
 @Slf4j
 @RestController
-@RequestMapping("/auth/user")
 public class AuthController {
 
     /**
      * 资源服务器获取用户信息的接口
      * RemoteTokenServices对Token进行验证
      * 如果其他资源服务需要验证Token,则需要远程调用授权服务暴露的验证Token的API接口。
-     * @param principal
+     * @param
      * @return
      */
 //    @GetMapping("/current")
@@ -30,5 +29,25 @@ public class AuthController {
 //        log.info("getUser : {}", JsonUtils.toJsonMsg(principal));
 //        return principal;
 //    }
+
+    @GetMapping("/auth/user1")
+    public String getUser1(){
+        return "user1";
+    }
+
+    @GetMapping("/auth/user2")
+    public String getUser2(){
+        return "user2";
+    }
+
+    @GetMapping("/auth/user3")
+    public String getUser3(){
+        return "user3";
+    }
+
+    @GetMapping("/auth/user4")
+    public String getUser4(){
+        return "user4";
+    }
 
 }

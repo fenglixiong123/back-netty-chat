@@ -13,6 +13,8 @@ https://blog.csdn.net/w1054993544/article/details/109361170
 
 https://segmentfault.com/a/1190000023662197?utm_source=tag-newest
 
+URL拦截讲解：
+https://blog.csdn.net/l984411392/article/details/103276173
 
 # Auth2流程
 
@@ -150,3 +152,25 @@ OAuth2 Provider分为授权服务和资源服务：
 
 其他服务提供方的微服务称为资源服务，例如：用户服务，订单服务，消息服务等
 
+
+# HttpSecurity拦截URL
+
+WebSecurity和ResourceServer中都有HttpSecurity的配置对URL进行拦截
+但是会出现ResourceServer单独生效的效果
+
+原因：
+
+@Order(3)
+ResourceServer
+@Order(100)
+WebSecurity
+
+ResourceServer优先级更高,所以拦截规则会先匹配到资源配置，后面的就默认不执行了
+
+* 在spring security里一个请只会被一个filter chain进行处理，也就是spring security通过遍历filterChains这个集合时，只要找到能处理该请求的filter chain就不再进行其他的filter chain匹配。
+* ResourceServerConfigurerAdapter会把的http配置信息完全被覆盖掉，最后形成了，所有的请求只会在ResourceServerConfigurerAdapter的fitler chain中处理，导致用户不知道这两者到底是怎么回事。
+
+/api/**会被ResourceServerConfigurer拦截
+/user/**会被WebSecurityConfigurer拦截
+
+http.antMatcher是要匹配哪个路径，其他的不管交给其他拦截器处理
