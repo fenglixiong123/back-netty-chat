@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -48,17 +50,19 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired//权限控制的配置属性
     private SecurityResourceProperties securityProperties;
-    @Autowired//Redis连接工厂
-    private RedisConnectionFactory redisConnectionFactory;
 
     /**
      * 设置token存储，这一点配置要与授权服务器相一致
+     * 这里每次校验token不会去认证中心，而是直接去redis中校验
      */
     @Bean
     @ConditionalOnMissingBean
     public TokenStore tokenStore(){
         log.info("[Resource] Token store in redis !");
-        return new RedisTokenStore(redisConnectionFactory);
+        LettuceConnectionFactory redisFactory = new LettuceConnectionFactory();//采用redis其他库
+        redisFactory.setDatabase(securityProperties.getRedisIndex());//设置存储token的redis库
+        redisFactory.afterPropertiesSet();
+        return new RedisTokenStore(redisFactory);
     }
 
     /**

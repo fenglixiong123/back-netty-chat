@@ -37,6 +37,11 @@ public class SecurityResourceProperties {
     private List<String> whiteResources;
 
     /**
+     * Token存储的数据库
+     */
+    private int redisIndex = 1;
+
+    /**
      * token的存储方式
      */
     private String tokenStore;

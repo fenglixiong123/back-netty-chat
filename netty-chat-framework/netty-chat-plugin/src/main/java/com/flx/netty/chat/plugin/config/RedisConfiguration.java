@@ -22,6 +22,13 @@ public class RedisConfiguration {
     @Autowired
     private RedisConnectionFactory factory;
 
+    /**
+     * 可以探索redis多库配置
+     * 在注册一个bean配置如下:
+     * LettuceConnectionFactory factory = new LettuceConnectionFactory();
+     * factory.setDatabase(1);
+     * factory.afterPropertiesSet();//必须初始化实例
+     */
     @Bean
     public RedisTemplate<String,Object> redisTemplate(){
 
