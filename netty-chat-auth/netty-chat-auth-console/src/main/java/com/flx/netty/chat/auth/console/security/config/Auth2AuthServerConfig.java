@@ -1,11 +1,8 @@
 package com.flx.netty.chat.auth.console.security.config;
 
-import com.flx.netty.chat.auth.console.security.token.info.CustomTokenEnhancer;
-import com.flx.netty.chat.auth.console.security.token.service.CustomTokenService;
-import com.flx.netty.chat.auth.console.security.token.store.CustomTokenStore;
 import com.flx.netty.chat.auth.console.security.client.CustomClientDetailsService;
+import com.flx.netty.chat.auth.console.security.token.info.CustomTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,11 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 /**
  * @Author: Fenglixiong
