@@ -15,6 +15,7 @@ import java.security.Principal;
  */
 @Slf4j
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
 
     /**
@@ -24,11 +25,11 @@ public class AuthController {
      * @param
      * @return
      */
-//    @GetMapping("/current")
-//    public Principal getUser(Principal principal){
-//        log.info("getUser : {}", JsonUtils.toJsonMsg(principal));
-//        return principal;
-//    }
+    @GetMapping("/checkToken")
+    public Principal getUser(Principal principal){
+        log.info("checkToken : {}", JsonUtils.toJsonMsg(principal));
+        return principal;
+    }
 
     @GetMapping("/auth/user1")
     public String getUser1(){
