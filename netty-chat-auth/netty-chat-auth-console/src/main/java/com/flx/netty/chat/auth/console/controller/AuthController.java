@@ -25,10 +25,10 @@ public class AuthController {
      * @param principal
      * @return
      */
-    @GetMapping("/current")
-    public Principal getUser(Principal principal){
-        log.info("getUser : {}", JsonUtils.toJsonMsg(principal));
-        return principal;
-    }
+//    @GetMapping("/current")
+//    public Principal getUser(Principal principal){
+//        log.info("getUser : {}", JsonUtils.toJsonMsg(principal));
+//        return principal;
+//    }
 
 }

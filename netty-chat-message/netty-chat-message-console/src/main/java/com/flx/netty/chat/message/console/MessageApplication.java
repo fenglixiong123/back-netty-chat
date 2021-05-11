@@ -1,6 +1,7 @@
 package com.flx.netty.chat.message.console;
 
 import com.flx.netty.chat.plugin.annotion.enable.EnableBase;
+import com.flx.netty.chat.plugin.annotion.enable.EnableRedis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @EnableBase
+@EnableRedis
 @SpringBootApplication(scanBasePackages = {"com.flx.netty.chat.message"})
 public class MessageApplication {
 

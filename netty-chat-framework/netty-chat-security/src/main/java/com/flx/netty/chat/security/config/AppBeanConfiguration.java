@@ -2,7 +2,7 @@ package com.flx.netty.chat.security.config;
 
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
-import com.flx.netty.chat.security.property.SecurityClientProperties;
+import com.flx.netty.chat.security.property.SecurityResourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description:
  */
 @Configuration
-@EnableConfigurationProperties(value = SecurityClientProperties.class)
+@EnableConfigurationProperties(value = SecurityResourceProperties.class)
 public class AppBeanConfiguration {
 
     @Bean(value = "resourceAuthenticationDeniedHandler")

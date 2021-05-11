@@ -4,7 +4,7 @@ import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
-import com.flx.netty.chat.security.property.SecurityClientProperties;
+import com.flx.netty.chat.security.property.SecurityResourceProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -47,7 +47,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     @Resource(name = "resourcePermissionDeniedHandler")//自定义权限异常处理
     private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired//权限控制的配置属性
-    private SecurityClientProperties securityProperties;
+    private SecurityResourceProperties securityProperties;
     @Autowired//Redis连接工厂
     private RedisConnectionFactory redisConnectionFactory;
 

@@ -13,18 +13,8 @@ import java.util.List;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "flx.security")
+@ConfigurationProperties(prefix = "flx.auth2.server")
 public class SecurityServerProperties {
-
-    /**
-     * Auth服务的资源ID
-     */
-    private String resourceId;
-
-    /**
-     * 所有资源可以访问
-     */
-    private boolean permitAll = false;
 
     /**
      * 登录页面

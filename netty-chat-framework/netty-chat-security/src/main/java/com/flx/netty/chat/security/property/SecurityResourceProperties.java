@@ -13,10 +13,8 @@ import java.util.List;
  */
 @Data
 @Slf4j
-//不知道为什么打成jar包就不生效，但是可以读取application.properties中的配置
-//@PropertySource(value = "classpath:/security-resource.properties",ignoreResourceNotFound = true)
-@ConfigurationProperties(prefix = "flx.security")
-public class SecurityClientProperties {
+@ConfigurationProperties(prefix = "flx.auth2.resource")
+public class SecurityResourceProperties {
 
     /**
      * Auth服务的资源ID
