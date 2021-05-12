@@ -4,6 +4,7 @@ import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -17,6 +18,12 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+//    @GetMapping("/logout")
+//    public String getUser(@RequestParam String access_token){
+//        log.info("logout token = {}",access_token);
+//        return "logout success";
+//    }
 
     /**
      * 资源服务器获取用户信息的接口

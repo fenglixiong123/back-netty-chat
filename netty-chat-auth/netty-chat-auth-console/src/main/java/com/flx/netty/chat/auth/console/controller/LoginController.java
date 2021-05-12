@@ -9,10 +9,9 @@ import com.flx.netty.chat.auth.console.service.LoginService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.web.bind.annotation.*;
+
 
 /**
  * @Author: Fenglixiong
@@ -27,8 +26,10 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private DefaultTokenServices tokenServices;
 
-    @PostMapping("/login")
+    @PostMapping("/login111")
     public ResultResponse add(@RequestBody LoginVO entity){
         try {
             ValidationResult validate = ValidationUtils.validate(entity);
@@ -53,6 +54,16 @@ public class LoginController {
             Long id = loginService.register(null);
             log.info("注册成功：id = "+id);
             return ResultResponse.success("恭喜您，注册成功！");
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResultResponse logout(){
+        try {
+            boolean result = tokenServices.revokeToken("");
+            return ResultResponse.success("恭喜您，注销成功！");
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }

@@ -111,7 +111,8 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("username")//用户名字段
                     .passwordParameter("password")//密码字段
                     .loginPage(securityProperties.getLoginFormUrl())//登录页面
-                    .loginProcessingUrl(securityProperties.getLoginProcessingUrl())//登录后台处理
+                    .loginProcessingUrl(securityProperties.getLoginProcessingUrl())
+                    .permitAll()//登录后台处理
             //设置登出地址
             .and()
                 .logout()

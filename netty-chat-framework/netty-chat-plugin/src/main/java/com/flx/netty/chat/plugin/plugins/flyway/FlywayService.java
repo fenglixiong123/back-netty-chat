@@ -1,6 +1,6 @@
 package com.flx.netty.chat.plugin.plugins.flyway;
 
-import com.flx.netty.chat.plugin.property.FlywayMysqlProperties;
+import com.flx.netty.chat.plugin.property.DruidProperties;
 import com.flx.netty.chat.plugin.property.FlywayProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
@@ -38,16 +38,16 @@ import javax.annotation.PostConstruct;
 public class FlywayService {
 
     @Autowired
-    private FlywayMysqlProperties mysqlProperties;
+    private DruidProperties druidProperties;
     @Autowired
     private FlywayProperties flywayProperties;
 
     @Transactional(rollbackFor = Exception.class)
     public void initFlyway(){
         FluentConfiguration fluentConfiguration = Flyway.configure()
-                .dataSource(mysqlProperties.getUrl(),
-                        mysqlProperties.getUsername(),
-                        mysqlProperties.getPassword())
+                .dataSource(druidProperties.getUrl(),
+                        druidProperties.getUsername(),
+                        druidProperties.getPassword())
                 .baselineVersion(flywayProperties.getBaselineVersion())
                 .baselineOnMigrate(flywayProperties.isBaselineOnMigrate())
                 .validateOnMigrate(flywayProperties.isValidateOnMigrate())

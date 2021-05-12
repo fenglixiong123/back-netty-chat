@@ -29,17 +29,17 @@ public class SecurityServerProperties {
     /**
      * 登录页面
      */
-    private String loginFormUrl = "/login.html";
+    private String loginFormUrl;
 
     /**
      * 登录处理地址
      */
-    private String loginProcessingUrl = "/auth/loginProcess";
+    private String loginProcessingUrl;
 
     /**
      * 登出路径
      */
-    private String logoutUrl = "/auth/logout";
+    private String logoutUrl;
 
     /**
      * token的存储方式

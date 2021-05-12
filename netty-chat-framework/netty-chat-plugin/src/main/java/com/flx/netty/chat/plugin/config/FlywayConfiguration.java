@@ -1,10 +1,7 @@
 package com.flx.netty.chat.plugin.config;
 
 import com.flx.netty.chat.plugin.plugins.flyway.FlywayService;
-import com.flx.netty.chat.plugin.property.FlywayMysqlProperties;
-import com.flx.netty.chat.plugin.property.FlywayProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

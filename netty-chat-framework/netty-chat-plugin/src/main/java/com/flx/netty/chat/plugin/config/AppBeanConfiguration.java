@@ -38,10 +38,10 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({
+        DruidProperties.class,
         SwaggerProperties.class,
         MybatisPlusProperties.class,
         FlywayProperties.class,
-        FlywayMysqlProperties.class,
         RedisMessageProperties.class})
 public class AppBeanConfiguration {
 
