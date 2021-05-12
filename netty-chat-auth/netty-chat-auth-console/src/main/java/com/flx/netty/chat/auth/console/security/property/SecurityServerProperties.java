@@ -32,16 +32,6 @@ public class SecurityServerProperties {
     private String logoutUrl = "/web/logout";
 
     /**
-     * 白名单路径url
-     */
-    private List<String> whitePermits;
-
-    /**
-     * 白名单资源resource
-     */
-    private List<String> whiteResources;
-
-    /**
      * token的存储方式
      */
     private String tokenStore;
