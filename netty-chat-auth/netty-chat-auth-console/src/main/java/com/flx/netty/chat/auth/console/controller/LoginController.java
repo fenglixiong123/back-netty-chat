@@ -59,11 +59,21 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/logout")
-    public ResultResponse logout(){
+    /**
+     * 退出登录
+     * @param access_token token
+     * @return
+     */
+    @GetMapping("/logout")
+    public ResultResponse logout(@RequestParam String access_token){
         try {
-            boolean result = tokenServices.revokeToken("");
-            return ResultResponse.success("恭喜您，注销成功！");
+            log.info("logout accessToken = {}",access_token);
+            boolean result = tokenServices.revokeToken(access_token);
+            if(result) {
+                return ResultResponse.success("恭喜您，注销成功！");
+            }else {
+                return ResultResponse.error("Sorry，注销失败！");
+            }
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }

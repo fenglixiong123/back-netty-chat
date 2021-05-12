@@ -19,12 +19,6 @@ import java.security.Principal;
 @RequestMapping("/auth")
 public class AuthController {
 
-//    @GetMapping("/logout")
-//    public String getUser(@RequestParam String access_token){
-//        log.info("logout token = {}",access_token);
-//        return "logout success";
-//    }
-
     /**
      * 资源服务器获取用户信息的接口
      * RemoteTokenServices对Token进行验证

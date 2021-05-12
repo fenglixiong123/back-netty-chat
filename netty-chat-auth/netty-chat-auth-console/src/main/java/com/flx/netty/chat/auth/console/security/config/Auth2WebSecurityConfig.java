@@ -2,7 +2,6 @@ package com.flx.netty.chat.auth.console.security.config;
 
 import com.flx.netty.chat.auth.console.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.auth.console.security.handler.PermissionDeniedHandler;
-import com.flx.netty.chat.auth.console.security.handler.UserLogoutSuccessHandler;
 import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
 import com.flx.netty.chat.auth.console.security.user.password.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.console.security.user.service.CustomUserDetailsService;
@@ -48,8 +47,6 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomPasswordEncoder passwordEncoder;
     @Autowired
     private SecurityServerProperties securityProperties;
-    @Autowired
-    private UserLogoutSuccessHandler logoutSuccessHandler;
     @Resource(name = "serverAuthenticationDeniedHandler")
     private AuthenticationDeniedHandler authenticationDeniedHandler;
     @Resource(name = "serverPermissionDeniedHandler")
@@ -104,20 +101,7 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .authorizeRequests()
                     .antMatchers(permits).permitAll()
-                    .anyRequest().authenticated()
-            //设置登录地址
-            .and()
-                .formLogin()
-                    .usernameParameter("username")//用户名字段
-                    .passwordParameter("password")//密码字段
-                    .loginPage(securityProperties.getLoginFormUrl())//登录页面
-                    .loginProcessingUrl(securityProperties.getLoginProcessingUrl())
-                    .permitAll()//登录后台处理
-            //设置登出地址
-            .and()
-                .logout()
-                    .logoutUrl(securityProperties.getLogoutUrl())//登出地址
-                    .logoutSuccessHandler(logoutSuccessHandler);//登出成功处理
+                    .anyRequest().authenticated();
 
     }
 

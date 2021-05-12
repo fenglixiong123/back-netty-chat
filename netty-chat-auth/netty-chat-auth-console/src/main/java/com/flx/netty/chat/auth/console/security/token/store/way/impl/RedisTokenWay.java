@@ -27,9 +27,7 @@ public class RedisTokenWay implements TokenWay {
     @Override
     public TokenStore getTokenStore() {
         log.info("Token store in redis !");
-        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-        redisTokenStore.setAuthenticationKeyGenerator(auth->"FLX"+ UUID.randomUUID().toString().replace("-", ""));
-        return redisTokenStore;
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
 }
