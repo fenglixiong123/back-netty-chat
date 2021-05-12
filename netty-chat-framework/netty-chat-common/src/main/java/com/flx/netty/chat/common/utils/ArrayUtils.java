@@ -49,16 +49,20 @@ public class ArrayUtils {
         if(StringUtils.isBlank(split)){
             split = DEFAULT_SPLIT;
         }
+        Collection<String> collection;
         if(unique) {
-            Set<String> whiteSet = new HashSet<>();
-            if (CollectionUtils.isNotEmpty(source)) {
-                for (String item : source) {
-                    whiteSet.addAll(Arrays.asList(item.split(split)));
-                }
-            }
-            return whiteSet.toArray(new String[source.size()]);
+            collection = new HashSet<>();
+
         }else {
-            return source.toArray(new String[0]);
+            collection = new ArrayList<>();
+        }
+        if (CollectionUtils.isNotEmpty(source)) {
+            for (String item : source) {
+                collection.addAll(Arrays.asList(item.split(split)));
+            }
+            return collection.toArray(new String[0]);
+        }else {
+            return new String[]{};
         }
     }
 

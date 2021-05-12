@@ -54,6 +54,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     /**
      * 设置token存储，这一点配置要与授权服务器相一致
      * 这里每次校验token不会去认证中心，而是直接去redis中校验
+     * 校验token的方法为：
+     * org.springframework.security.oauth2.provider.token.DefaultTokenServices#loadAuthentication(java.lang.String)
      */
     @Bean
     @ConditionalOnMissingBean
@@ -94,12 +96,12 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
         if(securityProperties.isPermitAll()){
             http.authorizeRequests().anyRequest().permitAll();
         }else {
-            List<String> whitePermits = securityProperties.getWhitePermits();
-            List<String> whiteResources = securityProperties.getWhiteResources();
-            String[] permits = list2Array(whitePermits);
-            String[] resources = list2Array(whiteResources);
-            log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
-            log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
+            List<String> authList = securityProperties.getAuthUrls();
+            List<String> passList = securityProperties.getPassUrls();
+            String[] authUrls = list2Array(authList);
+            String[] passUrls = list2Array(passList);
+            log.info("========>[Resource] authUrls = {}", JsonUtils.toJsonMsg(authUrls));
+            log.info("========>[Resource] passUrls = {}", JsonUtils.toJsonMsg(passUrls));
             http
                 //设置一个拒绝访问的提示
                 .csrf().disable().exceptionHandling()
@@ -109,15 +111,13 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                     .sessionManagement()
                         .sessionCreationPolicy(SessionCreationPolicy.NEVER)//
                 .and()
+                    .requestMatchers()
+                        .antMatchers(authUrls)
+                 .and()
                     .authorizeRequests()//需要授权的访问地址
-                        .antMatchers(permits).permitAll()//允许一些URL可以访问
-                        .antMatchers(resources).permitAll()//允许一些资源可以访问
-                //剩下的必须经过授权访问
-                .and()
-                    .authorizeRequests()
-                        .anyRequest().authenticated();
+                        .antMatchers(passUrls).permitAll()//免授权访问URL
+                        .anyRequest().authenticated();//剩下的需要授权访问
         }
-
     }
 
 }

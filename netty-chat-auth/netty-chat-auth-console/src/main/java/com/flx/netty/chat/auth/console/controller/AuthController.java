@@ -31,24 +31,29 @@ public class AuthController {
         return principal;
     }
 
-    @GetMapping("/auth/user1")
+    @GetMapping("/student")
+    public String getStudent(){
+        return "student";
+    }
+
+    @GetMapping("/user/user1")
     public String getUser1(){
         return "user1";
     }
 
-    @GetMapping("/auth/user2")
+    @GetMapping("/user/user2")
     public String getUser2(){
         return "user2";
     }
 
-    @GetMapping("/auth/user3")
+    @GetMapping("/person/person1")
     public String getUser3(){
-        return "user3";
+        return "person1";
     }
 
-    @GetMapping("/auth/user4")
+    @GetMapping("/person/person2")
     public String getUser4(){
-        return "user4";
+        return "person2";
     }
 
 }

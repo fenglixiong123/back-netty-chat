@@ -6,6 +6,8 @@ import com.flx.netty.chat.auth.console.security.handler.UserLogoutSuccessHandler
 import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
 import com.flx.netty.chat.auth.console.security.user.password.CustomPasswordEncoder;
 import com.flx.netty.chat.auth.console.security.user.service.CustomUserDetailsService;
+import com.flx.netty.chat.common.utils.ArrayUtils;
+import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import javax.annotation.Resource;
+import java.util.List;
+
+import static com.flx.netty.chat.common.utils.ArrayUtils.list2Array;
 
 /**
  * @Author: Fenglixiong
@@ -84,6 +89,10 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        List<String> whitePermits = securityProperties.getWhitePermits();
+        String[] permits = list2Array(whitePermits);
+        log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
+
         http
             .csrf().disable()
                 .sessionManagement()
@@ -92,6 +101,10 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                     .authenticationEntryPoint(authenticationDeniedHandler)//Token不正确时候处理
                     .accessDeniedHandler(permissionDeniedHandler)//权限不足时候处理方式
+            .and()
+                .authorizeRequests()
+                    .antMatchers(permits).permitAll()
+                    .anyRequest().authenticated()
             //设置登录地址
             .and()
                 .formLogin()
@@ -103,11 +116,7 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .logout()
                     .logoutUrl(securityProperties.getLogoutUrl())//登出地址
-                    .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理
-            //设置一个拒绝访问的提示链接
-            .and()
-                .authorizeRequests()
-                    .anyRequest().authenticated();
+                    .logoutSuccessHandler(logoutSuccessHandler);//登出成功处理
 
     }
 
@@ -121,11 +130,11 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-//        List<String> whiteResources = securityProperties.getWhiteResources();
-//        String[] resources = CustomSecurityProperties.list2Array(whiteResources);
-//        log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
-//        if(ArrayUtils.isNotNull(resources)){
-//            web.ignoring().antMatchers(resources);
-//        }
+        List<String> whiteResources = securityProperties.getWhiteResources();
+        String[] resources = list2Array(whiteResources);
+        log.info("========>whiteResources = {}", JsonUtils.toJsonMsg(resources));
+        if(ArrayUtils.isNotNull(resources)){
+            web.ignoring().antMatchers(resources);
+        }
     }
 }

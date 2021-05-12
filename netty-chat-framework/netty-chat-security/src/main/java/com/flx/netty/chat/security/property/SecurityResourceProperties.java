@@ -27,14 +27,14 @@ public class SecurityResourceProperties {
     private boolean permitAll = false;
 
     /**
-     * 白名单路径url
+     * 需要拦截的url
      */
-    private List<String> whitePermits;
+    private List<String> authUrls;
 
     /**
-     * 白名单资源resource
+     * 开放的URL
      */
-    private List<String> whiteResources;
+    private List<String> passUrls;
 
     /**
      * Token存储的数据库

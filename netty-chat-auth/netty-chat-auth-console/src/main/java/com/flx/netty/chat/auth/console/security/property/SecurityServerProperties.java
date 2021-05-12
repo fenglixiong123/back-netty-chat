@@ -17,6 +17,16 @@ import java.util.List;
 public class SecurityServerProperties {
 
     /**
+     * 免授权URL
+     */
+    private List<String> whitePermits;
+
+    /**
+     * 免授权资源
+     */
+    private List<String> whiteResources;
+
+    /**
      * 登录页面
      */
     private String loginFormUrl = "/login.html";
@@ -24,12 +34,12 @@ public class SecurityServerProperties {
     /**
      * 登录处理地址
      */
-    private String loginProcessingUrl = "/auth/login";
+    private String loginProcessingUrl = "/auth/loginProcess";
 
     /**
      * 登出路径
      */
-    private String logoutUrl = "/web/logout";
+    private String logoutUrl = "/auth/logout";
 
     /**
      * token的存储方式

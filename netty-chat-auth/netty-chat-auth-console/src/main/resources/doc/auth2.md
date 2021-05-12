@@ -174,3 +174,48 @@ ResourceServer优先级更高,所以拦截规则会先匹配到资源配置，�
 /user/**会被WebSecurityConfigurer拦截
 
 http.antMatcher是要匹配哪个路径，其他的不管交给其他拦截器处理
+
+### 案例
+requestMatchers().anyRequest()
+等同于
+http.authorizeRequests().anyRequest().access("permitAll")
+
+//只允许路由由test开头的需要进行权限认证，其他的接口不需要权限认证；requestMatchers().anyRequest()即所有接口可以不进行认证；	
+	http
+        .requestMatchers()
+            .anyRequest()
+        .and()
+            .authorizeRequests()
+                .antMatchers("/test/*").authenticated();
+	
+//只有以/test 开头的路由需要进行权限认证；其他路由不需要权限认证
+	http
+	    .requestMatchers()
+	        .antMatchers("/test/**")
+        .and()
+            .authorizeRequests()
+                .antMatchers("/**")
+                    .authenticated();	
+                    
+//所有接口都不需要权限认证
+http.authorizeRequests().antMatchers("/**").permitAll();
+//所有接口都要进行权限认证
+http.authorizeRequests().antMatchers("/**").authenticated();
+//只有以test开头的接口需要进行权限认证
+http.authorizeRequests().antMatchers("/test/**").authenticated();  
+
+总结：如果想要各种拦截器同时起作用那么只需要配置自己管理的URL即可
+
+配置效果：只会匹配/user/**，其中/user/user1可以访问其他需要授权
+http
+    .and()
+         .requestMatchers()
+               .antMatchers("/user/**")//匹配需要拦截的地址
+     .and()
+          .authorizeRequests()//需要授权的访问地址
+                .antMatchers("/user/user1").permitAll()//user1可以访问
+                .antMatchers("/user/user2").authenticated()//user2需要授权
+                //如果下面不配置则其他可以随意访问
+                .and()
+                    .authorizeRequests()
+                        .anyRequest().authenticated();//user/**下面的都要授权                  
