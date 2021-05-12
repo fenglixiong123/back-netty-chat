@@ -82,6 +82,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
         resources.stateless(true);//无状态
         resources.resourceId(resourceId);//资源Id
         resources.tokenStore(tokenStore());//配置Token的校验方式
+        resources.authenticationEntryPoint(authenticationDeniedHandler);//自定义授权认证异常处理
+        resources.accessDeniedHandler(permissionDeniedHandler);//自定义权限异常处理
     }
 
     /**
@@ -104,12 +106,9 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
             log.info("========>[Resource] passUrls = {}", JsonUtils.toJsonMsg(passUrls));
             http
                 //设置一个拒绝访问的提示
-                .csrf().disable().exceptionHandling()
-                    .authenticationEntryPoint(authenticationDeniedHandler)//自定义授权认证异常处理
-                    .accessDeniedHandler(permissionDeniedHandler)//自定义权限异常处理
-                .and()
+                .csrf().disable()
                     .sessionManagement()
-                        .sessionCreationPolicy(SessionCreationPolicy.NEVER)//
+                        .sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and()
                     .requestMatchers()
                         .antMatchers(authUrls)
