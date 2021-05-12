@@ -4,6 +4,7 @@ import com.flx.netty.chat.auth.console.security.handler.AuthenticationDeniedHand
 import com.flx.netty.chat.auth.console.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.auth.console.security.property.SecurityServerProperties;
 import com.flx.netty.chat.auth.console.security.user.password.CustomPasswordEncoder;
+import com.flx.netty.chat.auth.console.security.user.provider.CustomAuthenticationProvider;
 import com.flx.netty.chat.auth.console.security.user.service.CustomUserDetailsService;
 import com.flx.netty.chat.common.utils.ArrayUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
@@ -42,15 +43,13 @@ import static com.flx.netty.chat.common.utils.ArrayUtils.list2Array;
 public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService userDetailService;
-    @Autowired
-    private CustomPasswordEncoder passwordEncoder;
-    @Autowired
     private SecurityServerProperties securityProperties;
     @Resource(name = "serverAuthenticationDeniedHandler")
     private AuthenticationDeniedHandler authenticationDeniedHandler;
     @Resource(name = "serverPermissionDeniedHandler")
     private PermissionDeniedHandler permissionDeniedHandler;
+    @Autowired//自定义验证方式
+    private CustomAuthenticationProvider authenticationProvider;
 
 
     /**
@@ -67,13 +66,15 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 该方法就是配置一些信息来为之后构造AuthenticationManager
      * 也就是authenticationManagerBean()方法的返回值，就是使用AuthenticationManagerBuilder建造的
+     * 如果没有自定义验证方式就需要这样配置：
+     * auth.userDetailsService(userDetailService)//配置获取用户信息
+     *                 .passwordEncoder(passwordEncoder);//配置密码加密方式,添加用户加密的时候请也用这个加密
      * @param auth
      * @throws Exception
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService)//配置获取用户信息
-                .passwordEncoder(passwordEncoder);//配置密码加密方式,添加用户加密的时候请也用这个加密
+        auth.authenticationProvider(authenticationProvider);//自定义验证方式
     }
 
 

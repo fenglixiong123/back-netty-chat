@@ -24,13 +24,11 @@ public class CustomOauthExceptionSerializer extends StdSerializer<CustomOauthExc
 
     @Override
     public void serialize(CustomOauthException e, JsonGenerator generator, SerializerProvider provider) throws IOException {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         generator.writeStartObject();
         generator.writeStringField("success", "false");
         generator.writeStringField("code", String.valueOf(e.getHttpErrorCode()));
         generator.writeStringField("message", e.getMessage());
         generator.writeStringField("data", e.getData());
-        generator.writeStringField("path", request.getServletPath());
         if (e.getAdditionalInformation()!=null) {
             for (Map.Entry<String, String> entry : e.getAdditionalInformation().entrySet()) {
                 String key = entry.getKey();

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
@@ -27,25 +28,25 @@ public class CustomExceptionHandler implements WebResponseExceptionTranslator<OA
     private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
     @Override
-    public ResponseEntity<OAuth2Exception> translate(Exception exception) throws Exception {
-        Throwable[] causeChain = throwableAnalyzer.determineCauseChain(exception);
-        //异常栈获取OAuth2Exception异常
-        OAuth2Exception e1 = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
-        if(e1!=null){
-            return errorResponse(e1.getHttpErrorCode(),"OAuth2 exception !",e1.getMessage());
+    public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+        Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
+        //异常栈获取InvalidTokenException异常
+        InvalidTokenException tokenException = (InvalidTokenException) throwableAnalyzer.getFirstThrowableOfType(InvalidTokenException.class, causeChain);
+        if(tokenException!=null){
+            return errorResponse(tokenException.getHttpErrorCode(),"Token invalid exception !",tokenException.getMessage());
         }
-        //异常栈获取HttpMethod不支持异常
-        HttpRequestMethodNotSupportedException e2 = (HttpRequestMethodNotSupportedException) throwableAnalyzer.getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
-        if(e2!=null){
-            return errorResponse(405,"Method Not Allowed !",e2.getMessage());
+        //异常栈获取OAuth2Exception异常
+        OAuth2Exception oAuth2Exception = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
+        if(oAuth2Exception!=null){
+            return errorResponse(oAuth2Exception.getHttpErrorCode(),oAuth2Exception.getMessage(),"OAuth2 exception !");
         }
         //异常栈获取Redis连接异常
-        RedisConnectionFailureException e3 = (RedisConnectionFailureException) throwableAnalyzer.getFirstThrowableOfType(RedisConnectionFailureException.class, causeChain);
-        if(e3!=null){
-            return errorResponse(600,"Redis connect exception !",e3.getMessage());
+        RedisConnectionFailureException redisException = (RedisConnectionFailureException) throwableAnalyzer.getFirstThrowableOfType(RedisConnectionFailureException.class, causeChain);
+        if(redisException!=null){
+            return errorResponse(600,"Redis connect exception !",redisException.getMessage());
         }
         //剩下的是内部异常
-        return errorResponse(500,"Internal Server Error !", exception.getMessage());
+        return errorResponse(500,"Internal Server Error !", e.getMessage());
     }
 
     /**

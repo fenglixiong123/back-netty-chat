@@ -8,6 +8,7 @@ import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,6 +35,20 @@ public class CoreExceptionHandler {
      * @return
      */
     @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResultResponse<String> httpRequestMethodNotSupportedHandler(HttpServletRequest request, Exception e){
+        log.error("【异常地址】：{}",request.getRequestURL().toString());
+        log.error("【异常类型】请求方法异常HttpRequestMethodNotSupportedException：{}",e.getMessage());
+        return ResultResponse.error("HttpMethod not support !",e.getMessage());
+    }
+
+    /**
+     * 自定义传参异常类
+     * @param request
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ParamException.class)
     public ResultResponse<String> paramExceptionHandler(HttpServletRequest request, Exception e){
         log.error("【异常地址】：{}",request.getRequestURL().toString());
@@ -49,11 +64,12 @@ public class CoreExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultResponse methodNotValidExceptionHandler(HttpServletRequest request,MethodArgumentNotValidException e){
+    public ResultResponse<String> methodNotValidExceptionHandler(HttpServletRequest request,MethodArgumentNotValidException e){
         log.error("【异常地址】：{}",request.getRequestURL().toString());
         log.error("【异常类型】字段校验异常MethodArgumentNotValidException：{}",e.getMessage());
         String errorMsg = "字段校验异常";
-        if(e.getBindingResult()!=null&&e.getBindingResult().getFieldError()!=null){
+        e.getBindingResult();
+        if(e.getBindingResult().getFieldError() != null){
             errorMsg = e.getBindingResult().getFieldError().getDefaultMessage();
         }
         return ResultResponse.error(ErrorMsgEnum.PARAM_CHECK,errorMsg);
@@ -81,7 +97,7 @@ public class CoreExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResultResponse jsonConvertExceptionHandler(HttpServletRequest request,Exception e){
+    public ResultResponse<String> jsonConvertExceptionHandler(HttpServletRequest request,Exception e){
         log.error("【异常地址】：{}",request.getRequestURL().toString());
         log.error("【异常类型】业务异常JsonConvertException：{}",e.getMessage());
         return ResultResponse.error(ErrorMsgEnum.JSON_CONVERT_ERROR,e.getMessage());
@@ -95,7 +111,7 @@ public class CoreExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(BizException.class)
-    public ResultResponse bizExceptionHandler(HttpServletRequest request,Exception e){
+    public ResultResponse<String> bizExceptionHandler(HttpServletRequest request,Exception e){
         log.error("【异常地址】：{}",request.getRequestURL().toString());
         log.error("【异常类型】业务异常BizException：{}",e.getMessage());
         return ResultResponse.error(e.getMessage());
@@ -122,7 +138,7 @@ public class CoreExceptionHandler {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public ResultResponse defaultExceptionHandler(HttpServletRequest request,Exception e){
+    public ResultResponse<String> defaultExceptionHandler(HttpServletRequest request,Exception e){
         log.error("【异常地址】：{}",request.getRequestURL().toString());
         String message;
         if(e instanceof NullPointerException){
