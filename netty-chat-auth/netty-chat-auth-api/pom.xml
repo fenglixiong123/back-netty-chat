@@ -17,9 +17,10 @@
             <groupId>com.flx.chat</groupId>
             <artifactId>netty-chat-common</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-openfeign</artifactId>
         </dependency>
 
     </dependencies>

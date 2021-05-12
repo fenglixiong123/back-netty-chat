@@ -15,6 +15,7 @@
         <netty.chat.common.version>1.0-SNAPSHOT</netty.chat.common.version>
         <netty.chat.plugin.version>1.0-SNAPSHOT</netty.chat.plugin.version>
         <netty.chat.security.version>1.0-SNAPSHOT</netty.chat.security.version>
+        <netty.chat.openfeign.version>1.0-SNAPSHOT</netty.chat.openfeign.version>
 
         <netty.chat.admin.api.version>1.0-SNAPSHOT</netty.chat.admin.api.version>
         <netty.chat.admin.crud.version>1.0-SNAPSHOT</netty.chat.admin.crud.version>
@@ -68,6 +69,14 @@
                 <artifactId>netty-chat-security</artifactId>
                 <version>${netty.chat.security.version}</version>
             </dependency>
+
+            <!--微服务-->
+            <dependency>
+                <groupId>com.flx.chat</groupId>
+                <artifactId>netty-chat-openfeign</artifactId>
+                <version>${netty.chat.openfeign.version}</version>
+            </dependency>
+
 
             <!--管理系统相关依赖-->
             <dependency>

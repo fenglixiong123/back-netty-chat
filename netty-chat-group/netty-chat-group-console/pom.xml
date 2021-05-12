@@ -27,6 +27,11 @@
             <artifactId>netty-chat-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-auth-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -1,6 +1,9 @@
 package com.flx.netty.chat.group.console.controller;
 
+import com.flx.netty.chat.auth.api.client.UserClient;
+import com.flx.netty.chat.auth.api.vo.WebUserVO;
 import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.validate.ValidationResult;
@@ -27,6 +30,9 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
+    @Autowired
+    private UserClient userClient;
+
     @GetMapping("/currentUser")
     public ResultResponse getCurrentUser(){
         try {
@@ -39,6 +45,8 @@ public class GroupController {
     @GetMapping("/get/{id}")
     public ResultResponse get(@PathVariable Long id){
         try {
+            ResultResponse<WebUserVO> response = userClient.get(id);
+            System.out.println(JsonUtils.toJsonMsg(response));
             return ResultResponse.success(groupService.get(id));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());

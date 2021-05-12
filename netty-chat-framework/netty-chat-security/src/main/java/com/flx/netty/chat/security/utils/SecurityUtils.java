@@ -3,6 +3,7 @@ package com.flx.netty.chat.security.utils;
 import com.flx.netty.chat.security.entity.CustomAuthority;
 import com.flx.netty.chat.security.entity.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 import java.util.Set;
 
@@ -16,6 +17,14 @@ public class SecurityUtils {
      */
     public static CustomUserDetails currentUser() {
         return (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    /**
+     * 获取Token
+     */
+    public static String getToken(){
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return details.getTokenValue();
     }
 
     /**

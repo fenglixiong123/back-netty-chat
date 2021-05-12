@@ -17,6 +17,7 @@
         <module>netty-chat-generator</module>
         <module>netty-chat-plugin</module>
         <module>netty-chat-security</module>
+        <module>netty-chat-openfeign</module>
     </modules>
 
 </project>

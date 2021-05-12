@@ -6,6 +6,7 @@ import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
+import com.flx.netty.chat.microservice.interceptor.OAuth2FeignRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  * @Date: 2021/4/21 20:32
  * @Description:
  */
-@FeignClient(name = "netty-chat-auth",path = "/auth/user")
+@FeignClient(name = "netty-chat-auth",path = "/auth/user",configuration = OAuth2FeignRequestInterceptor.class)
 public interface UserClient {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
