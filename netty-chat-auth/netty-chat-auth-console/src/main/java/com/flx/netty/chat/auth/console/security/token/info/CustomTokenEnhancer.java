@@ -37,7 +37,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         try {
             WebUserVO userVO = userService.getByUsername(username);
             customInfoMap.put("userInfo", JsonUtils.toJsonMsg(userVO));
-            customInfoMap.put("slogin","I am a good man!");
+            customInfoMap.put("slogan","I am a good man!");
             ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(customInfoMap);
 
             return accessToken;
