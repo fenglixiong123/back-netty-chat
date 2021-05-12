@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
@@ -22,10 +23,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer //当前应用是一个认证服务器
 public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired//Token存储信息(客户端获取token的地方)
-    private TokenStore tokenStore;
-    @Autowired//Token信息增强
-    private CustomTokenEnhancer tokenEnhancer;
+    @Autowired
+    private DefaultTokenServices tokenServices;
     @Autowired//授权信息管理(用户的授权信息)
     private AuthenticationManager authenticationManager;
     @Autowired//资源客户端信息(各个微服务)
@@ -76,8 +75,7 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenStore(tokenStore)//token存储方式
-                .tokenEnhancer(tokenEnhancer)//token信息增强
+                .tokenServices(tokenServices)//Token管理器
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
 

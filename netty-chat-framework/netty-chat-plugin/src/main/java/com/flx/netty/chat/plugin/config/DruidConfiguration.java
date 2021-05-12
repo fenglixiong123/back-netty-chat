@@ -65,8 +65,8 @@ public class DruidConfiguration {
         //设置ip黑名单，优先级高于白名单
         //servletRegistrationBean.addInitParameter("deny", "192.168.0.19");
         //设置控制台管理用户
-        servletRegistrationBean.addInitParameter("loginUsername", "root");
-        servletRegistrationBean.addInitParameter("loginPassword", "root");
+        servletRegistrationBean.addInitParameter("loginUsername", "admin");
+        servletRegistrationBean.addInitParameter("loginPassword", "welcome");
         //是否可以重置数据
         servletRegistrationBean.addInitParameter("resetEnable", "false");
         return servletRegistrationBean;

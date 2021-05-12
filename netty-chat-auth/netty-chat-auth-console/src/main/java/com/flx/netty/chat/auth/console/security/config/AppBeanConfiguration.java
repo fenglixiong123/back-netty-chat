@@ -1,9 +1,12 @@
 package com.flx.netty.chat.auth.console.security.config;
 
+import com.flx.netty.chat.auth.console.security.client.CustomClientDetailsService;
+import com.flx.netty.chat.auth.console.security.token.info.CustomTokenEnhancer;
 import com.flx.netty.chat.auth.console.security.token.store.CustomTokenStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -16,8 +19,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 @Configuration
 public class AppBeanConfiguration {
 
-    @Autowired
+    @Autowired//Token存储信息
     private CustomTokenStore customTokenStore;
+    @Autowired//Token信息增强
+    private CustomTokenEnhancer tokenEnhancer;
+    @Autowired//资源客户端信息(各个微服务)
+    private CustomClientDetailsService clientDetailsService;
 
     /**
      * 权限不足处理方式
@@ -38,8 +45,12 @@ public class AppBeanConfiguration {
     }
 
     @Bean
-    public DefaultTokenServices tokenServices(){
-        return new DefaultTokenServices();
+    public DefaultTokenServices tokenServices() {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setTokenEnhancer(tokenEnhancer);
+        tokenServices.setClientDetailsService(clientDetailsService);
+        return tokenServices;
     }
 
 }
