@@ -1,7 +1,7 @@
 package com.flx.netty.chat.auth.console.security.config;
 
 import com.flx.netty.chat.auth.console.security.client.CustomClientDetailsService;
-import com.flx.netty.chat.auth.console.security.token.info.CustomTokenEnhancer;
+import com.flx.netty.chat.auth.console.security.handler.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * @Author: Fenglixiong
@@ -29,6 +28,8 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
     private AuthenticationManager authenticationManager;
     @Autowired//资源客户端信息(各个微服务)
     private CustomClientDetailsService clientDetailsService;
+    @Autowired//自定义异常处理类
+    private CustomExceptionHandler customExceptionHandler;
 
     /**
      * 配置客户端应用的信息
@@ -77,6 +78,7 @@ public class Auth2AuthServerConfig extends AuthorizationServerConfigurerAdapter 
         endpoints
                 .tokenServices(tokenServices)//Token管理器
                 .authenticationManager(authenticationManager)//用来校验传过来的用户信息是不是合法的
+                .exceptionTranslator(customExceptionHandler)//统一异常返回格式
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
 
     }
