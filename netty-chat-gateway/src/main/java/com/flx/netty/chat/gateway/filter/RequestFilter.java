@@ -1,5 +1,6 @@
 package com.flx.netty.chat.gateway.filter;
 
+import com.flx.netty.chat.gateway.config.constants.OrderConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -19,13 +20,12 @@ import java.net.URI;
  */
 @Slf4j
 @Component
-public class UrlFilter implements GlobalFilter, Ordered {
+public class RequestFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        //String token =  exchange.getRequest().getQueryParams().getFirst("token");
 
-        log.info("Gateway收到请求:");
+        log.info("Gateway request : ");
         URI uri = exchange.getRequest().getURI();
         log.info("  +++++URI = "+uri.toString());
 
@@ -44,6 +44,6 @@ public class UrlFilter implements GlobalFilter, Ordered {
      */
     @Override
     public int getOrder() {
-        return 1;
+        return OrderConstant.ORDER_REQUEST_FILTER;
     }
 }
