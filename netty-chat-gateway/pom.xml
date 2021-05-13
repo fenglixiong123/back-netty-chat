@@ -13,17 +13,28 @@
     <artifactId>netty-chat-gateway</artifactId>
 
     <dependencies>
+
+        <!--Gateway网关服务-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <!--微服务必备套件-->
         <dependency>
             <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-plugin</artifactId>
+            <artifactId>netty-chat-openfeign</artifactId>
             <exclusions>
-                <!--网关不需要被auth2保护所以需要排除掉-->
                 <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-oauth2</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.flx.chat</groupId>
+                    <artifactId>netty-chat-common</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+
     </dependencies>
 
 </project>

@@ -12,14 +12,12 @@
     <artifactId>netty-chat-message-api</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-common</artifactId>
+            <artifactId>netty-chat-openfeign</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>

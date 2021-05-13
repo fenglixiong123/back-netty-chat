@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "群管理")
 @RestController
-@RequestMapping("/web/home")
+@RequestMapping("/group-service/home")
 public class HomeController {
 
     @Autowired

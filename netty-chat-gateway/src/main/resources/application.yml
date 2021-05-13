@@ -1,0 +1,61 @@
+
+server:
+  port: 8888
+spring:
+  application:
+    name: netty-chat-gateway
+  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+#      config:
+#        server-addr: 127.0.0.1:8848
+#        file-extension: yaml
+    #开启自动路由
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: auth  #权限
+          uri: lb://netty-chat-auth #转发的地址,写服务名称
+          predicates:
+            - Path=/web/auth/** #判断匹配条件,即地址带有/auth/**的请求,会转发至lb:netty-chat-auth
+          filters:
+            - StripPrefix=1 #去除前缀个数,请求 http://web/auth 转发到 http://127.0.0.1:8001/auth
+        - id: group
+          uri: lb://netty-chat-group
+          predicates:
+            - Path=/web/group-service/**
+          filters:
+            - StripPrefix=1
+        - id: message
+          uri: lb://netty-chat-message
+          predicates:
+            - Path=/web/message-service/**
+          filters:
+            - StripPrefix=1
+      globalcors:
+        cors-configurations: #全局允许跨域访问
+          '[/**]':
+            allow-credentials: true
+            allowed-origins: "*"
+            allowed-headers: "*"
+            allowed-methods:
+              - OPTIONS
+              - GET
+              - POST
+              - PUT
+              - DELETE
+  #redis配置
+#  redis:
+#    host: 127.0.0.1
+#    password:
+#    port: 6379
+#    database: 0
+#    timeout: 60000
+
+
+# 重写url过滤器
+#- RewritePath=/product-service/(?<segment>.*), /$\{segment}

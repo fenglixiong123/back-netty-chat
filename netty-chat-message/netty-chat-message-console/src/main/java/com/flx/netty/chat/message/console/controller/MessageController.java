@@ -20,7 +20,7 @@ import java.util.Map;
  **/
 @Api(tags = "用户消息管理")
 @RestController
-@RequestMapping("/web/message")
+@RequestMapping("/message-service/message")
 public class MessageController {
 
     @Autowired
