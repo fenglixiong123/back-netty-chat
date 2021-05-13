@@ -21,6 +21,6 @@ public class AuthenticationDeniedHandler extends OAuth2AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        ResultResponse.printError(response,"401","[Resource] Sorry, authenticate failed !",e.getMessage());
+        ResultResponse.printError(response,"401","Sorry,resource authorize deny !",e.getMessage());
     }
 }
