@@ -124,6 +124,10 @@ public class ResultResponse<E> {
         printJson(response,false,code,message,null);
     }
 
+    public static <E> void printError(HttpServletResponse response,String code, String message,E data) {
+        printJson(response,false,code,message,data);
+    }
+
     public static <E> void printJson(HttpServletResponse response,boolean success, String code, String message, E data) {
         response.setContentType(WebConstant.CONTENT_TYPE_JSON);
         try {
