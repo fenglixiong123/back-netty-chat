@@ -43,7 +43,7 @@ public class OAuth2FeignRequestInterceptor implements RequestInterceptor {
             String tokenFromHeader = request.getHeader(AUTHORIZATION_HEADER);
             if (StringUtils.isNotBlank(tokenFromHeader)) {
                 log.info(">>>>>>> Get token from header : token = {}",tokenFromHeader);
-                requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, tokenFromHeader));
+                requestTemplate.header(AUTHORIZATION_HEADER, tokenFromHeader);
                 return;
             }
             log.info(">>>>>>> Get token error !");
