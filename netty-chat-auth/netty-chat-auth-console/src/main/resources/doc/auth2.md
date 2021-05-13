@@ -26,6 +26,21 @@ https://blog.csdn.net/l984411392/article/details/103276173
 ---
 ![Auth2登录流程](../static/img/auth_03.png)
 
+## 用户信息验证
+    
+    可以参考：AuthenticationManager--->OAuth2AuthenticationManager
+
+## Token信息验证
+
+    可以参考：
+
+    * AuthorizationServerTokenServices
+                --->DefaultTokenServices//授权服务
+    * ResourceServerTokenServices
+                --->DefaultTokenServices//直接验证
+                --->RemoteTokenServices//远程TokenInfo
+                --->UserInfoTokenServices//远程userInfo
+
 
 # Auth2介绍
 
