@@ -24,6 +24,9 @@ import java.util.Set;
  * @Date: 2021/5/3 12:20
  * @Description: 根据ClientId获取客户端的信息
  * 客户端在获取token的时候，会给你个clientId，然后根据这个clientId返回ClientDetails
+ *
+ * 参考类：DefaultTokenServices
+ * 可能会调用多次5-6次，因为我们设置了ClientDetailsService，所以token过期时间，刷新时间，client校验等都需要调用loadClientByClientId拿到数据
  */
 @Slf4j
 @Component

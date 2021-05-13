@@ -25,6 +25,7 @@ https://blog.csdn.net/l984411392/article/details/103276173
 ![Auth2登录流程](../static/img/auth_02.png)
 ---
 ![Auth2登录流程](../static/img/auth_03.png)
+---
 
 ## 用户信息验证
     
@@ -167,6 +168,76 @@ OAuth2 Provider分为授权服务和资源服务：
 
 其他服务提供方的微服务称为资源服务，例如：用户服务，订单服务，消息服务等
 
+## 资源服务校验Token几种方式
+
+![Auth2登录流程](../static/img/auth_04.png)
+
+### (1)资源服务远程调用认证服务验证Token
+
+此方式需要依赖认证中心，而且会有网络开销
+
+需要配置远程校验服务类
+
+* RemoteTokenServices//远程TokenInfo
+* UserInfoTokenServices//远程userInfo
+
+        //资源服务令牌解析服务
+        @Bean
+        public ResourceServerTokenServices tokenService() {
+            //使用远程服务请求授权服务器校验token,必须指定校验token 的url、client_id，client_secret
+            final RemoteTokenServices service = new RemoteTokenServices();
+            service.setCheckTokenEndpointUrl("http://localhost:3000/oauth/check_token");
+            service.setClientId("client");
+            service.setClientSecret("secret");
+            return service;
+        }
+
+配置相应的配置项
+
+    security:
+      oauth2:
+        client:
+          clientId: client
+          clientSecret: secret
+          access-token-uri: http://localhost:3000/oauth/token
+
+### (2)资源服务配置token相关的Bean
+
+也是目前我们采用的，自身连接redis校验，没有网络开销，不依赖与认证服务
+
+自己校验token，跟第三种方式区别在于启动时不需要去认证服务调用/oauth/token_key接口，不依赖域认证服务启动。
+
+        @Bean
+        @ConditionalOnMissingBean
+        public TokenStore tokenStore(){
+            log.info("[Resource] Token store in redis !");
+            LettuceConnectionFactory redisFactory = new LettuceConnectionFactory();//采用redis其他库
+            redisFactory.setDatabase(securityProperties.getRedisIndex());//设置存储token的redis库
+            redisFactory.afterPropertiesSet();
+            return new RedisTokenStore(redisFactory);
+        }
+
+### (3)资源服务启动调用/oauth/token_key接口初始化tokenStore(一般默认方式)
+
+常用于jwt服务采RSA非对称加密方式
+
+资源服务自己校验token，也就是资源服务拿到token后，根据已知的算法和签名密钥去校验token，这种方式减少了网络开销。
+
+    security:
+      oauth2:
+        client:
+          clientId: client
+          clientSecret: secret
+          access-token-uri: http://localhost:3000/oauth/token
+          user-authorization-uri: http://localhost:3000/oauth/authorize
+        resource:
+          user-info-uri: http://localhost:3000/user
+          prefer-token-info: false
+          jwt:
+             key-uri: http://localhost:32002/oauth/token_key
+          id: cpms-resource-user
+        authorization:
+          check-token-access: http://localhost:3000/oauth/check_token
 
 # HttpSecurity拦截URL
 

@@ -47,9 +47,13 @@ public class AppBeanConfiguration {
     @Bean
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(tokenStore());
-        tokenServices.setTokenEnhancer(tokenEnhancer);
-        tokenServices.setClientDetailsService(clientDetailsService);
+        tokenServices.setTokenStore(tokenStore());//设置token存储方式
+        tokenServices.setTokenEnhancer(tokenEnhancer);//设置token附加信息
+        tokenServices.setClientDetailsService(clientDetailsService);//设置这个如果客户端信息配置了默认的会失效
+        tokenServices.setSupportRefreshToken(true);//默认设置支持token刷新
+        tokenServices.setReuseRefreshToken(true);//默认设置支持token重用
+        tokenServices.setAccessTokenValiditySeconds(7200);//设置默认token过期时间
+        tokenServices.setRefreshTokenValiditySeconds(7200);//设置默认token刷新过期时间
         return tokenServices;
     }
 
