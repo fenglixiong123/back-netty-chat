@@ -19,7 +19,7 @@ import java.net.URI;
  * @Description:
  */
 @Slf4j
-@Component
+//@Component
 public class RequestFilter implements GlobalFilter, Ordered {
 
     @Override

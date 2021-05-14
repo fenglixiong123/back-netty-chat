@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
  * @Description: 响应日志拦截器
  */
 @Slf4j
-@Component
+//@Component
 public class LogResponseFilter implements GlobalFilter, Ordered {
 
     @Override

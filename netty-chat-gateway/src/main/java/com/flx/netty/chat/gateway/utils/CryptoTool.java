@@ -1,4 +1,4 @@
-package com.flx.netty.chat.plugin.utils;
+package com.flx.netty.chat.gateway.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +54,7 @@ public class CryptoTool {
     public static String decode64(String src,String charset){
         byte[] asBytes = Base64.getMimeDecoder().decode(src);
         try {
-            return new String(asBytes, Objects.requireNonNull(charset));
+            return new String(asBytes,Objects.requireNonNull(charset));
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage());
             return null;

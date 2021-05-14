@@ -25,6 +25,8 @@ public class LogEntity {
      */
     private String ip;
 
+    private Integer port;
+
     private String url;
     private String method;
     private String query;

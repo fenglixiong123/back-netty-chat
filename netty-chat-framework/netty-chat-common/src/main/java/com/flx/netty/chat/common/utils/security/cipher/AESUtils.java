@@ -35,7 +35,7 @@ public class AESUtils {
      * 采用的AES密钥长度
      * 128 256 ...
      */
-    private final static int DEFAULT_KEY_SIZE = 128;
+    private final static int DEFAULT_KEY_SIZE = 256;
 
     /**
      * 加密算法
