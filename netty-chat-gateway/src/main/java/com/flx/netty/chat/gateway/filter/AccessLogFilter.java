@@ -1,5 +1,6 @@
 package com.flx.netty.chat.gateway.filter;
 
+import com.flx.netty.chat.gateway.constants.OrderConstant;
 import com.flx.netty.chat.gateway.entity.GatewayLog;
 import com.flx.netty.chat.gateway.enums.LogTypeEnum;
 import com.flx.netty.chat.gateway.service.AccessLogService;
@@ -63,7 +64,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -100;
+        return OrderConstant.ORDER_LOG_FILTER;
     }
 
     @Override

@@ -8,24 +8,11 @@ package com.flx.netty.chat.gateway.constants;
 public class OrderConstant {
 
     /**
-     * 日志请求拦截器
-     */
-    public final static int ORDER_LOG_REQUEST_FILTER = 1;
-
-    /**
      * 日志响应拦截器顺序
      * NettyWriteResponseFilter WRITE_RESPONSE_FILTER_ORDER = -1
      */
-    public final static int ORDER_LOG_RESPONSE_FILTER = -2;
+    public final static int ORDER_LOG_FILTER = -2;
 
-    /**
-     * 请求拦截器顺序
-     */
-    public final static int ORDER_REQUEST_FILTER = 1;
 
-    /**
-     * 响应拦截器顺序
-     */
-    public final static int ORDER_RESPONSE_FILTER = -99;
 
 }
