@@ -2,9 +2,9 @@ package com.flx.netty.chat.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.flx.netty.chat.gateway.config.constants.HeaderConstant;
-import com.flx.netty.chat.gateway.config.constants.OrderConstant;
-import com.flx.netty.chat.gateway.entity.LogEntity;
+import com.flx.netty.chat.gateway.constants.HeaderConstant;
+import com.flx.netty.chat.gateway.constants.OrderConstant;
+import com.flx.netty.chat.gateway.entity.GatewayLog;
 import com.flx.netty.chat.gateway.utils.CryptoTool;
 import com.flx.netty.chat.gateway.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +61,7 @@ public class LogRequestFilter implements GlobalFilter, Ordered {
 
         try{
 
-            LogEntity logEntity = new LogEntity();
+            GatewayLog logEntity = new GatewayLog();
             long startTime = System.currentTimeMillis();
             ServerHttpRequest oldRequest = exchange.getRequest();
             String paramSign = oldRequest.getQueryParams().getFirst("sign");
@@ -87,7 +87,7 @@ public class LogRequestFilter implements GlobalFilter, Ordered {
             logEntity.setMethod(method);
 
             //重新写header
-            AtomicReference<String> requestId = new AtomicReference<>(UUID.randomUUID().toString());
+            AtomicReference<String> requestId = new AtomicReference<>(UUID.randomUUID().toString().replaceAll("-", ""));
             Consumer<HttpHeaders> headerConsumer = httpHeaders -> {
                 String headerRequestId = oldRequest.getHeaders().getFirst(HeaderConstant.REQUEST_ID);
                 if(StringUtils.isBlank(headerRequestId)){

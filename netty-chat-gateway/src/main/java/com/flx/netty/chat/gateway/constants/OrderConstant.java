@@ -1,4 +1,4 @@
-package com.flx.netty.chat.gateway.config.constants;
+package com.flx.netty.chat.gateway.constants;
 
 /**
  * @Author: Fenglixiong
@@ -14,6 +14,7 @@ public class OrderConstant {
 
     /**
      * 日志响应拦截器顺序
+     * NettyWriteResponseFilter WRITE_RESPONSE_FILTER_ORDER = -1
      */
     public final static int ORDER_LOG_RESPONSE_FILTER = -2;
 

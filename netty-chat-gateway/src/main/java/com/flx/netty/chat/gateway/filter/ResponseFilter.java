@@ -1,6 +1,6 @@
 package com.flx.netty.chat.gateway.filter;
 
-import com.flx.netty.chat.gateway.config.constants.OrderConstant;
+import com.flx.netty.chat.gateway.constants.OrderConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

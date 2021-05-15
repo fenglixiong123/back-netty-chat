@@ -48,14 +48,29 @@ spring:
               - POST
               - PUT
               - DELETE
+      #默认的异常处理
+      default-filters:
+        - name: Hystrix
+          args:
+            name: default
+            fallbackUri: 'forward:/defaultFallback'
   #redis配置
-#  redis:
-#    host: 127.0.0.1
-#    password:
-#    port: 6379
-#    database: 0
-#    timeout: 60000
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 60000
 
+# 默认熔断超时时间5s
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 5000
 
 # 重写url过滤器
 #- RewritePath=/product-service/(?<segment>.*), /$\{segment}

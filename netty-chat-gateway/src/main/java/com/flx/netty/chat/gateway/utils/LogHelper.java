@@ -1,8 +1,8 @@
 package com.flx.netty.chat.gateway.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flx.netty.chat.gateway.config.constants.HeaderConstant;
-import com.flx.netty.chat.gateway.entity.LogEntity;
+import com.flx.netty.chat.gateway.constants.HeaderConstant;
+import com.flx.netty.chat.gateway.entity.GatewayLog;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,7 +52,7 @@ public class LogHelper {
      * @param dto Log
      * @return Mono.empty()
      */
-    public static Mono<Void> doRecord(LogEntity dto) {
+    public static Mono<Void> doRecord(GatewayLog dto) {
         log.info(JsonUtils.toJsonMsg(dto));
         return Mono.empty();
     }

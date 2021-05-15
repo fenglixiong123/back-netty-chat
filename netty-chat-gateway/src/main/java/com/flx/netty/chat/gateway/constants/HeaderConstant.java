@@ -1,4 +1,4 @@
-package com.flx.netty.chat.gateway.config.constants;
+package com.flx.netty.chat.gateway.constants;
 
 /**
  * @Author: Fenglixiong
