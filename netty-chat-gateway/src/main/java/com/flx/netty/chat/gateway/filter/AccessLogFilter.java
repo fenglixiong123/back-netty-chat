@@ -1,6 +1,7 @@
 package com.flx.netty.chat.gateway.filter;
 
 import com.flx.netty.chat.gateway.entity.GatewayLog;
+import com.flx.netty.chat.gateway.enums.LogTypeEnum;
 import com.flx.netty.chat.gateway.service.AccessLogService;
 import com.flx.netty.chat.gateway.utils.IPUtils;
 import com.google.common.base.Objects;
@@ -71,20 +72,24 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
         ServerHttpRequest request = exchange.getRequest();
 
+        HttpHeaders headers = request.getHeaders();
         // 请求路径
-        String url = request.getURI().getPath();
         Route route = getGatewayRoute(exchange);
         String ipAddress = IPUtils.getClientIp(request);
+        String contentType = headers.getFirst("Content-Type");
 
         GatewayLog gatewayLog = new GatewayLog();
+        gatewayLog.setIp(ipAddress);
+        gatewayLog.setUrl(request.getURI().toString());
         gatewayLog.setSchema(request.getURI().getScheme());
         gatewayLog.setMethod(request.getMethodValue());
-        gatewayLog.setUrl(url);
+        gatewayLog.setContentType(contentType);
+        gatewayLog.setQuery(request.getURI().getQuery());
         gatewayLog.setTargetServer(route.getId());
         gatewayLog.setRequestTime(new Date());
-        gatewayLog.setIp(ipAddress);
+        gatewayLog.setLogType(LogTypeEnum.REQUEST.name());
 
-        MediaType mediaType = request.getHeaders().getContentType();
+        MediaType mediaType = headers.getContentType();
 
         if(MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(mediaType) || MediaType.APPLICATION_JSON.isCompatibleWith(mediaType)){
             return writeBodyLog(exchange, chain, gatewayLog);

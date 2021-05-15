@@ -18,10 +18,10 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: auth  #权限
+        - id: netty-chat-auth  #权限
           uri: lb://netty-chat-auth #转发的地址,写服务名称
           predicates:
-            - Path=/web/auth/** #判断匹配条件,即地址带有/auth/**的请求,会转发至lb:netty-chat-auth
+            - Path=/web/auth/**,/web/oauth/** #判断匹配条件,即地址带有/auth/**的请求,会转发至lb:netty-chat-auth
           filters:
             - StripPrefix=1 #去除前缀个数,请求 http://web/auth 转发到 http://127.0.0.1:8001/auth
         - id: group

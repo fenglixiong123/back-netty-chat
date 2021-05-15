@@ -12,28 +12,25 @@ import java.util.Date;
 @Data
 public class GatewayLog {
 
-    /**
-     * 主键
-     */
+    /**主键*/
     private Long id;
-
-    /**
-     * 请求ID
-     */
+    /**请求ID*/
     private String requestId;
-
-
-    /**
-     * Ip地址
-     */
+    /**Ip地址*/
     private String ip;
-    private Integer port;
+    /**请求地址*/
     private String url;
+    /**请求方法*/
     private String method;
+    /**请求参数*/
     private String query;
+    /**请求头*/
     private String header;
+    /**请求类型*/
     private String contentType;
+    /**请求内容*/
     private String requestBody;
+    /**响应内容*/
     private String responseBody;
 
     /**日志类型*/
