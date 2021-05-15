@@ -8,7 +8,29 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import java.util.Set;
 
 /**
+ * 参考文章：https://www.cnblogs.com/longfurcat/p/9417912.html
  *
+ * SecurityContextHolder(默认ThreadLocal模式存储上下文信息)
+ *      |--->getContext()   获取上下文对象
+ *      |--->setContext()   设置上下文对象
+ *      |--->clearContext() 清理上下文对象
+ * SecurityContext
+ *      |--->getAuthentication()    获取用户认证信息
+ *      |--->setAuthentication()    设置用户认证信息
+ * Authentication
+ *      |--->getAuthorities()       获取用户权限
+ *      |--->getCredentials()
+ *      |--->getDetails()           用户信息UserDetails
+ *      |--->getPrincipal()
+ *      |--->isAuthenticated()
+ *
+ * 由于我们采用微服务本身验证token的方式：
+ *
+ *      |--->当请求到来的时候
+ *      |--->security获得token
+ *      |--->TokenService决定验证token方式(本地)
+ *      |--->TokenService读取redis中用户认证信息
+ *      |--->存入SecurityContextHolder中
  */
 public class SecurityUtils {
 
