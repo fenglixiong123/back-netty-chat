@@ -11,17 +11,32 @@ import lombok.Data;
  */
 
 @Data
-public class RoleVO extends BaseVO {
+public class WebPermissionVO extends BaseVO {
 
     /**
-     * 角色编号
+     * 父权限id
+     */
+    private Long pid;
+
+    /**
+     * 权限编码
      */
     private String code;
 
     /**
-     * 角色名称
+     * 权限名称
      */
     private String name;
+
+    /**
+     * 权限路径
+     */
+    private String path;
+
+    /**
+     * 权限图标
+     */
+    private String icon;
 
     /**
      * 排序

@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.console.service.impl;
 
-import com.flx.netty.chat.auth.api.vo.PermissionVO;
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
 import com.flx.netty.chat.auth.crud.entity.WebPermission;
 import com.flx.netty.chat.auth.console.service.PermissionService;
 import com.flx.netty.chat.auth.crud.manager.PermissionManager;
@@ -33,13 +33,13 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private PermissionManager permissionManager;
 
-    private void convertVO(List<PermissionVO> entityList){
+    private void convertVO(List<WebPermissionVO> entityList){
    
     }
    
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long add(PermissionVO entityVO) throws Exception {
+    public Long add(WebPermissionVO entityVO) throws Exception {
         WebPermission entity = permissionManager.get(entityVO.getId());
         if(entity!=null){
             throw new Exception("不能重复添加!");
@@ -53,7 +53,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
    
     @Override
-    public Integer update(PermissionVO entityVO) throws Exception {
+    public Integer update(WebPermissionVO entityVO) throws Exception {
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空!");
         }
@@ -73,35 +73,35 @@ public class PermissionServiceImpl implements PermissionService {
     }
    
     @Override
-    public PermissionVO get(Long id) throws Exception {
+    public WebPermissionVO get(Long id) throws Exception {
         WebPermission entity = permissionManager.get(id);
         if(entity==null){
             return null;
         }
-        return BeanUtils.copyProperties(entity, PermissionVO.class);
+        return BeanUtils.copyProperties(entity, WebPermissionVO.class);
     }
    
     @Override
-    public PageVO<PermissionVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebPermissionVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebPermission> iPage = permissionManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        PageVO<PermissionVO> pageVO = PageConvert.pageConvert(iPage, PermissionVO.class);
+        PageVO<WebPermissionVO> pageVO = PageConvert.pageConvert(iPage, WebPermissionVO.class);
         convertVO(pageVO.getRecords());
         return pageVO;
     }
    
     @Override
-    public List<PermissionVO> query(Map<String, Object> query) throws Exception {
-        return permissionManager.query(query).parallelStream().map(e -> BeanUtils.copyProperties(e, PermissionVO.class)).collect(Collectors.toList());
+    public List<WebPermissionVO> query(Map<String, Object> query) throws Exception {
+        return permissionManager.query(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebPermissionVO.class)).collect(Collectors.toList());
     }
    
     @Override
-    public List<PermissionVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
-        return permissionManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, PermissionVO.class)).collect(Collectors.toList());
+    public List<WebPermissionVO> querySome(Map<String, Object> query, String[] columns) throws Exception {
+        return permissionManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebPermissionVO.class)).collect(Collectors.toList());
     }
    
     @Override
-    public List<PermissionVO> queryAll(Map<String, Object> query) throws Exception {
-        return permissionManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, PermissionVO.class)).collect(Collectors.toList());
+    public List<WebPermissionVO> queryAll(Map<String, Object> query) throws Exception {
+        return permissionManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebPermissionVO.class)).collect(Collectors.toList());
     }
  
 }

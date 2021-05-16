@@ -19,7 +19,7 @@ import java.util.Map;
  * @Description:
  */
 @FeignClient(name = "netty-chat-auth",path = "/auth/user",configuration = OAuth2FeignRequestInterceptor.class)
-public interface UserClient {
+public interface WebUserClient {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
     ResultResponse<WebUserVO> get(@PathVariable(value = "id") Long id);

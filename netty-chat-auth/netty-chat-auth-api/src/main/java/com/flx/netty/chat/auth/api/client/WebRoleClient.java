@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.api.client;
 
-import com.flx.netty.chat.auth.api.vo.RoleVO;
+import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
@@ -19,16 +19,16 @@ import java.util.Map;
 * @since 2021-05-16
 */
 @FeignClient(name = "netty-chat-auth",path = "/role")
-public interface RoleClient {
+public interface WebRoleClient {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
-    ResultResponse<RoleVO> get(@PathVariable(value = "id") Long id);
+    ResultResponse<WebRoleVO> get(@PathVariable(value = "id") Long id);
 
     @PostMapping("/add")
-    ResultResponse<Long> add(@RequestBody RoleVO entityVO);
+    ResultResponse<Long> add(@RequestBody WebRoleVO entityVO);
 
     @PutMapping("/update")
-    ResultResponse<Integer> update(@RequestBody RoleVO entityVO);
+    ResultResponse<Integer> update(@RequestBody WebRoleVO entityVO);
 
     @PutMapping("/updateState")
     ResultResponse<Boolean> updateState(@RequestBody UpdateState entityVO);
@@ -37,15 +37,15 @@ public interface RoleClient {
     ResultResponse<Integer> delete(@PathVariable(value = "id") Long id);
 
     @PostMapping("/query")
-    ResultResponse<List<RoleVO>> query(@RequestBody Map<String,Object> query);
+    ResultResponse<List<WebRoleVO>> query(@RequestBody Map<String,Object> query);
 
     @PostMapping("/querySome")
-    ResultResponse<List<RoleVO>> querySome(@RequestBody Map<String,Object> query,@RequestParam(value = "columns") String[] columns);
+    ResultResponse<List<WebRoleVO>> querySome(@RequestBody Map<String,Object> query, @RequestParam(value = "columns") String[] columns);
 
     @PostMapping("/queryAll")
-    ResultResponse<List<RoleVO>> queryAll(@RequestBody Map<String,Object> query);
+    ResultResponse<List<WebRoleVO>> queryAll(@RequestBody Map<String,Object> query);
 
     @PostMapping("/queryPage")
-    ResultResponse<PageVO<RoleVO>> queryPage(@RequestBody PageQuery query);
+    ResultResponse<PageVO<WebRoleVO>> queryPage(@RequestBody PageQuery query);
 
 }

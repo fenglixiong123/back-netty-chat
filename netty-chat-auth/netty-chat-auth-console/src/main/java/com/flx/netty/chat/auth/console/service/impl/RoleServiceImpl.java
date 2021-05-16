@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.console.service.impl;
 
-import com.flx.netty.chat.auth.api.vo.RoleVO;
+import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 import com.flx.netty.chat.auth.crud.entity.WebRole;
 import com.flx.netty.chat.auth.console.service.RoleService;
 import com.flx.netty.chat.auth.crud.manager.RoleManager;
@@ -33,13 +33,13 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleManager roleManager;
 
-    private void convertVO(List<RoleVO> entityList){
+    private void convertVO(List<WebRoleVO> entityList){
    
     }
    
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long add(RoleVO entityVO) throws Exception {
+    public Long add(WebRoleVO entityVO) throws Exception {
         WebRole entity = roleManager.get(entityVO.getId());
         if(entity!=null){
             throw new Exception("不能重复添加!");
@@ -53,7 +53,7 @@ public class RoleServiceImpl implements RoleService {
     }
    
     @Override
-    public Integer update(RoleVO entityVO) throws Exception {
+    public Integer update(WebRoleVO entityVO) throws Exception {
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空!");
         }
@@ -73,35 +73,35 @@ public class RoleServiceImpl implements RoleService {
     }
    
     @Override
-    public RoleVO get(Long id) throws Exception {
+    public WebRoleVO get(Long id) throws Exception {
         WebRole entity = roleManager.get(id);
         if(entity==null){
             return null;
         }
-        return BeanUtils.copyProperties(entity, RoleVO.class);
+        return BeanUtils.copyProperties(entity, WebRoleVO.class);
     }
    
     @Override
-    public PageVO<RoleVO> queryPage(PageQuery pageQuery) throws Exception {
+    public PageVO<WebRoleVO> queryPage(PageQuery pageQuery) throws Exception {
         IPage<WebRole> iPage = roleManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
-        PageVO<RoleVO> pageVO = PageConvert.pageConvert(iPage, RoleVO.class);
+        PageVO<WebRoleVO> pageVO = PageConvert.pageConvert(iPage, WebRoleVO.class);
         convertVO(pageVO.getRecords());
         return pageVO;
     }
    
     @Override
-    public List<RoleVO> query(Map<String, Object> query) throws Exception {
-        return roleManager.query(query).parallelStream().map(e -> BeanUtils.copyProperties(e, RoleVO.class)).collect(Collectors.toList());
+    public List<WebRoleVO> query(Map<String, Object> query) throws Exception {
+        return roleManager.query(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebRoleVO.class)).collect(Collectors.toList());
     }
    
     @Override
-    public List<RoleVO> querySome(Map<String, Object> query,String[] columns) throws Exception {
-        return roleManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, RoleVO.class)).collect(Collectors.toList());
+    public List<WebRoleVO> querySome(Map<String, Object> query, String[] columns) throws Exception {
+        return roleManager.querySome(query,columns).parallelStream().map(e -> BeanUtils.copyProperties(e, WebRoleVO.class)).collect(Collectors.toList());
     }
    
     @Override
-    public List<RoleVO> queryAll(Map<String, Object> query) throws Exception {
-        return roleManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, RoleVO.class)).collect(Collectors.toList());
+    public List<WebRoleVO> queryAll(Map<String, Object> query) throws Exception {
+        return roleManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebRoleVO.class)).collect(Collectors.toList());
     }
  
 }

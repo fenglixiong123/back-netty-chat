@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.console.controller;
 
-import com.flx.netty.chat.auth.api.vo.RoleVO;
+import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 import com.flx.netty.chat.auth.console.service.RoleService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class RoleController {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody RoleVO entityVO){
+    public ResultResponse add(@RequestBody WebRoleVO entityVO){
         try {
             ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
@@ -52,7 +52,7 @@ public class RoleController {
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody RoleVO entityVO){
+    public ResultResponse update(@RequestBody WebRoleVO entityVO){
         try {
             return ResultResponse.success(roleService.update(entityVO));
         }catch (Exception e){

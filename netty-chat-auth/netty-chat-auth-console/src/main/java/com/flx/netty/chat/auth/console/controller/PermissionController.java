@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.console.controller;
 
-import com.flx.netty.chat.auth.api.vo.PermissionVO;
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
 import com.flx.netty.chat.auth.console.service.PermissionService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class PermissionController {
     }
 
     @PostMapping("/add")
-    public ResultResponse add(@RequestBody PermissionVO entityVO){
+    public ResultResponse add(@RequestBody WebPermissionVO entityVO){
         try {
             ValidationResult validate = ValidationUtils.validate(entityVO);
             if(!validate.isSuccess()){
@@ -52,7 +52,7 @@ public class PermissionController {
     }
 
     @PutMapping("/update")
-    public ResultResponse update(@RequestBody PermissionVO entityVO){
+    public ResultResponse update(@RequestBody WebPermissionVO entityVO){
         try {
             return ResultResponse.success(permissionService.update(entityVO));
         }catch (Exception e){
