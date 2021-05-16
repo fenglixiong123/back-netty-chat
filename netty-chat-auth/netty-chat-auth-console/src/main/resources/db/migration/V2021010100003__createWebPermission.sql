@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS `web_auth`.`web_permission`  (
     `pid` bigint(20) UNSIGNED NOT NULL COMMENT '父权限id',
     `code` varchar(64) NOT NULL COMMENT '权限编码',
     `name` varchar(64) NOT NULL COMMENT '权限名称',
-    `path` varchar(64) NOT NULL COMMENT '权限路径',
-    `icon` varchar(12) DEFAULT NULL COMMENT '权限图标',
+    `path` varchar(255) NOT NULL COMMENT '权限路径',
+    `icon` varchar(64) DEFAULT NULL COMMENT '权限图标',
     `order` int(11) DEFAULT NULL COMMENT '排序',
 
     `state` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'effective' COMMENT '状态',
