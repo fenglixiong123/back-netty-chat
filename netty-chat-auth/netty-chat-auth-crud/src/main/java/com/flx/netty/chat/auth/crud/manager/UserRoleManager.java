@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.crud.manager;
 
-import com.flx.netty.chat.auth.crud.entity.UserRole;
+import com.flx.netty.chat.auth.crud.entity.WebUserRole;
 import com.flx.netty.chat.auth.crud.dao.UserRoleDao;
 import org.springframework.stereotype.Service;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseManager;
@@ -18,70 +18,70 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class UserRoleManager extends BaseManager<UserRole, UserRoleDao> {
+public class UserRoleManager extends BaseManager<WebUserRole, UserRoleDao> {
 
-    public UserRole get(Long id) throws Exception {
+    public WebUserRole get(Long id) throws Exception {
         return super.get(id);
     }
     
-    public IPage<UserRole> queryPage(Integer pageNum, Integer pageSize, Map<String, Object> query) throws Exception {
+    public IPage<WebUserRole> queryPage(Integer pageNum, Integer pageSize, Map<String, Object> query) throws Exception {
         return super.queryPage(pageNum, pageSize, query);
     }
     
     
-    public IPage<UserRole> queryPage(Integer pageNum, Integer pageSize, Object query) throws Exception {
+    public IPage<WebUserRole> queryPage(Integer pageNum, Integer pageSize, Object query) throws Exception {
         return super.queryPage(pageNum, pageSize, query); 
     }
     
-    public List<UserRole> query(Object query) throws Exception { 
+    public List<WebUserRole> query(Object query) throws Exception {
         return super.query(query); 
     }
     
-    public List<UserRole> query(Map<String, Object> query) throws Exception {
+    public List<WebUserRole> query(Map<String, Object> query) throws Exception {
         return super.query(query);
     }
     
-    public List<UserRole> querySome(Object query,String[] columns) throws Exception {
+    public List<WebUserRole> querySome(Object query, String[] columns) throws Exception {
         return super.querySome(query,columns);
     }
     
-    public List<UserRole> querySome(Map<String, Object> query,String[] columns) throws Exception {
+    public List<WebUserRole> querySome(Map<String, Object> query, String[] columns) throws Exception {
         return super.querySome(query,columns);
     }
     
-    public List<UserRole> queryAll(Object query) throws Exception {
+    public List<WebUserRole> queryAll(Object query) throws Exception {
         return super.queryAll(query);
     }
     
-    public List<UserRole> queryAll(Map<String, Object> query) throws Exception {
+    public List<WebUserRole> queryAll(Map<String, Object> query) throws Exception {
         return super.queryAll(query);
     }
     
-    public Long add(UserRole entity) throws Exception {
+    public Long add(WebUserRole entity) throws Exception {
         return super.add(entity);
     }
     
-    public Integer add(List<UserRole> entityList) throws Exception {
+    public Integer add(List<WebUserRole> entityList) throws Exception {
         return super.add(entityList);
     }
     
-    public Integer update(UserRole entity) throws Exception {
+    public Integer update(WebUserRole entity) throws Exception {
         return super.update(entity);
     }
     
-    public Integer updateNull(UserRole entity) throws Exception {
+    public Integer updateNull(WebUserRole entity) throws Exception {
         return super.updateNull(entity);
     }
     
-    public Integer update(UserRole entity,String keyCode,String keyValue) throws Exception {
+    public Integer update(WebUserRole entity, String keyCode, String keyValue) throws Exception {
         return super.update(entity,keyCode,keyValue);
     }
     
-    public Integer updateNull(UserRole entity,String keyCode,String keyValue) throws Exception {
+    public Integer updateNull(WebUserRole entity, String keyCode, String keyValue) throws Exception {
         return super.updateNull(entity,keyCode,keyValue);
     }
     
-    public Integer updateState(UserRole entity) throws Exception {
+    public Integer updateState(WebUserRole entity) throws Exception {
         if(entity.getState().equals(State.deleted.name())){
             return super.delete(entity.getId());
         }

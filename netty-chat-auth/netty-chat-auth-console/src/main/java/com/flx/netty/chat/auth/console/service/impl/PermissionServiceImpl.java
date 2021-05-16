@@ -1,15 +1,12 @@
 package com.flx.netty.chat.auth.console.service.impl;
 
 import com.flx.netty.chat.auth.api.vo.PermissionVO;
-import com.flx.netty.chat.auth.crud.entity.Permission;
-import com.flx.netty.chat.auth.crud.dao.PermissionDao;
+import com.flx.netty.chat.auth.crud.entity.WebPermission;
 import com.flx.netty.chat.auth.console.service.PermissionService;
 import com.flx.netty.chat.auth.crud.manager.PermissionManager;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.flx.netty.chat.common.enums.State;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
@@ -43,11 +40,11 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long add(PermissionVO entityVO) throws Exception {
-        Permission entity = permissionManager.get(entityVO.getId());
+        WebPermission entity = permissionManager.get(entityVO.getId());
         if(entity!=null){
             throw new Exception("不能重复添加!");
         }
-        return permissionManager.add(BeanUtils.copyProperties(entityVO, Permission.class));
+        return permissionManager.add(BeanUtils.copyProperties(entityVO, WebPermission.class));
     }
    
     @Override
@@ -60,13 +57,13 @@ public class PermissionServiceImpl implements PermissionService {
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空!");
         }
-        return permissionManager.update(BeanUtils.copyProperties(entityVO, Permission.class));
+        return permissionManager.update(BeanUtils.copyProperties(entityVO, WebPermission.class));
     }
    
     @Override
     public boolean updateState(UpdateState entityVO) throws Exception {
         for (Long id : entityVO.getIds()){
-            Permission entity = new Permission();
+            WebPermission entity = new WebPermission();
             entity.setId(id);
             entity.setState(entityVO.getState());
             entity.setUpdateUser(entityVO.getUpdateUser());
@@ -77,7 +74,7 @@ public class PermissionServiceImpl implements PermissionService {
    
     @Override
     public PermissionVO get(Long id) throws Exception {
-        Permission entity = permissionManager.get(id);
+        WebPermission entity = permissionManager.get(id);
         if(entity==null){
             return null;
         }
@@ -86,7 +83,7 @@ public class PermissionServiceImpl implements PermissionService {
    
     @Override
     public PageVO<PermissionVO> queryPage(PageQuery pageQuery) throws Exception {
-        IPage<Permission> iPage = permissionManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
+        IPage<WebPermission> iPage = permissionManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         PageVO<PermissionVO> pageVO = PageConvert.pageConvert(iPage, PermissionVO.class);
         convertVO(pageVO.getRecords());
         return pageVO;

@@ -20,23 +20,23 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("web_user_role")
-@ApiModel(value="UserRole对象", description="")
-public class UserRole extends BaseDO {
+@TableName("web_role_permission")
+@ApiModel(value="RolePermission对象", description="")
+public class WebRolePermission extends BaseDO {
 
-
-    @ApiModelProperty(value = "用户id")
-    @TableField("user_id")
-    private Long userId;
 
     @ApiModelProperty(value = "角色id")
     @TableField("role_id")
     private Long roleId;
 
+    @ApiModelProperty(value = "权限id")
+    @TableField("permission_id")
+    private Long permissionId;
 
-    public static final String USER_ID = "user_id";
 
     public static final String ROLE_ID = "role_id";
+
+    public static final String PERMISSION_ID = "permission_id";
 
     @Override
     protected Serializable pkVal() {

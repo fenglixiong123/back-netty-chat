@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("web_permission")
 @ApiModel(value="Permission对象", description="")
-public class Permission extends BaseDO {
+public class WebPermission extends BaseDO {
 
 
     @ApiModelProperty(value = "父权限id")

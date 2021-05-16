@@ -1,6 +1,6 @@
 package com.flx.netty.chat.auth.crud.dao;
 
-import com.flx.netty.chat.auth.crud.entity.RolePermission;
+import com.flx.netty.chat.auth.crud.entity.WebRolePermission;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDao;
 
 import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
@@ -14,6 +14,6 @@ import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
  */
 
 @DaoMapper
-public interface RolePermissionDao extends BaseDao<RolePermission> {
+public interface RolePermissionDao extends BaseDao<WebRolePermission> {
 
 }

@@ -1,15 +1,12 @@
 package com.flx.netty.chat.auth.console.service.impl;
 
 import com.flx.netty.chat.auth.api.vo.RoleVO;
-import com.flx.netty.chat.auth.crud.entity.Role;
-import com.flx.netty.chat.auth.crud.dao.RoleDao;
+import com.flx.netty.chat.auth.crud.entity.WebRole;
 import com.flx.netty.chat.auth.console.service.RoleService;
 import com.flx.netty.chat.auth.crud.manager.RoleManager;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.flx.netty.chat.common.enums.State;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
@@ -43,11 +40,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long add(RoleVO entityVO) throws Exception {
-        Role entity = roleManager.get(entityVO.getId());
+        WebRole entity = roleManager.get(entityVO.getId());
         if(entity!=null){
             throw new Exception("不能重复添加!");
         }
-        return roleManager.add(BeanUtils.copyProperties(entityVO, Role.class));
+        return roleManager.add(BeanUtils.copyProperties(entityVO, WebRole.class));
     }
    
     @Override
@@ -60,13 +57,13 @@ public class RoleServiceImpl implements RoleService {
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空!");
         }
-        return roleManager.update(BeanUtils.copyProperties(entityVO, Role.class));
+        return roleManager.update(BeanUtils.copyProperties(entityVO, WebRole.class));
     }
    
     @Override
     public boolean updateState(UpdateState entityVO) throws Exception {
         for (Long id : entityVO.getIds()){
-            Role entity = new Role();
+            WebRole entity = new WebRole();
             entity.setId(id);
             entity.setState(entityVO.getState());
             entity.setUpdateUser(entityVO.getUpdateUser());
@@ -77,7 +74,7 @@ public class RoleServiceImpl implements RoleService {
    
     @Override
     public RoleVO get(Long id) throws Exception {
-        Role entity = roleManager.get(id);
+        WebRole entity = roleManager.get(id);
         if(entity==null){
             return null;
         }
@@ -86,7 +83,7 @@ public class RoleServiceImpl implements RoleService {
    
     @Override
     public PageVO<RoleVO> queryPage(PageQuery pageQuery) throws Exception {
-        IPage<Role> iPage = roleManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
+        IPage<WebRole> iPage = roleManager.queryPage(pageQuery.getPageNum(),pageQuery.getPageSize(),pageQuery.getQuery());
         PageVO<RoleVO> pageVO = PageConvert.pageConvert(iPage, RoleVO.class);
         convertVO(pageVO.getRecords());
         return pageVO;
