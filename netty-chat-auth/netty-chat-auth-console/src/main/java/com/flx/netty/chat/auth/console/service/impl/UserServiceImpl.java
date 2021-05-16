@@ -1,11 +1,19 @@
 package com.flx.netty.chat.auth.console.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
+import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 import com.flx.netty.chat.auth.api.vo.WebUserVO;
+import com.flx.netty.chat.auth.console.service.PermissionService;
+import com.flx.netty.chat.auth.console.service.RoleService;
+import com.flx.netty.chat.auth.crud.entity.WebUserRole;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.console.service.UserService;
+import com.flx.netty.chat.auth.crud.manager.UserRoleManager;
 import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.enums.State;
+import com.flx.netty.chat.common.utils.CollectionUtils;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
@@ -16,8 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +41,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PermissionService permissionService;
+    @Autowired
+    private UserRoleManager userRoleManager;
 
     private void convertVO(List<WebUserVO> entityList){
 
@@ -129,6 +145,15 @@ public class UserServiceImpl implements UserService {
             throw new Exception("用户密码错误！");
         }
         return BeanUtils.copyProperties(user, WebUserVO.class);
+    }
+
+    @Override
+    public List<WebPermissionVO> getPermissionById(Long id) throws Exception {
+        Set<Long> roleIds = userRoleManager.getByUserId(id, State.effective.name()).stream().map(WebUserRole::getRoleId).collect(Collectors.toSet());
+        if(CollectionUtils.isEmpty(roleIds)){
+            return new ArrayList<>();
+        }
+        return permissionService.getByRoleIds(roleIds);
     }
 
 

@@ -3,7 +3,11 @@ package com.flx.netty.chat.auth.console.service.impl;
 import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
 import com.flx.netty.chat.auth.crud.entity.WebPermission;
 import com.flx.netty.chat.auth.console.service.PermissionService;
+import com.flx.netty.chat.auth.crud.entity.WebRolePermission;
 import com.flx.netty.chat.auth.crud.manager.PermissionManager;
+import com.flx.netty.chat.auth.crud.manager.RolePermissionManager;
+import com.flx.netty.chat.common.enums.State;
+import com.flx.netty.chat.common.utils.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,8 +20,10 @@ import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +38,8 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     private PermissionManager permissionManager;
+    @Autowired
+    private RolePermissionManager rolePermissionManager;
 
     private void convertVO(List<WebPermissionVO> entityList){
    
@@ -103,5 +111,28 @@ public class PermissionServiceImpl implements PermissionService {
     public List<WebPermissionVO> queryAll(Map<String, Object> query) throws Exception {
         return permissionManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebPermissionVO.class)).collect(Collectors.toList());
     }
- 
+
+    @Override
+    public List<WebPermissionVO> getByRoleId(Long roleId) throws Exception {
+        List<WebRolePermission> rolePermissions = rolePermissionManager.getByRoleId(roleId, State.effective.name());
+        Set<Long> permissionIds = rolePermissions.stream().map(WebRolePermission::getPermissionId).collect(Collectors.toSet());
+        if(CollectionUtils.isNotEmpty(permissionIds)){
+            return permissionManager.getByIds(permissionIds,State.effective.name()).parallelStream().map(e -> BeanUtils.copyProperties(e, WebPermissionVO.class)).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<WebPermissionVO> getByRoleIds(Set<Long> roleIds) throws Exception {
+        List<WebRolePermission> rolePermissions = rolePermissionManager.getByRoleIds(roleIds, State.effective.name());
+        Set<Long> permissionIds = rolePermissions.stream().map(WebRolePermission::getPermissionId).collect(Collectors.toSet());
+        if(CollectionUtils.isNotEmpty(permissionIds)){
+            //根据java8的map流去重，如果map的key重复了保留第一个
+            return  permissionManager.getByIds(permissionIds,State.effective.name())
+                    .parallelStream().collect(Collectors.toMap(WebPermission::getCode,e->e,(o1,o2)->o1)).values()//去重
+                    .parallelStream().map(e -> BeanUtils.copyProperties(e, WebPermissionVO.class)).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
 }

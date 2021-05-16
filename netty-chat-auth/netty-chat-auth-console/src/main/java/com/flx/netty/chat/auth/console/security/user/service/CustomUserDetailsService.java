@@ -1,6 +1,8 @@
 package com.flx.netty.chat.auth.console.security.user.service;
 
 import com.flx.netty.chat.auth.api.enums.UserStateEnum;
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
+import com.flx.netty.chat.auth.console.service.UserService;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
 import com.flx.netty.chat.common.utils.date.DateUtils;
@@ -27,6 +29,8 @@ import java.util.*;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private UserManager userManager;
 
     /**
@@ -49,7 +53,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .setEnabled(enabled).setAccountNonExpired(!expired)
                     .setAccountNonLocked(!locked)
                     .setCredentialsNonExpired(true)
-                    .setAuthorities(getAuthorities());
+                    .setAuthorities(getAuthorities(user.getId()));
         } catch (Exception e) {
             log.error("loadUserByUsername error username = {},message = {} !",username,e.getMessage());
             throw new UsernameNotFoundException("User [" + username + "] not exist !");
@@ -68,12 +72,17 @@ public class CustomUserDetailsService implements UserDetailsService {
      * 获取权限 AuthorityUtils.commaSeparatedStringToAuthorityList("admin")
      * @return 权限角色集合
      */
-    public Set<CustomAuthority> getAuthorities() {
-        //设置两个角色加一个权限
-        return new HashSet<>(Arrays.asList(
-                new CustomAuthority("ROLE_USER"),
-                new CustomAuthority("ROLE_ADMIN"))
-        );
+    public Set<CustomAuthority> getAuthorities(Long userId) throws Exception {
+        try {
+            List<WebPermissionVO> permissions = userService.getPermissionById(userId);
+            //设置两个角色加一个权限
+            return new HashSet<>(Arrays.asList(
+                    new CustomAuthority("ROLE_USER"),
+                    new CustomAuthority("ROLE_ADMIN"))
+            );
+        } catch (Exception e) {
+            throw new Exception("Get permission error !");
+        }
     }
 
 }

@@ -1,13 +1,13 @@
 package com.flx.netty.chat.auth.console.service;
 
 import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
-
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  Service服务类
@@ -62,5 +62,16 @@ public interface PermissionService {
     */
     List<WebPermissionVO> queryAll(Map<String, Object> query) throws Exception;
 
+    /**
+     * 根据角色获取权限
+     * @param roleId 角色id
+     */
+    List<WebPermissionVO> getByRoleId(Long roleId)throws Exception;
+
+    /**
+     * 根据角色集合获取权限
+     * @param roleIds 角色id集合
+     */
+    List<WebPermissionVO> getByRoleIds(Set<Long> roleIds)throws Exception;
 
 }

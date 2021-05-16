@@ -2,6 +2,7 @@ package com.flx.netty.chat.auth.console.service;
 
 import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 
+import com.flx.netty.chat.auth.crud.entity.WebRole;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
@@ -62,5 +63,10 @@ public interface RoleService {
     */
     List<WebRoleVO> queryAll(Map<String, Object> query) throws Exception;
 
+    /**
+     * 通过用户id获取角色集合
+     * @param userId 用户id
+     */
+    List<WebRoleVO> getByUserId(Long userId)throws Exception;
 
 }

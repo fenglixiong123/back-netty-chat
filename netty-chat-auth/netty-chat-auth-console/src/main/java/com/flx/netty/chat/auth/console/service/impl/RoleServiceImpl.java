@@ -3,7 +3,11 @@ package com.flx.netty.chat.auth.console.service.impl;
 import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 import com.flx.netty.chat.auth.crud.entity.WebRole;
 import com.flx.netty.chat.auth.console.service.RoleService;
+import com.flx.netty.chat.auth.crud.entity.WebUserRole;
 import com.flx.netty.chat.auth.crud.manager.RoleManager;
+import com.flx.netty.chat.auth.crud.manager.UserRoleManager;
+import com.flx.netty.chat.common.enums.State;
+import com.flx.netty.chat.common.utils.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,8 +20,10 @@ import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +38,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleManager roleManager;
+    @Autowired
+    private UserRoleManager userRoleManager;
 
     private void convertVO(List<WebRoleVO> entityList){
    
@@ -103,5 +111,15 @@ public class RoleServiceImpl implements RoleService {
     public List<WebRoleVO> queryAll(Map<String, Object> query) throws Exception {
         return roleManager.queryAll(query).parallelStream().map(e -> BeanUtils.copyProperties(e, WebRoleVO.class)).collect(Collectors.toList());
     }
- 
+
+    @Override
+    public List<WebRoleVO> getByUserId(Long userId) throws Exception {
+        List<WebUserRole> userRoles = userRoleManager.getByUserId(userId, State.effective.name());
+        Set<Long> ids = userRoles.stream().map(WebUserRole::getRoleId).collect(Collectors.toSet());
+        if(CollectionUtils.isNotEmpty(ids)){
+            return roleManager.getByIds(ids, State.effective.name()).parallelStream().map(e -> BeanUtils.copyProperties(e, WebRoleVO.class)).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
 }

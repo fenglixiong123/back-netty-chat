@@ -1,5 +1,6 @@
 package com.flx.netty.chat.auth.console.service;
 
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
 import com.flx.netty.chat.auth.api.vo.WebUserVO;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
@@ -76,5 +77,12 @@ public interface UserService {
      * 验证密码是否正确
      */
     WebUserVO validateUser(String username, String password) throws Exception;
+
+    /**
+     * 通过用户id获取用户权限
+     * @param id
+     * @return
+     */
+    List<WebPermissionVO> getPermissionById(Long id) throws Exception;
 
 }

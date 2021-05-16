@@ -2,6 +2,7 @@ package com.flx.netty.chat.auth.crud.manager;
 
 import com.flx.netty.chat.auth.crud.entity.WebRolePermission;
 import com.flx.netty.chat.auth.crud.dao.RolePermissionDao;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseManager;
 import com.flx.netty.chat.common.enums.State;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  Manager层操作类
@@ -98,6 +100,24 @@ public class RolePermissionManager extends BaseManager<WebRolePermission, RolePe
 
     public boolean isExist(Long id) throws Exception {
         return super.isExist(id);
+    }
+
+    /**
+     * 通过角色id获取角色权限关系
+     * @param roleId 角色id
+     * @param state 数据状态
+     */
+    public List<WebRolePermission> getByRoleId(Long roleId, String state){
+        return this.dao.getByRoleId(roleId,state);
+    }
+
+    /**
+     * 通过角色id获取角色权限关系
+     * @param roleIds 角色id
+     * @param state 数据状态
+     */
+    public List<WebRolePermission> getByRoleIds(Set<Long> roleIds, String state) throws Exception {
+        return this.dao.getByRoleIds(roleIds,state);
     }
      
 }

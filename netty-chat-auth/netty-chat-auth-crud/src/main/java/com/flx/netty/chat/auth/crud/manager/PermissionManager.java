@@ -2,6 +2,7 @@ package com.flx.netty.chat.auth.crud.manager;
 
 import com.flx.netty.chat.auth.crud.entity.WebPermission;
 import com.flx.netty.chat.auth.crud.dao.PermissionDao;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseManager;
 import com.flx.netty.chat.common.enums.State;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  Manager层操作类
@@ -99,5 +101,9 @@ public class PermissionManager extends BaseManager<WebPermission, PermissionDao>
     public boolean isExist(Long id) throws Exception {
         return super.isExist(id);
     }
-     
+
+    public List<WebPermission> getByIds(Set<Long> ids, String state) throws Exception {
+        return this.dao.getByIds(ids,state);
+    }
+
 }

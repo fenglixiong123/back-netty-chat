@@ -1,5 +1,6 @@
 package com.flx.netty.chat.auth.crud.manager;
 
+import com.flx.netty.chat.auth.crud.entity.WebPermission;
 import com.flx.netty.chat.auth.crud.entity.WebRole;
 import com.flx.netty.chat.auth.crud.dao.RoleDao;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  Manager层操作类
@@ -98,6 +100,10 @@ public class RoleManager extends BaseManager<WebRole, RoleDao> {
 
     public boolean isExist(Long id) throws Exception {
         return super.isExist(id);
+    }
+
+    public List<WebRole> getByIds(Set<Long> ids, String state)throws Exception{
+        return this.dao.getByIds(ids,state);
     }
      
 }
