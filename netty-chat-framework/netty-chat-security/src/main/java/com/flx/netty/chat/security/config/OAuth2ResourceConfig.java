@@ -52,8 +52,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired//权限控制的配置属性
     private SecurityResourceProperties securityProperties;
-    @Autowired
-    private AccessDecisionManager accessDecisionManager;
+//    @Autowired
+//    private AccessDecisionManager accessDecisionManager;
 
     /**
      * 设置token存储，这一点配置要与授权服务器相一致
@@ -119,8 +119,9 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                  .and()
                     .authorizeRequests()//需要授权的访问地址
                         .antMatchers(passUrls).permitAll()//免授权访问URL
-                        .anyRequest().authenticated()//剩下的需要授权访问
-                        .accessDecisionManager(accessDecisionManager);//授权访问的决策器
+                        .anyRequest().authenticated();//剩下的需要授权访问
+//                        .anyRequest().authenticated()//剩下的需要授权访问
+//                        .accessDecisionManager(accessDecisionManager);//授权访问的决策器
         }
     }
 
