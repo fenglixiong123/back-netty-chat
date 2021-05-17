@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +22,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -50,6 +52,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired//权限控制的配置属性
     private SecurityResourceProperties securityProperties;
+    @Autowired
+    private AccessDecisionManager accessDecisionManager;
 
     /**
      * 设置token存储，这一点配置要与授权服务器相一致
@@ -115,7 +119,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                  .and()
                     .authorizeRequests()//需要授权的访问地址
                         .antMatchers(passUrls).permitAll()//免授权访问URL
-                        .anyRequest().authenticated();//剩下的需要授权访问
+                        .anyRequest().authenticated()//剩下的需要授权访问
+                        .accessDecisionManager(accessDecisionManager);//授权访问的决策器
         }
     }
 

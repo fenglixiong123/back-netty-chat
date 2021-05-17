@@ -41,6 +41,10 @@ public class WebPermission extends BaseDO {
     @TableField("path")
     private String path;
 
+    @ApiModelProperty(value = "请求方法")
+    @TableField("method")
+    private String method;
+
     @ApiModelProperty(value = "权限图标")
     @TableField("icon")
     private String icon;

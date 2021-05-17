@@ -5,11 +5,13 @@ import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
 import com.flx.netty.chat.auth.console.service.UserService;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
+import com.flx.netty.chat.common.utils.CollectionUtils;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.security.entity.CustomAuthority;
 import com.flx.netty.chat.security.entity.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @Author: Fenglixiong
@@ -72,14 +76,22 @@ public class CustomUserDetailsService implements UserDetailsService {
      * 获取权限 AuthorityUtils.commaSeparatedStringToAuthorityList("admin")
      * @return 权限角色集合
      */
-    public Set<CustomAuthority> getAuthorities(Long userId) throws Exception {
+    private Set<CustomAuthority> getAuthorities(Long userId) throws Exception {
         try {
+            Function<WebPermissionVO,CustomAuthority> authMapper = (e)-> {
+                if(StringUtils.isNotBlank(e.getCode()) && StringUtils.isNotBlank(e.getMethod())){
+                    return new CustomAuthority(e.getMethod()+"#"+e.getCode());
+                }
+                return null;
+            };
             List<WebPermissionVO> permissions = userService.getPermissionById(userId);
-            //设置两个角色加一个权限
-            return new HashSet<>(Arrays.asList(
-                    new CustomAuthority("ROLE_USER"),
-                    new CustomAuthority("ROLE_ADMIN"))
-            );
+            Set<CustomAuthority> authorities = permissions.parallelStream().map(authMapper).filter(Objects::nonNull).collect(Collectors.toSet());
+            if(CollectionUtils.isNotEmpty(authorities)){
+                log.info("load authorities count = {}",authorities.size());
+                return authorities;
+            }
+            log.error("load authorities null !");
+            return new HashSet<>();
         } catch (Exception e) {
             throw new Exception("Get permission error !");
         }
