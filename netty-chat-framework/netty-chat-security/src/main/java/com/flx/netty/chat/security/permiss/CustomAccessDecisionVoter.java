@@ -7,6 +7,7 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -19,6 +20,8 @@ import java.util.Objects;
  */
 @Slf4j
 public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
+
+    private final static AntPathMatcher pathMatcher = new AntPathMatcher();
 
     /**
      * 判定是否拥有权限的决策方法
@@ -40,7 +43,7 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
             return ACCESS_GRANTED;
         }
         HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
-        String url = request.getServletPath();
+        String url = request.getRequestURI();
         String method = request.getMethod();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (authorities.isEmpty()) {
@@ -53,7 +56,7 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
                 return ACCESS_DENIED;
             }
             int num = authCode.indexOf("#");
-            if(method.equals(authCode.substring(0,num+1)) && url.equals(authCode.substring(num))){
+            if(method.equals(authCode.substring(0,num+1)) && pathMatcher.match(authCode.substring(num),url)){
                 return ACCESS_GRANTED;
             }
         }

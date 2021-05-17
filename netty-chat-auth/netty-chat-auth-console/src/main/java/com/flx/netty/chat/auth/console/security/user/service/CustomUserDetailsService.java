@@ -79,8 +79,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private Set<CustomAuthority> getAuthorities(Long userId) throws Exception {
         try {
             Function<WebPermissionVO,CustomAuthority> authMapper = (e)-> {
-                if(StringUtils.isNotBlank(e.getCode()) && StringUtils.isNotBlank(e.getMethod())){
-                    return new CustomAuthority(e.getMethod()+"#"+e.getCode());
+                if(StringUtils.isNotBlank(e.getPath()) && StringUtils.isNotBlank(e.getMethod())){
+                    return new CustomAuthority(e.getMethod()+"#"+e.getPath());
                 }
                 return null;
             };
