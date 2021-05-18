@@ -58,17 +58,15 @@ public class AppBeanConfiguration {
      * ConsensusBased       少数服从多数授权访问决策方案
      * UnanimousBased       所有同意才能代表授予权限
      */
-//    @Bean
+    @Bean
     public AccessDecisionManager accessDecisionManager() {
         WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
         webExpressionVoter.setExpressionHandler(new OAuth2WebSecurityExpressionHandler());
-        //new AuthenticatedVoter() new RoleVoter()
+        CustomAccessDecisionVoter accessDecisionVoter = new CustomAccessDecisionVoter();
         List<AccessDecisionVoter<?>> decisionVoters = Arrays.asList(
                 webExpressionVoter,//Web表达式决策器,目的让我们设置的http决策也成功，而且排在第一，然后才是我们自定义的决策器生效
-                //new RoleVoter(),//角色决策器
-                //new AuthenticatedVoter(),//身份验证决策器
-                new CustomAccessDecisionVoter());//自定义权限决策器
-        return new AffirmativeBased(decisionVoters);
+                accessDecisionVoter);//自定义权限决策器
+        return new AffirmativeBased(decisionVoters);//上面任何一个决策同意则同意放行
     }
 
 }

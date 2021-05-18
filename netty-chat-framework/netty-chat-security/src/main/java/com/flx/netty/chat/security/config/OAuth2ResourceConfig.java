@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -36,6 +37,7 @@ import static com.flx.netty.chat.common.utils.ArrayUtils.list2Array;
  * ResourceServerConfig是比SecurityConfig的优先级低的
  */
 @Slf4j
+@Order(2)
 @Configuration
 @EnableResourceServer //开启了Resource Server功能
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启了方法级别的保护
@@ -52,8 +54,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
     private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired//权限控制的配置属性
     private SecurityResourceProperties securityProperties;
-//    @Autowired
-//    private AccessDecisionManager accessDecisionManager;
+    @Autowired
+    private AccessDecisionManager accessDecisionManager;
 
     /**
      * 设置token存储，这一点配置要与授权服务器相一致
@@ -119,9 +121,8 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                  .and()
                     .authorizeRequests()//需要授权的访问地址
                         .antMatchers(passUrls).permitAll()//免授权访问URL
-                        .anyRequest().authenticated();//剩下的需要授权访问
-//                        .anyRequest().authenticated()//剩下的需要授权访问
-//                        .accessDecisionManager(accessDecisionManager);//授权访问的决策器
+                        .anyRequest().authenticated()//剩下的需要授权访问
+                        .accessDecisionManager(accessDecisionManager);//授权访问的决策器
         }
     }
 
