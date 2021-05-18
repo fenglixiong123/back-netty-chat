@@ -12,17 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
-import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,6 +54,17 @@ public class AppBeanConfiguration {
     }
 
     /**
+     * 表达式权限投票器
+     * @return
+     */
+    @Bean
+    public WebExpressionVoter webExpressionVoter(){
+        WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
+        webExpressionVoter.setExpressionHandler(new OAuth2WebSecurityExpressionHandler());
+        return webExpressionVoter;
+    }
+
+    /**
      * 自定义权限投票器
      */
     @Bean
@@ -75,10 +80,9 @@ public class AppBeanConfiguration {
      */
     @Bean
     public AccessDecisionManager accessDecisionManager() {
-        //WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
-        //webExpressionVoter.setExpressionHandler(new OAuth2WebSecurityExpressionHandler());
-        //CustomAccessDecisionVoter accessDecisionVoter = new CustomAccessDecisionVoter();
-        List<AccessDecisionVoter<?>> decisionVoters = Collections.singletonList(accessDecisionVoter());//自定义权限决策器
+        List<AccessDecisionVoter<?>> decisionVoters = Arrays.asList(
+                //webExpressionVoter(),
+                accessDecisionVoter());//自定义权限决策器
         return new AffirmativeBased(decisionVoters);//上面任何一个决策同意则同意放行
     }
 

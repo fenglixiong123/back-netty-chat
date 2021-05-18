@@ -22,7 +22,7 @@ import java.util.Set;
 public interface RoleDao extends BaseDao<WebRole> {
 
     @Select("<script>" +
-            "select id,code,name,order,state " +
+            "select `id`,`code`,`name`,`order`,`state` " +
             "from web_role " +
             "where id in " +
             "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'> #{id} </foreach> " +

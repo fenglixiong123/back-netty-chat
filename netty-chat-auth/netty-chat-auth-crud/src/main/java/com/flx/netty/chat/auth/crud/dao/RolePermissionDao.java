@@ -36,11 +36,11 @@ public interface RolePermissionDao extends BaseDao<WebRolePermission> {
      * @return 角色权限关系
      */
     @Select("<script>" +
-            "select id,role_id,permission_id,state " +
+            "select `id`,`role_id`,`permission_id`,`state` " +
             "from web_role_permission " +
             "where role_id in " +
             "<foreach item='roleId' index='index' collection='roleIds' open='(' separator=',' close=')'> #{roleId} </foreach> " +
-            "and state = #{state}" +
+            "and state = #{state} " +
             "</script>")
     List<WebRolePermission> getByRoleIds(@Param("roleIds") Set<Long> roleIds, @Param("state")String state)throws Exception;
 

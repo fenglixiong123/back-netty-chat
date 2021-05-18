@@ -1,7 +1,9 @@
 package com.flx.netty.chat.security.permiss;
 
+import com.flx.netty.chat.security.property.SecurityResourceProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
@@ -10,8 +12,12 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
+import static com.flx.netty.chat.common.utils.ArrayUtils.list2Array;
 
 /**
  * @Author: Fenglixiong
@@ -23,6 +29,9 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
     private final static AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    @Autowired
+    private SecurityResourceProperties resourceProperties;
+
     /**
      * 判定是否拥有权限的决策方法
      * @param authentication 用户认证信息
@@ -32,17 +41,16 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
     @Override
     public int vote(Authentication authentication, Object filterInvocation, Collection<ConfigAttribute> attributes) {
         log.info("开始权限投票中...");
+        HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
+        String url = request.getRequestURI();
+        String method = request.getMethod();
+        if(isWhitePermit(url)){
+            return ACCESS_GRANTED;
+        }
         if(authentication==null){
             log.error("AccessVoter authentication is null !");
             return ACCESS_DENIED;
         }
-        if (Objects.isNull(filterInvocation)) {
-            log.error("AccessVoter filterInvocation is null !");
-            return ACCESS_DENIED;
-        }
-        HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
-        String url = request.getRequestURI();
-        String method = request.getMethod();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (authorities.isEmpty()) {
             log.error("AccessVoter authorities is null !");
@@ -62,6 +70,19 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
     }
 
+    private boolean isWhitePermit(String url){
+        List<String> passUrls = resourceProperties.getPassUrls();
+        passUrls.add("/oauth/**");
+        for (String passUrl : passUrls){
+            String[] arrays = passUrl.split(",");
+            for (String pass : arrays){
+                if(pathMatcher.match(pass,url)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     public boolean supports(ConfigAttribute configAttribute) {

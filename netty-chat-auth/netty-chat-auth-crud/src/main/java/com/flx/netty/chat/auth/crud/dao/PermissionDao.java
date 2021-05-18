@@ -23,11 +23,11 @@ import java.util.Set;
 public interface PermissionDao extends BaseDao<WebPermission> {
 
     @Select("<script>" +
-            "select id,pid,code,name,path,icon,order,state " +
+            "select `id`,`pid`,`code`,`name`,`path`,`method`,`icon`,`order`,`state` " +
             "from web_permission " +
             "where id in " +
-            "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'> #{id} </foreach> " +
-            "and state = #{state}" +
+            "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'>#{id}</foreach> " +
+            "and state = #{state} " +
             "</script>")
     List<WebPermission> getByIds(@Param("ids") Set<Long> ids, @Param("state")String state)throws Exception;
 

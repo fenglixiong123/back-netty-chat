@@ -19,7 +19,7 @@ import java.util.List;
 @DaoMapper
 public interface UserRoleDao extends BaseDao<WebUserRole> {
 
-    @Select("select id,user_id,role_id,state from web_user_role where user_id = #{userId} and state = #{state} ")
+    @Select("select `id`,`user_id`,`role_id`,`state` from web_user_role where user_id = #{userId} and state = #{state} ")
     List<WebUserRole> getByUserId(@Param("userId") Long userId,@Param("state")String state)throws Exception;
 
 }
