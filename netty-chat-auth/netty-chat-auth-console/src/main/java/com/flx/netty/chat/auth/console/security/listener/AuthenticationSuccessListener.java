@@ -3,6 +3,7 @@ package com.flx.netty.chat.auth.console.security.listener;
 import com.flx.netty.chat.security.entity.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
      */
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
-        if (!event.getSource().getClass().getName().equals("org.springframework.security.authentication.UsernamePasswordAuthenticationToken")) {
+        if (!(event.getSource() instanceof UsernamePasswordAuthenticationToken)) {
             return;
         }
         Object principal = event.getAuthentication().getPrincipal();
@@ -33,7 +34,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
         if(principal instanceof CustomUserDetails){
             CustomUserDetails user = (CustomUserDetails)principal;
             Long userId = user.getUserId();
-            log.info("User login success ! {}",user.getUsername());
+            log.info("++++++++++++++ {} login success ! ",user.getUsername());
         }
     }
 
