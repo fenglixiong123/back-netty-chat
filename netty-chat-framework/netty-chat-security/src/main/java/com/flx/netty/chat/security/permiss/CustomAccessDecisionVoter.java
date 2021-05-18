@@ -1,12 +1,15 @@
 package com.flx.netty.chat.security.permiss;
 
-import com.flx.netty.chat.security.permiss.matchs.PermissionAnyMatcher;
-import com.flx.netty.chat.security.permiss.matchs.PermissionMatcher;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.util.AntPathMatcher;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -17,6 +20,8 @@ import java.util.Objects;
  */
 @Slf4j
 public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
+
+    private final static AntPathMatcher pathMatcher = new AntPathMatcher();
 
     /**
      * 判定是否拥有权限的决策方法
@@ -35,9 +40,23 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
             log.error("AccessVoter filterInvocation is null !");
             return ACCESS_DENIED;
         }
-        PermissionMatcher matcher = new PermissionAnyMatcher();
-        if(matcher.match(attributes,authentication.getAuthorities())){
-            return ACCESS_GRANTED;
+        HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
+        String url = request.getRequestURI();
+        String method = request.getMethod();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        if (authorities.isEmpty()) {
+            log.error("AccessVoter authorities is null !");
+            return ACCESS_DENIED;
+        }
+        for (GrantedAuthority authority:authorities){
+            String authCode = authority.getAuthority();
+            if(StringUtils.isBlank(authCode)){
+                return ACCESS_DENIED;
+            }
+            int num = authCode.indexOf("#");
+            if(method.equals(authCode.substring(0,num+1)) && pathMatcher.match(authCode.substring(num),url)){
+                return ACCESS_GRANTED;
+            }
         }
         return ACCESS_DENIED;
 
@@ -57,23 +76,6 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
 /*
 
-HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
-        String url = request.getRequestURI();
-        String method = request.getMethod();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        if (authorities.isEmpty()) {
-            log.error("AccessVoter authorities is null !");
-            return ACCESS_DENIED;
-        }
-        for (GrantedAuthority authority:authorities){
-            String authCode = authority.getAuthority();
-            if(StringUtils.isBlank(authCode)){
-                return ACCESS_DENIED;
-            }
-            int num = authCode.indexOf("#");
-            if(method.equals(authCode.substring(0,num+1)) && pathMatcher.match(authCode.substring(num),url)){
-                return ACCESS_GRANTED;
-            }
-        }
+
 
  */

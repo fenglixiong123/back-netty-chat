@@ -31,6 +31,12 @@ import java.util.Set;
  *      |--->TokenService决定验证token方式(本地)
  *      |--->TokenService读取redis中用户认证信息
  *      |--->存入SecurityContextHolder中
+ *
+ * SecurityContextHolder是在什么时候存入认证信息的呢？
+ *
+ * 参考：FilterSecurityInterceptor.class.beforeInvocation();
+ *
+ *
  */
 public class SecurityUtils {
 

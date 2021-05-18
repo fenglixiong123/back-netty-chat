@@ -3,6 +3,7 @@ package com.flx.netty.chat.auth.crud.entity;
 import com.flx.netty.chat.plugin.annotion.mybatis.TableName;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import java.util.Date;
  * @Description
  **/
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "web_user")
 public class WebUser extends BaseDO {
 

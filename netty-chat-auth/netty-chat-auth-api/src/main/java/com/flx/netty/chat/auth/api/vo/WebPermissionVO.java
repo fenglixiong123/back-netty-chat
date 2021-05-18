@@ -34,7 +34,7 @@ public class WebPermissionVO extends BaseVO {
     private String path;
 
     /**
-     * 请求方法
+     * 权限方法
      */
     private String method;
 

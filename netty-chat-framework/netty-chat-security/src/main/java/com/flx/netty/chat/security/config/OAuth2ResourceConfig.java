@@ -125,6 +125,7 @@ public class OAuth2ResourceConfig extends ResourceServerConfigurerAdapter {
                         .anyRequest().authenticated();//剩下的需要授权访问
                         //.accessDecisionManager(accessDecisionManager);//授权访问的决策器
             //自定义权限过滤器在FilterSecurityInterceptor之后执行
+            //FilterSecurityInterceptor访问http请求的核心过滤器
             http.addFilterAfter(permissionInterceptor,FilterSecurityInterceptor.class);
         }
     }

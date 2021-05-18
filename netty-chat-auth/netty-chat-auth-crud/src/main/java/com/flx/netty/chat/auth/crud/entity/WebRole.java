@@ -1,16 +1,11 @@
 package com.flx.netty.chat.auth.crud.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  *  Entity实体类
@@ -21,20 +16,22 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("web_role")
-@ApiModel(value="Role对象", description="")
 public class WebRole extends BaseDO {
 
 
-    @ApiModelProperty(value = "角色编号")
-    @TableField("code")
+    /**
+     * 角色编号
+     */
     private String code;
 
-    @ApiModelProperty(value = "角色名称")
-    @TableField("name")
+    /**
+     * 角色名称
+     */
     private String name;
 
-    @ApiModelProperty(value = "排序")
-    @TableField("order")
+    /**
+     * 排序
+     */
     private Integer order;
 
 

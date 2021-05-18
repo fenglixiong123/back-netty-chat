@@ -15,13 +15,10 @@ import java.util.Map;
 /**
  * @Author: Fenglixiong
  * @Date: 2021/5/18 15:15
- * @Description:
+ * @Description:  获取请求的权限数据的，但是本次我们不适用这种方式
  */
 @Slf4j
 public class CustomSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-
-    //@Autowired
-    //private PermissionDao permissionDao;
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -30,24 +27,23 @@ public class CustomSecurityMetadataSource implements FilterInvocationSecurityMet
     }
 
     /**
-     * 获取请求所需要的权限信息
+     * 获取访问该请求所需要的权限信息
      * @param object 可以转化为请求
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 
-        Map<String,String> permissionMap = loadUrlPermissionMap();
-
-        FilterInvocation fi = ((FilterInvocation) object);
-        String url = fi.getRequestUrl();
-        for(Map.Entry<String,String> entry:permissionMap.entrySet()) {
-            String path = entry.getKey();
-            if(pathMatcher.match(path,url)) {
-                return SecurityConfig.createList(entry.getValue().split(","));
-            }
-        }
-
-        return new ArrayList<>();
+//        Map<String,String> permissionMap = loadUrlPermissionMap();
+//
+//        FilterInvocation fi = ((FilterInvocation) object);
+//        String url = fi.getRequestUrl();
+//        for(Map.Entry<String,String> entry:permissionMap.entrySet()) {
+//            String path = entry.getKey();
+//            if(pathMatcher.match(path,url)) {
+//                return SecurityConfig.createList(entry.getValue().split(","));
+//            }
+//        }
+        return SecurityConfig.createList("ROLE_ADMIN");
     }
 
     /**

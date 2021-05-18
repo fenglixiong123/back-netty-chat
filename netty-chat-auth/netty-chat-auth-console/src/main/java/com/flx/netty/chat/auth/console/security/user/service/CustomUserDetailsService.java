@@ -2,6 +2,8 @@ package com.flx.netty.chat.auth.console.security.user.service;
 
 import com.flx.netty.chat.auth.api.enums.UserStateEnum;
 import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
+import com.flx.netty.chat.auth.api.vo.WebRoleVO;
+import com.flx.netty.chat.auth.console.service.RoleService;
 import com.flx.netty.chat.auth.console.service.UserService;
 import com.flx.netty.chat.auth.crud.entity.WebUser;
 import com.flx.netty.chat.auth.crud.manager.UserManager;
