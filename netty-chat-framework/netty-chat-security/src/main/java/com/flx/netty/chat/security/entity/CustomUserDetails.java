@@ -21,6 +21,11 @@ import java.util.Set;
 public class CustomUserDetails implements UserDetails {
 
     /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
      * 用户名称
      */
     private String username;

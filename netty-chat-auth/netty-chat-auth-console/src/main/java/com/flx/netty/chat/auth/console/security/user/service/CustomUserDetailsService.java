@@ -52,6 +52,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             boolean expired = user.getState().equals(UserStateEnum.expired.name())|| (user.getExpireTime() != null && DateUtils.beforeNow(user.getExpireTime()));
             boolean locked = user.getState().equals(UserStateEnum.locked.name());
             return new CustomUserDetails()
+                    .setUserId(user.getId())
                     .setUsername(user.getUserName())
                     .setPassword(user.getPassword())
                     .setEnabled(enabled).setAccountNonExpired(!expired)
