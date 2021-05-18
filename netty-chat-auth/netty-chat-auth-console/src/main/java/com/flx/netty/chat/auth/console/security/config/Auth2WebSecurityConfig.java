@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -37,6 +38,7 @@ import static com.flx.netty.chat.common.utils.ArrayUtils.list2Array;
  * web.ignoring是直接绕开springSecurity的所有filter，直接跳过验证
  */
 @Slf4j
+@Order(1)
 @Configuration
 @EnableWebSecurity //开启web保护功能
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启在方法上的保护功能
@@ -100,9 +102,10 @@ public class Auth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(authenticationDeniedHandler)//Token不正确时候处理
                     .accessDeniedHandler(permissionDeniedHandler)//权限不足时候处理方式
             .and()
-                .authorizeRequests()
-                    .antMatchers(permits).permitAll()
-                    .anyRequest().authenticated();
+                .requestMatchers()
+                    .antMatchers("/oauth/**")//只匹配/oauth/**
+                .and().authorizeRequests()
+                    .antMatchers("/oauth/**").authenticated();//匹配到的路径中/oauth/**需要登录授权
 
     }
 

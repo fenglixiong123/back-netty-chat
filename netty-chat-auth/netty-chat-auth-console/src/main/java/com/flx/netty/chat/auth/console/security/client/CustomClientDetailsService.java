@@ -39,6 +39,9 @@ public class CustomClientDetailsService implements ClientDetailsService {
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+        if(StringUtils.isBlank(clientId)){
+            throw new ClientRegistrationException("客户端ID不能为空！");
+        }
         try {
             log.info("loadClientByClientId clientId = {}",clientId);
             //从数据库获取client信息
