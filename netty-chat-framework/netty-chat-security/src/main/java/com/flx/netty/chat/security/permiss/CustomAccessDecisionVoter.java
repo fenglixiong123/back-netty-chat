@@ -1,15 +1,12 @@
 package com.flx.netty.chat.security.permiss;
 
+import com.flx.netty.chat.security.permiss.matchs.PermissionAnyMatcher;
+import com.flx.netty.chat.security.permiss.matchs.PermissionMatcher;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.FilterInvocation;
-import org.springframework.util.AntPathMatcher;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -21,8 +18,6 @@ import java.util.Objects;
 @Slf4j
 public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
-    private final static AntPathMatcher pathMatcher = new AntPathMatcher();
-
     /**
      * 判定是否拥有权限的决策方法
      * @param authentication 用户认证信息
@@ -32,9 +27,6 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
     @Override
     public int vote(Authentication authentication, Object filterInvocation, Collection<ConfigAttribute> attributes) {
         log.info("开始权限投票中...");
-        if(true){
-            return ACCESS_GRANTED;
-        }
         if(authentication==null){
             log.error("AccessVoter authentication is null !");
             return ACCESS_DENIED;
@@ -43,10 +35,29 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
             log.error("AccessVoter filterInvocation is null !");
             return ACCESS_DENIED;
         }
-        if (attributes.isEmpty()) {
+        PermissionMatcher matcher = new PermissionAnyMatcher();
+        if(matcher.match(attributes,authentication.getAuthorities())){
             return ACCESS_GRANTED;
         }
-        HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
+        return ACCESS_DENIED;
+
+    }
+
+
+    @Override
+    public boolean supports(ConfigAttribute configAttribute) {
+        return true;
+    }
+
+    @Override
+    public boolean supports(Class aClass) {
+        return true;
+    }
+}
+
+/*
+
+HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
         String url = request.getRequestURI();
         String method = request.getMethod();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -64,18 +75,5 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
                 return ACCESS_GRANTED;
             }
         }
-        return ACCESS_DENIED;
 
-    }
-
-
-    @Override
-    public boolean supports(ConfigAttribute configAttribute) {
-        return true;
-    }
-
-    @Override
-    public boolean supports(Class aClass) {
-        return true;
-    }
-}
+ */
