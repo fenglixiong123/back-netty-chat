@@ -43,7 +43,7 @@ public class CustomSecurityMetadataSource implements FilterInvocationSecurityMet
 //                return SecurityConfig.createList(entry.getValue().split(","));
 //            }
 //        }
-        return SecurityConfig.createList("ROLE_ADMIN");
+        return new ArrayList<>();
     }
 
     /**
