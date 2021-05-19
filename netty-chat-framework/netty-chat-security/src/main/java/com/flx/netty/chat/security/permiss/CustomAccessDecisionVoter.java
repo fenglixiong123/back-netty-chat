@@ -68,6 +68,9 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
     private boolean isWhitePermit(String url){
         List<String> passUrls = resourceProperties.getPassUrls();
+        if(passUrls.isEmpty()){
+            return false;
+        }
         for (String passUrl : passUrls){
             String[] arrays = passUrl.split(",");
             for (String pass : arrays){
