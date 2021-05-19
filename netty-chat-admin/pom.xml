@@ -12,10 +12,14 @@
 
     <artifactId>netty-chat-admin</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>netty-chat-admin-api</module>
-        <module>netty-chat-admin-crud</module>
-        <module>netty-chat-admin-console</module>
-    </modules>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.flx.chat</groupId>
+            <artifactId>netty-chat-plugin</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
