@@ -10,8 +10,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>netty-chat-gateway</module>
         <module>netty-chat-admin</module>
+        <module>netty-chat-gateway</module>
         <module>netty-chat-user</module>
         <module>netty-chat-message</module>
         <module>netty-chat-group</module>
