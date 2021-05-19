@@ -58,6 +58,10 @@ public class AppBeanConfiguration {
     }
 
     /**
+     * FilterSecurityInterceptor
+     *   |--->UnanimousBased
+     *      |--->WebExpressionVoter
+     *      |--->CustomAccessDecisionVoter
      * 访问权限决策器
      * AffirmativeBased     只要任一返回肯定的结果，便授予访问权限
      * ConsensusBased       少数服从多数授权访问决策方案
