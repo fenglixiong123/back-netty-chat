@@ -57,7 +57,7 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
             String authCode = authority.getAuthority();
             if(StringUtils.isNotBlank(authCode)){
                 int num = authCode.indexOf("#");
-                if(method.equals(authCode.substring(0,num+1)) && pathMatcher.match(authCode.substring(num),url)){
+                if(method.equals(authCode.substring(0,num)) && pathMatcher.match(authCode.substring(num+1),url)){
                     log.info("AccessVoter successful,reason : has right !");
                     return ACCESS_GRANTED;
                 }
