@@ -12,12 +12,8 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-
-import static com.flx.netty.chat.common.utils.ArrayUtils.list2Array;
 
 /**
  * @Author: Fenglixiong
@@ -72,7 +68,6 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
     private boolean isWhitePermit(String url){
         List<String> passUrls = resourceProperties.getPassUrls();
-        passUrls.add("/oauth/**");
         for (String passUrl : passUrls){
             String[] arrays = passUrl.split(",");
             for (String pass : arrays){

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
@@ -81,9 +82,9 @@ public class AppBeanConfiguration {
     @Bean
     public AccessDecisionManager accessDecisionManager() {
         List<AccessDecisionVoter<?>> decisionVoters = Arrays.asList(
-                //webExpressionVoter(),
-                accessDecisionVoter());//自定义权限决策器
-        return new AffirmativeBased(decisionVoters);//上面任何一个决策同意则同意放行
+                webExpressionVoter(),//主要用来验证是否登录
+                accessDecisionVoter());//主要用来验证请求权限
+        return new UnanimousBased(decisionVoters);//上面必须同时满足才能放行
     }
 
     /**
