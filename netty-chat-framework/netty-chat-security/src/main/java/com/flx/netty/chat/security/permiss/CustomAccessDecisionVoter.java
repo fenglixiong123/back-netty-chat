@@ -37,32 +37,33 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
      */
     @Override
     public int vote(Authentication authentication, Object filterInvocation, Collection<ConfigAttribute> attributes) {
-        log.info("开始权限投票中...");
         HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
         String url = request.getRequestURI();
         String method = request.getMethod();
         if(isWhitePermit(url)){
+            log.info("AccessVoter successful,reason : white url");
             return ACCESS_GRANTED;
         }
         if(authentication==null){
-            log.error("AccessVoter authentication is null !");
+            log.error("AccessVoter failure,reason : authentication is null !");
             return ACCESS_DENIED;
         }
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (authorities.isEmpty()) {
-            log.error("AccessVoter authorities is null !");
+            log.error("AccessVoter failure,reason : authorities is null !");
             return ACCESS_DENIED;
         }
         for (GrantedAuthority authority:authorities){
             String authCode = authority.getAuthority();
-            if(StringUtils.isBlank(authCode)){
-                return ACCESS_DENIED;
-            }
-            int num = authCode.indexOf("#");
-            if(method.equals(authCode.substring(0,num+1)) && pathMatcher.match(authCode.substring(num),url)){
-                return ACCESS_GRANTED;
+            if(StringUtils.isNotBlank(authCode)){
+                int num = authCode.indexOf("#");
+                if(method.equals(authCode.substring(0,num+1)) && pathMatcher.match(authCode.substring(num),url)){
+                    log.info("AccessVoter successful,reason : has right !");
+                    return ACCESS_GRANTED;
+                }
             }
         }
+        log.error("AccessVoter failure,reason : no right !");
         return ACCESS_DENIED;
 
     }
