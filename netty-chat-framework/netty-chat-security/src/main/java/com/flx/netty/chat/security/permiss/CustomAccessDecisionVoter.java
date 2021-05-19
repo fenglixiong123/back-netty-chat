@@ -63,7 +63,7 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
                 }
             }
         }
-        log.error("AccessVoter failure,reason : no right !");
+        log.info("AccessVoter failure,reason : no right !");
         return ACCESS_DENIED;
 
     }
