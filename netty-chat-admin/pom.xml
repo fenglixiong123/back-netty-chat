@@ -11,13 +11,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>netty-chat-admin</artifactId>
-    <packaging>pom</packaging>
 
     <dependencies>
 
+        <!--多数据源管理-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>3.3.5</version>
+        </dependency>
         <dependency>
             <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-plugin</artifactId>
+            <artifactId>netty-chat-common</artifactId>
         </dependency>
 
     </dependencies>

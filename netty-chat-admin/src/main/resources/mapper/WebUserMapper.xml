@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flx.netty.chat.admin.dao.WebUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.flx.netty.chat.admin.entity.WebUser">
+        <id column="id" property="id" />
+        <result column="nick_name" property="nickName" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="password_question" property="passwordQuestion" />
+        <result column="password_answer" property="passwordAnswer" />
+        <result column="icon" property="icon" />
+        <result column="signature" property="signature" />
+        <result column="phone" property="phone" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="education" property="education" />
+        <result column="school" property="school" />
+        <result column="email" property="email" />
+        <result column="address" property="address" />
+        <result column="expire_time" property="expireTime" />
+        <result column="state" property="state" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, nick_name, user_name, password, password_question, password_answer, icon, signature, phone, sex, birthday, education, school, email, address, expire_time, state, create_user, create_time, update_user, update_time
+    </sql>
+
+</mapper>

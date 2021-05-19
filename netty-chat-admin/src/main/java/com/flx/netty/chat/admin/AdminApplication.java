@@ -1,7 +1,5 @@
 package com.flx.netty.chat.admin;
 
-import com.flx.netty.chat.plugin.annotion.enable.EnableBase;
-import com.flx.netty.chat.plugin.annotion.enable.EnableRedis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  */
 @Slf4j
-@EnableBase
-@EnableRedis
 @SpringBootApplication
 public class AdminApplication {
 
