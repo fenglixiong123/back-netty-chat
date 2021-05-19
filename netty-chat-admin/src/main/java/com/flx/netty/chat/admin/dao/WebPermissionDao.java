@@ -1,9 +1,9 @@
 package com.flx.netty.chat.admin.dao;
 
+import com.flx.netty.chat.admin.common.annotation.DaoMapper;
 import com.flx.netty.chat.admin.entity.WebPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.flx.netty.chat.plugin.annotion.mybatis.DaoMapper;
 
 /**
  *  Mapper 接口
