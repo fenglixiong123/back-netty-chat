@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -68,7 +69,7 @@ public class CustomAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
     private boolean isWhitePermit(String url){
         List<String> passUrls = resourceProperties.getPassUrls();
-        if(passUrls.isEmpty()){
+        if(CollectionUtils.isEmpty(passUrls)){
             return false;
         }
         for (String passUrl : passUrls){
