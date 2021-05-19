@@ -4,7 +4,6 @@ import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
-import com.flx.netty.chat.security.interceptor.CustomPermissionInterceptor;
 import com.flx.netty.chat.security.property.SecurityResourceProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import javax.annotation.Resource;
 import java.util.List;

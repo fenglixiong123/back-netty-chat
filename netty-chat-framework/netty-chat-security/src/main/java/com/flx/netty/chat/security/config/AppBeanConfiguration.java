@@ -2,18 +2,14 @@ package com.flx.netty.chat.security.config;
 
 import com.flx.netty.chat.security.handler.AuthenticationDeniedHandler;
 import com.flx.netty.chat.security.handler.PermissionDeniedHandler;
-import com.flx.netty.chat.security.interceptor.CustomPermissionInterceptor;
 import com.flx.netty.chat.security.permiss.CustomAccessDecisionVoter;
-import com.flx.netty.chat.security.permiss.CustomSecurityMetadataSource;
 import com.flx.netty.chat.security.property.SecurityResourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.UnanimousBased;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 
@@ -40,18 +36,6 @@ public class AppBeanConfiguration {
     @Bean(value = "resourcePermissionDeniedHandler")
     public PermissionDeniedHandler permissionDeniedHandler(){
         return new PermissionDeniedHandler();
-    }
-
-    /**
-     * 每个请求对应的权限资源
-     * 比如：/auth/user    --user:jack
-     *                    --role:admin
-     *                    --method:get
-     *  将来扩展用，此处我们使用本地验证方式会把用户的权限带过来，直接从redis取到验证即可
-     */
-    @Bean
-    public CustomSecurityMetadataSource securityMetadataSource(){
-        return new CustomSecurityMetadataSource();
     }
 
     /**
@@ -85,19 +69,6 @@ public class AppBeanConfiguration {
                 webExpressionVoter(),//主要用来验证是否登录
                 accessDecisionVoter());//主要用来验证请求权限
         return new UnanimousBased(decisionVoters);//上面必须同时满足才能放行
-    }
-
-    /**
-     * 自定义权限过滤器
-     * 会通过查询redis的权限来获取用户权限进行决策
-     */
-    @Bean
-    public CustomPermissionInterceptor permissionInterceptor(AuthenticationManager authenticationManager){
-        CustomPermissionInterceptor interceptor = new CustomPermissionInterceptor();
-        interceptor.setAuthenticationManager(authenticationManager);
-        interceptor.setAccessDecisionManager(accessDecisionManager());
-        interceptor.setSecurityMetadataSource(securityMetadataSource());
-        return interceptor;
     }
 
 }
