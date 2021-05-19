@@ -41,9 +41,6 @@ public class ValidationResult {
      * @return 返回对象
      */
     public ResultResponse toResponse() {
-        if (success) {
-            return ResultResponse.success();
-        }
         List<String> errorMessageList = new ArrayList<>();
         for (Map.Entry<String, String> entry : messageMap.entrySet()) {
             String message = entry.getKey() + entry.getValue();

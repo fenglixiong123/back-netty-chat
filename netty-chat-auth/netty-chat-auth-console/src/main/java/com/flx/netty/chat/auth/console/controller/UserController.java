@@ -38,15 +38,13 @@ public class UserController {
 
     @PostMapping("/add")
     public ResultResponse add(@RequestBody WebUserVO entityVO){
-        try {
-            ValidationResult validate = ValidationUtils.validate(entityVO);
-            if(!validate.isSuccess()){
-                return validate.toResponse();
+        return ValidationUtils.validate(entityVO,()->{
+            try {
+                return ResultResponse.success(userService.add(entityVO));
+            } catch (Exception e) {
+                return ResultResponse.error(e.getMessage());
             }
-            return ResultResponse.success(userService.add(entityVO));
-        }catch (Exception e){
-            return ResultResponse.error(e.getMessage());
-        }
+        });
     }
 
     @PutMapping("/update")

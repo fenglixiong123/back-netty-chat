@@ -1,5 +1,6 @@
 package com.flx.netty.chat.common.utils.validate;
 
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author fenglixiong
@@ -50,6 +53,15 @@ public class ValidationUtils {
             return ValidationResult.success();
         }
         return failureResult;
+    }
+
+    public static <T> ResultResponse validate(T obj, Supplier<ResultResponse> supplier){
+        ValidationResult result = validate(obj);
+        if(result.isSuccess()){
+            return supplier.get();
+        }else {
+            return result.toResponse();
+        }
     }
 
 }
