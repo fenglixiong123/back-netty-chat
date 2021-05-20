@@ -1,6 +1,5 @@
 package com.flx.netty.chat.admin.common.redis.impl;
 
-import com.flx.netty.chat.admin.common.except.element.RedisException;
 import com.flx.netty.chat.admin.common.redis.RedisSetService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +32,12 @@ public class RedisSetServiceImpl implements RedisSetService {
      */
     public Set<Object> sGet(String key){
         if(StringUtils.isBlank(key)){
-            throw new RedisException("[sGet] key is null !");
+            throw new RuntimeException("[sGet] key is null !");
         }
         try {
             return redisTemplate.opsForSet().members(key);
         }catch (Exception e){
-            throw new RedisException("[sGet] method occur error : "+e.getMessage()+" !");
+            throw new RuntimeException("[sGet] method occur error : "+e.getMessage()+" !");
         }
     }
 
@@ -50,13 +49,13 @@ public class RedisSetServiceImpl implements RedisSetService {
      */
     public boolean sSet(String key,Object ... values){
         if(StringUtils.isBlank(key)){
-            throw new RedisException("[sSet] key is null !");
+            throw new RuntimeException("[sSet] key is null !");
         }
         try {
             Long result = redisTemplate.opsForSet().add(key,values);
             return result != null;
         }catch (Exception e){
-            throw new RedisException("[sSet] method occur error : "+e.getMessage()+" !");
+            throw new RuntimeException("[sSet] method occur error : "+e.getMessage()+" !");
         }
     }
 
@@ -69,17 +68,17 @@ public class RedisSetServiceImpl implements RedisSetService {
      */
     public boolean sSetWithExpire(String key, long expire, TimeUnit unit, Object ... values){
         if(StringUtils.isBlank(key)){
-            throw new RedisException("[sSetWithExpire] key is null !");
+            throw new RuntimeException("[sSetWithExpire] key is null !");
         }
         if(expire<=0){
-            throw new RedisException("[sSetWithExpire] expire time is illegal !");
+            throw new RuntimeException("[sSetWithExpire] expire time is illegal !");
         }
         try {
             Long result = redisTemplate.opsForSet().add(key,values);
             redisBaseService.expire(key,expire,unit);
             return result != null;
         }catch (Exception e){
-            throw new RedisException("[sSetWithExpire] method occur error : "+e.getMessage()+" !");
+            throw new RuntimeException("[sSetWithExpire] method occur error : "+e.getMessage()+" !");
         }
     }
 
@@ -91,13 +90,13 @@ public class RedisSetServiceImpl implements RedisSetService {
      */
     public boolean sHasKey(String key,Object value){
         if(StringUtils.isBlank(key)){
-            throw new RedisException("[sHasKey] key is null !");
+            throw new RuntimeException("[sHasKey] key is null !");
         }
         try {
             Boolean result = redisTemplate.opsForSet().isMember(key,value);
             return result ==null ? false : result;
         }catch (Exception e){
-            throw new RedisException("[sHasKey] method occur error : "+e.getMessage()+" !");
+            throw new RuntimeException("[sHasKey] method occur error : "+e.getMessage()+" !");
         }
     }
 
@@ -108,13 +107,13 @@ public class RedisSetServiceImpl implements RedisSetService {
      */
     public long sSize(String key){
         if(StringUtils.isBlank(key)){
-            throw new RedisException("[sSize] key is null !");
+            throw new RuntimeException("[sSize] key is null !");
         }
         try {
             Long result = redisTemplate.opsForSet().size(key);
             return result ==null ? 0 : result;
         }catch (Exception e){
-            throw new RedisException("[sSize] method occur error : "+e.getMessage()+" !");
+            throw new RuntimeException("[sSize] method occur error : "+e.getMessage()+" !");
         }
     }
 
@@ -126,13 +125,13 @@ public class RedisSetServiceImpl implements RedisSetService {
      */
     public boolean sDel(String key,Object ... values){
         if(StringUtils.isBlank(key)){
-            throw new RedisException("[sDel] key is null !");
+            throw new RuntimeException("[sDel] key is null !");
         }
         try {
             Long result = redisTemplate.opsForSet().remove(key,values);
             return result != null;
         }catch (Exception e){
-            throw new RedisException("[sDel] method occur error : "+e.getMessage()+" !");
+            throw new RuntimeException("[sDel] method occur error : "+e.getMessage()+" !");
         }
     }
 
