@@ -58,15 +58,13 @@ public class ${table.controllerName} {
 
     @PostMapping("/add")
     public ResultResponse add(@RequestBody ${entity}VO entityVO){
-        try {
-            ValidationResult validate = ValidationUtils.validate(entityVO);
-            if(!validate.isSuccess()){
-                return validate.toResponse();
+        return ValidationUtils.validate(entityVO,()->{
+            try {
+                return ResultResponse.success(${table.serviceName?uncap_first}.add(entityVO));
+            }catch (Exception e){
+                return ResultResponse.error(e.getMessage());
             }
-            return ResultResponse.success(${table.serviceName?uncap_first}.add(entityVO));
-        }catch (Exception e){
-            return ResultResponse.error(e.getMessage());
-        }
+        });
     }
 
     @PutMapping("/update")

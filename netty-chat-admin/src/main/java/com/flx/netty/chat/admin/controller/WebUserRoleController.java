@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Fenglixiong
  * @since 2021-05-19
  */
-@Api(tags = "")
+@Api
 @RestController
 @RequestMapping("/webUserRole")
 public class WebUserRoleController {
@@ -40,15 +40,14 @@ public class WebUserRoleController {
 
     @PostMapping("/add")
     public ResultResponse add(@RequestBody WebUserRoleVO entityVO){
-        try {
-            ValidationResult validate = ValidationUtils.validate(entityVO);
-            if(!validate.isSuccess()){
-                return validate.toResponse();
+        return ValidationUtils.validate(entityVO,()->{
+            try {
+                return ResultResponse.success(webUserRoleService.add(entityVO));
+            }catch (Exception e){
+                return ResultResponse.error(e.getMessage());
             }
-            return ResultResponse.success(webUserRoleService.add(entityVO));
-        }catch (Exception e){
-            return ResultResponse.error(e.getMessage());
-        }
+        });
+
     }
 
     @PutMapping("/update")

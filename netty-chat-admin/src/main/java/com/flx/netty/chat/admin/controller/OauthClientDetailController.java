@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Fenglixiong
  * @since 2021-05-19
  */
-@Api(tags = "客户端信息表")
+@Api
 @RestController
 @RequestMapping("/oauthClientDetail")
 public class OauthClientDetailController {
