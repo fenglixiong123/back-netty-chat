@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("/oauthClientDetail")
+@RequestMapping("/admin/client")
 public class OauthClientDetailController {
 
     @Autowired

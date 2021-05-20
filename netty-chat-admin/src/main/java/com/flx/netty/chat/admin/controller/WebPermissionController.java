@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("/webPermission")
+@RequestMapping("/auth/permission")
 public class WebPermissionController {
 
     @Autowired

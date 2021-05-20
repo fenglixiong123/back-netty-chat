@@ -34,16 +34,16 @@ public class FeignTokenRequestInterceptor implements RequestInterceptor {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes!=null) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-            String tokenFromParam = request.getParameter(ACCESS_TOKEN);
-            if (StringUtils.isNotBlank(tokenFromParam)) {
-                log.info(">>>>>>> Get token from param : token = {}",tokenFromParam);
-                requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, tokenFromParam));
-                return;
-            }
             String tokenFromHeader = request.getHeader(AUTHORIZATION_HEADER);
             if (StringUtils.isNotBlank(tokenFromHeader)) {
                 log.info(">>>>>>> Get token from header : token = {}",tokenFromHeader);
                 requestTemplate.header(AUTHORIZATION_HEADER, tokenFromHeader);
+                return;
+            }
+            String tokenFromParam = request.getParameter(ACCESS_TOKEN);
+            if (StringUtils.isNotBlank(tokenFromParam)) {
+                log.info(">>>>>>> Get token from param : token = {}",tokenFromParam);
+                requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, tokenFromParam));
                 return;
             }
             log.info(">>>>>>> Get token error !");

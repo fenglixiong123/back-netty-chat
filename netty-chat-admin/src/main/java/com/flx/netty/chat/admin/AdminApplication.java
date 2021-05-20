@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
@@ -14,6 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Description:
  */
 @Slf4j
+@ServletComponentScan//使得@WebFilter生效
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"com.flx.netty.chat.auth.api"})
 @SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class, FlywayAutoConfiguration.class})

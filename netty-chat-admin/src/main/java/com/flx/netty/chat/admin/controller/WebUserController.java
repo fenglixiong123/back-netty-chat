@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("/webUser")
+@RequestMapping("/auth/user")
 public class WebUserController {
 
     @Autowired

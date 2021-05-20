@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("/webRole")
+@RequestMapping("/auth/role")
 public class WebRoleController {
 
     @Autowired
