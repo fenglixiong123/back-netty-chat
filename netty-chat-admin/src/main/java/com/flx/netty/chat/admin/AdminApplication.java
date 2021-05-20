@@ -3,6 +3,8 @@ package com.flx.netty.chat.admin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 
 /**
  * @Author: Fenglixiong
@@ -10,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  */
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+        DruidDataSourceAutoConfigure.class,
+        FlywayAutoConfiguration.class})
 public class AdminApplication {
 
     public static void main(String[] args) {

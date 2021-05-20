@@ -15,6 +15,26 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class FlywayProperties {
 
     /**
+     * 数据库地址
+     */
+    private String url;
+
+    /**
+     * 用户名
+     */
+    private String username;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 数据库驱动包
+     */
+    private String driverClassName = "com.mysql.cj.jdbc.Driver";
+
+    /**
      * flyway表名字
      */
     private String table = "flyway_history";

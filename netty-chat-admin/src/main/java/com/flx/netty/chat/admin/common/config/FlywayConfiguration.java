@@ -1,6 +1,5 @@
 package com.flx.netty.chat.admin.common.config;
 
-import com.flx.netty.chat.admin.common.property.DruidProperties;
 import com.flx.netty.chat.admin.common.property.FlywayProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
@@ -20,20 +19,18 @@ import javax.annotation.PostConstruct;
  **/
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({FlywayProperties.class, DruidProperties.class})
+@EnableConfigurationProperties({FlywayProperties.class})
 public class FlywayConfiguration implements InitializingBean {
 
-    @Autowired
-    private DruidProperties druidProperties;
     @Autowired
     private FlywayProperties flywayProperties;
 
     @Transactional(rollbackFor = Exception.class)
     public void initFlyway(){
         FluentConfiguration fluentConfiguration = Flyway.configure()
-                .dataSource(druidProperties.getUrl(),
-                        druidProperties.getUsername(),
-                        druidProperties.getPassword())
+                .dataSource(flywayProperties.getUrl(),
+                        flywayProperties.getUsername(),
+                        flywayProperties.getPassword())
                 .baselineVersion(flywayProperties.getBaselineVersion())
                 .baselineOnMigrate(flywayProperties.isBaselineOnMigrate())
                 .validateOnMigrate(flywayProperties.isValidateOnMigrate())
