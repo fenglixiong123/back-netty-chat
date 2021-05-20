@@ -4,6 +4,7 @@ import com.flx.netty.chat.admin.common.property.SwaggerProperties;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({SwaggerProperties.class})
-public class SwaggerConfiguration {
+public class SwaggerConfiguration implements InitializingBean {
 
     @Autowired
     private SwaggerProperties swaggerInfoProperty;
@@ -71,4 +72,8 @@ public class SwaggerConfiguration {
                 .build();
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(">>>>>>>>>>>>>Swagger Successful<<<<<<<<<<<<");
+    }
 }

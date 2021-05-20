@@ -5,6 +5,7 @@ import com.flx.netty.chat.admin.common.property.FlywayProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +21,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({FlywayProperties.class, DruidProperties.class})
-public class FlywayConfiguration {
+public class FlywayConfiguration implements InitializingBean {
 
     @Autowired
     private DruidProperties druidProperties;
@@ -50,4 +51,8 @@ public class FlywayConfiguration {
         initFlyway();
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(">>>>>>>>>>>>>Flyway Successful<<<<<<<<<<<<");
+    }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import com.flx.netty.chat.admin.common.redis.*;
 import com.flx.netty.chat.admin.common.redis.impl.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  **/
 @Slf4j
 @Configuration
-public class RedisConfiguration {
+public class RedisConfiguration implements InitializingBean {
 
     @Autowired
     private RedisConnectionFactory factory;
@@ -47,30 +48,9 @@ public class RedisConfiguration {
         return redisTemplate;
     }
 
-    @Bean
-    public RedisBaseService redisBaseService(){
-        return new RedisBaseServiceImpl();
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(">>>>>>>>>>>>>Redis Successful<<<<<<<<<<<<");
     }
-
-    @Bean
-    public RedisStringService redisStringService(){
-        return new RedisStringServiceImpl();
-    }
-
-    @Bean
-    public RedisHashService redisHashService(){
-        return new RedisHashServiceImpl();
-    }
-
-    @Bean
-    public RedisListService redisListService(){
-        return new RedisListServiceImpl();
-    }
-
-    @Bean
-    public RedisSetService redisSetService(){
-        return new RedisSetServiceImpl();
-    }
-
 
 }

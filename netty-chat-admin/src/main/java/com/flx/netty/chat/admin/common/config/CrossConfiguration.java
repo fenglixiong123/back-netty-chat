@@ -1,6 +1,7 @@
 package com.flx.netty.chat.admin.common.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 @Configuration
-public class CrossConfiguration implements WebMvcConfigurer {
+public class CrossConfiguration implements WebMvcConfigurer, InitializingBean {
 
     /**
      * 就是注册的过程，注册Cors协议的内容。
@@ -28,4 +29,8 @@ public class CrossConfiguration implements WebMvcConfigurer {
                 .maxAge(3600);// 超时时长设置为1小时。 时间单位是秒
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(">>>>>>>>>>>>>Cross Successful<<<<<<<<<<<<");
+    }
 }

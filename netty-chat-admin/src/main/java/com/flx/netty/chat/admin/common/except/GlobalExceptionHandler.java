@@ -1,11 +1,9 @@
-package com.flx.netty.chat.admin.common.except.handler;
+package com.flx.netty.chat.admin.common.except;
 
-import com.flx.netty.chat.admin.common.except.element.BizException;
-import com.flx.netty.chat.admin.common.except.element.ParamException;
-import com.flx.netty.chat.admin.common.except.element.RedisException;
 import com.flx.netty.chat.common.enums.ErrorMsgEnum;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -26,13 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @ResponseBody
 @ControllerAdvice
-public class CoreExceptionHandler {
+public class GlobalExceptionHandler implements InitializingBean {
 
     /**
-     * 自定义传参异常类
-     * @param request
-     * @param e
-     * @return
+     * Http请求方式常类
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -43,24 +38,7 @@ public class CoreExceptionHandler {
     }
 
     /**
-     * 自定义传参异常类
-     * @param request
-     * @param e
-     * @return
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(ParamException.class)
-    public ResultResponse<String> paramExceptionHandler(HttpServletRequest request, Exception e){
-        log.error("【异常地址】：{}",request.getRequestURL().toString());
-        log.error("【异常类型】传参异常paramException：{}",e.getMessage());
-        return ResultResponse.error(ErrorMsgEnum.PARAM_INVALID,e.getMessage());
-    }
-
-    /**
-     * 自定义Hibernate校验异常类
-     * @param request
-     * @param e
-     * @return
+     * Hibernate校验异常类
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -77,9 +55,6 @@ public class CoreExceptionHandler {
 
     /**
      * 传参异常类
-     * @param request
-     * @param e
-     * @return
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MissingServletRequestParameterException.class)
@@ -90,10 +65,7 @@ public class CoreExceptionHandler {
     }
 
     /**
-     * 自定义Json转换异常类
-     * @param request
-     * @param e
-     * @return
+     * Json转换异常类
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -104,38 +76,7 @@ public class CoreExceptionHandler {
     }
 
     /**
-     * 自定义业务异常类
-     * @param request
-     * @param e
-     * @return
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(BizException.class)
-    public ResultResponse<String> bizExceptionHandler(HttpServletRequest request,Exception e){
-        log.error("【异常地址】：{}",request.getRequestURL().toString());
-        log.error("【异常类型】业务异常BizException：{}",e.getMessage());
-        return ResultResponse.error(e.getMessage());
-    }
-
-    /**
-     * 自定义Redis异常类
-     * @param request
-     * @param e
-     * @return
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(RedisException.class)
-    public ResultResponse<String> redisExceptionHandler(HttpServletRequest request, Exception e){
-        log.error("【异常地址】：{}",request.getRequestURL().toString());
-        log.error("【异常类型】缓存异常redisException：{}",e.getMessage());
-        return ResultResponse.error(ErrorMsgEnum.REDIS_ERROR,e.getMessage());
-    }
-
-    /**
      * 全局异常类
-     * @param request
-     * @param e
-     * @return
      */
     @ExceptionHandler(Exception.class)
     public ResultResponse<String> defaultExceptionHandler(HttpServletRequest request,Exception e){
@@ -158,4 +99,8 @@ public class CoreExceptionHandler {
         return ResultResponse.error(message);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(">>>>>>>>>>>>>Exception Successful<<<<<<<<<<<<");
+    }
 }

@@ -12,6 +12,7 @@ import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({MybatisProperties.class})
-public class MybatisConfiguration {
+public class MybatisConfiguration implements InitializingBean {
 
     /**
      * 配置mybatis的配置项
@@ -94,4 +95,8 @@ public class MybatisConfiguration {
         return interceptor;
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(">>>>>>>>>>>>>Mybatis Successful<<<<<<<<<<<<");
+    }
 }
