@@ -30,6 +30,12 @@ public class WebUserVO extends BaseVO {
     private String userName;
 
     /**
+     * 用户类型
+     */
+    @Size(max = 64)
+    private String type;
+
+    /**
      * 头像
      */
     @Size(max = 64)

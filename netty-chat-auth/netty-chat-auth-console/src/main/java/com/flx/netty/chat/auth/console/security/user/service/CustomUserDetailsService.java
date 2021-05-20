@@ -55,6 +55,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             boolean locked = user.getState().equals(UserStateEnum.locked.name());
             return new CustomUserDetails()
                     .setUserId(user.getId())
+                    .setUserType(user.getType())
                     .setUsername(user.getUserName())
                     .setPassword(user.getPassword())
                     .setEnabled(enabled).setAccountNonExpired(!expired)

@@ -43,6 +43,11 @@ public class WebUser extends BaseDO {
     private String passwordAnswer;
 
     /**
+     * 用户类型
+     */
+    private String type;
+
+    /**
      * 头像
      */
     private String icon;

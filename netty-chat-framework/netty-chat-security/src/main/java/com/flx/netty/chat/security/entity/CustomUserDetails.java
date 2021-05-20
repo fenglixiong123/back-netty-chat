@@ -36,6 +36,11 @@ public class CustomUserDetails implements UserDetails {
     private String password;
 
     /**
+     * 用户类型
+     */
+    private String userType;
+
+    /**
      * 角色集合
      */
     private Set<String> roleCodes;
