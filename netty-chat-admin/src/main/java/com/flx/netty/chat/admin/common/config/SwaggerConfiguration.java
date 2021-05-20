@@ -16,6 +16,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Author Fenglixiong
@@ -24,6 +25,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  **/
 @Slf4j
 @Configuration
+@EnableSwagger2
 @EnableConfigurationProperties({SwaggerProperties.class})
 public class SwaggerConfiguration implements InitializingBean {
 
