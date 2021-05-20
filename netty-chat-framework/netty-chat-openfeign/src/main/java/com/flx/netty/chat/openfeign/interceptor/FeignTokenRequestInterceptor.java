@@ -1,4 +1,4 @@
-package com.flx.netty.chat.microservice.interceptor;
+package com.flx.netty.chat.openfeign.interceptor;
 
 import com.flx.netty.chat.common.utils.StringUtils;
 import feign.RequestInterceptor;

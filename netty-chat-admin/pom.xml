@@ -19,11 +19,6 @@
             <artifactId>netty-chat-auth-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.flx.chat</groupId>
-            <artifactId>netty-chat-security</artifactId>
-        </dependency>
-
         <!--多数据源管理-->
         <dependency>
             <groupId>com.baomidou</groupId>

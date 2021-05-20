@@ -1,4 +1,4 @@
-package com.flx.netty.chat.microservice.constants;
+package com.flx.netty.chat.openfeign.constants;
 
 /**
  * @Author: Fenglixiong

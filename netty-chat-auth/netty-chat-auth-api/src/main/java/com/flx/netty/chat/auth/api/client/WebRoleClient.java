@@ -6,15 +6,14 @@ import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
-import com.flx.netty.chat.microservice.constants.FeignConstant;
-import com.flx.netty.chat.microservice.interceptor.FeignTokenRequestInterceptor;
+import com.flx.netty.chat.openfeign.interceptor.FeignTokenRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.flx.netty.chat.microservice.constants.FeignConstant.NETTY_CHAT_AUTH;
+import static com.flx.netty.chat.openfeign.constants.FeignConstant.NETTY_CHAT_AUTH;
 
 /**
 *  FeignClient
