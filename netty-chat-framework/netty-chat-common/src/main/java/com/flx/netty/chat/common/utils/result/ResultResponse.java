@@ -131,18 +131,26 @@ public class ResultResponse<E> {
     public static <E> void printJson(HttpServletResponse response,boolean success, String code, String message, E data) {
         response.setContentType(WebConstant.CONTENT_TYPE_JSON);
         try {
-            response.getWriter().print(JsonUtils.toJsonMsg(new ResultResponse<E>(success,code,message,data)));
+            response.getWriter().print(JsonUtils.toJsonMsg(new ResultResponse<>(success,code,message,data)));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static <E> void printHtml(HttpServletResponse response,String html) {
+    public static void printHtml(HttpServletResponse response,String html) {
         response.setContentType(WebConstant.CONTENT_TYPE_HTML);
         try {
             response.getWriter().print(html);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static <T> T getResult(ResultResponse<T> response) throws Exception{
+        if(response.isSuccess()) {
+            return response.getData();
+        }else {
+            throw new Exception(response.getMessage());
         }
     }
 

@@ -1,7 +1,8 @@
 package com.flx.netty.chat.admin.controller;
 
-import com.flx.netty.chat.admin.vo.WebPermissionVO;
 import com.flx.netty.chat.admin.service.WebPermissionService;
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
+import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
-import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
 import com.flx.netty.chat.common.entity.UpdateState;
 import java.util.Map;
@@ -27,12 +27,12 @@ import java.util.Map;
 public class WebPermissionController {
 
     @Autowired
-    private WebPermissionService webPermissionService;
+    private WebPermissionService permissionService;
 
     @GetMapping("/get/{id}")
     public ResultResponse get(@PathVariable Long id){
         try {
-            return ResultResponse.success(webPermissionService.get(id));
+            return ResultResponse.success(permissionService.get(id));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -42,17 +42,18 @@ public class WebPermissionController {
     public ResultResponse add(@RequestBody WebPermissionVO entityVO){
         return ValidationUtils.validate(entityVO,()->{
             try {
-                return ResultResponse.success(webPermissionService.add(entityVO));
+                return ResultResponse.success(permissionService.add(entityVO));
             }catch (Exception e){
                 return ResultResponse.error(e.getMessage());
             }
         });
+
     }
 
     @PutMapping("/update")
     public ResultResponse update(@RequestBody WebPermissionVO entityVO){
         try {
-            return ResultResponse.success(webPermissionService.update(entityVO));
+            return ResultResponse.success(permissionService.update(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -61,7 +62,7 @@ public class WebPermissionController {
     @PutMapping("/updateState")
     public ResultResponse updateState(@RequestBody UpdateState entityVO){
         try {
-            return ResultResponse.success(webPermissionService.updateState(entityVO));
+            return ResultResponse.success(permissionService.updateState(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -70,7 +71,7 @@ public class WebPermissionController {
     @DeleteMapping("/delete/{id}")
     public ResultResponse delete(@PathVariable Long id){
         try {
-            return ResultResponse.success(webPermissionService.delete(id));
+            return ResultResponse.success(permissionService.delete(id));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -79,16 +80,25 @@ public class WebPermissionController {
     @PostMapping("/query")
     public ResultResponse query(@RequestBody Map<String,Object> query){
         try {
-            return ResultResponse.success(webPermissionService.query(query));
+            return ResultResponse.success(permissionService.query(query));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/querySome")
+    public ResultResponse querySome(@RequestBody Map<String,Object> query,@RequestParam String[] columns){
+        try {
+            return ResultResponse.success(permissionService.querySome(query,columns));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PostMapping("/queryAll")
-    public ResultResponse queryAll(){
+    public ResultResponse queryAll(@RequestBody Map<String,Object> query){
         try {
-            return ResultResponse.success(webPermissionService.queryAll());
+            return ResultResponse.success(permissionService.queryAll(query));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -97,7 +107,7 @@ public class WebPermissionController {
     @PostMapping("/queryPage")
     public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
-            return ResultResponse.success(webPermissionService.queryPage(query));
+            return ResultResponse.success(permissionService.queryPage(query));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }

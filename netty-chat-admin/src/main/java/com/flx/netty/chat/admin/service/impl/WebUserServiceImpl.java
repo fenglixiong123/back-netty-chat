@@ -1,25 +1,21 @@
 package com.flx.netty.chat.admin.service.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.flx.netty.chat.admin.utils.PageConvert;
-import com.flx.netty.chat.admin.vo.WebUserVO;
-import com.flx.netty.chat.admin.entity.WebUser;
-import com.flx.netty.chat.admin.dao.WebUserDao;
 import com.flx.netty.chat.admin.service.WebUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.flx.netty.chat.auth.api.client.WebUserClient;
+import com.flx.netty.chat.auth.api.vo.ValidatePassVO;
+import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
+import com.flx.netty.chat.auth.api.vo.WebUserVO;
 import com.flx.netty.chat.common.entity.UpdateState;
-import com.flx.netty.chat.common.enums.State;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
-import com.flx.netty.chat.common.utils.servlet.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static com.flx.netty.chat.common.utils.result.ResultResponse.getResult;
 
 /**
  *  服务实现类
@@ -29,55 +25,73 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@DS("auth")
-public class WebUserServiceImpl extends ServiceImpl<WebUserDao, WebUser> implements WebUserService {
+public class WebUserServiceImpl implements WebUserService {
 
-    public boolean add(WebUserVO entityVO) throws Exception{
-        return super.save(BeanUtils.copyProperties(entityVO, WebUser.class));
-    }
-    
-    public boolean delete(Long id){
-        return super.removeById(id);
-    }
-    
-    public boolean update(WebUserVO entityVO) throws Exception{
-        if(entityVO.getId()==null){
-            throw new Exception("Id不能为空！");
-        }
-        return super.updateById(BeanUtils.copyProperties(entityVO, WebUser.class));
-    }
-    
+    @Autowired
+    private WebUserClient userClient;
+
     @Override
-    public boolean updateState(UpdateState entityVO) throws Exception {
-        for (Long id:entityVO.getIds()){
-            if(entityVO.getState().equals(State.deleted.name())){
-                super.removeById(id);
-            }else {
-                WebUser entity = new WebUser();
-                entity.setId(id);
-                entity.setState(entity.getState());
-                entity.setUpdateUser(entityVO.getUpdateUser());
-                super.updateById(entity);
-            }
-        }
-        return true;
-    }
-    
-    public WebUserVO get(Long id) throws Exception{
-        return BeanUtils.copyProperties(super.getById(id),WebUserVO.class);
-    }
-    
-    public PageVO<WebUserVO> queryPage(PageQuery pageQuery) throws Exception{
-        Page<WebUser> page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
-        return PageConvert.pageConvert(page,WebUserVO.class);
+    public Long add(WebUserVO entity) throws Exception {
+        return getResult(userClient.add(entity));
     }
 
-   public List<WebUserVO> query(Map<String,Object> columnMap) throws Exception{
-       return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,WebUserVO.class)).collect(Collectors.toList());
-   }
+    @Override
+    public Integer delete(Long id) throws Exception {
+        return getResult(userClient.delete(id));
+    }
 
-   public List<WebUserVO> queryAll() throws Exception{
-       return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,WebUserVO.class)).collect(Collectors.toList());
-   }
+    @Override
+    public Integer update(WebUserVO entity) throws Exception {
+        return getResult(userClient.update(entity));
+    }
 
+    @Override
+    public boolean updateState(UpdateState entity) throws Exception {
+        return getResult(userClient.updateState(entity));
+    }
+
+    @Override
+    public WebUserVO get(Long id) throws Exception {
+        return getResult(userClient.get(id));
+    }
+
+    @Override
+    public PageVO<WebUserVO> queryPage(PageQuery pageQuery) throws Exception {
+        return getResult(userClient.queryPage(pageQuery));
+    }
+
+    @Override
+    public List<WebUserVO> query(Map<String, Object> query) throws Exception {
+        return getResult(userClient.query(query));
+    }
+
+    @Override
+    public List<WebUserVO> querySome(Map<String, Object> query, String[] columns) throws Exception {
+        return getResult(userClient.querySome(query,columns));
+    }
+
+    @Override
+    public List<WebUserVO> queryAll(Map<String, Object> query) throws Exception {
+        return getResult(userClient.queryAll(query));
+    }
+
+    @Override
+    public WebUserVO getByUsername(String username) throws Exception {
+        return getResult(userClient.getByUsername(username));
+    }
+
+    @Override
+    public boolean isExist(String username) throws Exception {
+        return getResult(userClient.existByUsername(username));
+    }
+
+    @Override
+    public WebUserVO validateUser(String username, String password) throws Exception {
+        return getResult(userClient.validateUser(new ValidatePassVO(username,password)));
+    }
+
+    @Override
+    public List<WebPermissionVO> getPermissionById(Long id) throws Exception {
+        return null;
+    }
 }

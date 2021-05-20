@@ -40,15 +40,13 @@ public class PermissionController {
 
     @PostMapping("/add")
     public ResultResponse add(@RequestBody WebPermissionVO entityVO){
-        try {
-            ValidationResult validate = ValidationUtils.validate(entityVO);
-            if(!validate.isSuccess()){
-                return validate.toResponse();
+        return ValidationUtils.validate(entityVO,()->{
+            try {
+                return ResultResponse.success(permissionService.add(entityVO));
+            }catch (Exception e){
+                return ResultResponse.error(e.getMessage());
             }
-            return ResultResponse.success(permissionService.add(entityVO));
-        }catch (Exception e){
-            return ResultResponse.error(e.getMessage());
-        }
+        });
     }
 
     @PutMapping("/update")

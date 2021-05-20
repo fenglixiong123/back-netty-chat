@@ -1,7 +1,7 @@
 package com.flx.netty.chat.admin.controller;
 
-import com.flx.netty.chat.admin.vo.WebRoleVO;
 import com.flx.netty.chat.admin.service.WebRoleService;
+import com.flx.netty.chat.auth.api.vo.WebRoleVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
-import com.flx.netty.chat.common.utils.validate.ValidationResult;
 import com.flx.netty.chat.common.utils.validate.ValidationUtils;
 import com.flx.netty.chat.common.entity.UpdateState;
 import java.util.Map;
@@ -27,12 +26,12 @@ import java.util.Map;
 public class WebRoleController {
 
     @Autowired
-    private WebRoleService webRoleService;
+    private WebRoleService roleService;
 
     @GetMapping("/get/{id}")
     public ResultResponse get(@PathVariable Long id){
         try {
-            return ResultResponse.success(webRoleService.get(id));
+            return ResultResponse.success(roleService.get(id));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -42,7 +41,7 @@ public class WebRoleController {
     public ResultResponse add(@RequestBody WebRoleVO entityVO){
         return ValidationUtils.validate(entityVO,()->{
             try {
-                return ResultResponse.success(webRoleService.add(entityVO));
+                return ResultResponse.success(roleService.add(entityVO));
             }catch (Exception e){
                 return ResultResponse.error(e.getMessage());
             }
@@ -52,7 +51,7 @@ public class WebRoleController {
     @PutMapping("/update")
     public ResultResponse update(@RequestBody WebRoleVO entityVO){
         try {
-            return ResultResponse.success(webRoleService.update(entityVO));
+            return ResultResponse.success(roleService.update(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -61,7 +60,7 @@ public class WebRoleController {
     @PutMapping("/updateState")
     public ResultResponse updateState(@RequestBody UpdateState entityVO){
         try {
-            return ResultResponse.success(webRoleService.updateState(entityVO));
+            return ResultResponse.success(roleService.updateState(entityVO));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -70,7 +69,7 @@ public class WebRoleController {
     @DeleteMapping("/delete/{id}")
     public ResultResponse delete(@PathVariable Long id){
         try {
-            return ResultResponse.success(webRoleService.delete(id));
+            return ResultResponse.success(roleService.delete(id));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -79,16 +78,25 @@ public class WebRoleController {
     @PostMapping("/query")
     public ResultResponse query(@RequestBody Map<String,Object> query){
         try {
-            return ResultResponse.success(webRoleService.query(query));
+            return ResultResponse.success(roleService.query(query));
+        }catch (Exception e){
+            return ResultResponse.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/querySome")
+    public ResultResponse querySome(@RequestBody Map<String,Object> query,@RequestParam String[] columns){
+        try {
+            return ResultResponse.success(roleService.querySome(query,columns));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
     }
 
     @PostMapping("/queryAll")
-    public ResultResponse queryAll(){
+    public ResultResponse queryAll(@RequestBody Map<String,Object> query){
         try {
-            return ResultResponse.success(webRoleService.queryAll());
+            return ResultResponse.success(roleService.queryAll(query));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
@@ -97,7 +105,7 @@ public class WebRoleController {
     @PostMapping("/queryPage")
     public ResultResponse queryPage(@RequestBody PageQuery query){
         try {
-            return ResultResponse.success(webRoleService.queryPage(query));
+            return ResultResponse.success(roleService.queryPage(query));
         }catch (Exception e){
             return ResultResponse.error(e.getMessage());
         }
