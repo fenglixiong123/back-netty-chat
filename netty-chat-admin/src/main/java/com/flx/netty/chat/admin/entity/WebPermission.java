@@ -36,11 +36,11 @@ public class WebPermission extends Model<WebPermission> {
     private Long pid;
 
     @ApiModelProperty(value = "权限编码")
-    @TableField("code")
+    @TableField("`code`")
     private String code;
 
     @ApiModelProperty(value = "权限名称")
-    @TableField("name")
+    @TableField("`name`")
     private String name;
 
     @ApiModelProperty(value = "权限路径")
@@ -56,7 +56,7 @@ public class WebPermission extends Model<WebPermission> {
     private String icon;
 
     @ApiModelProperty(value = "排序")
-    @TableField("order")
+    @TableField("`order`")
     private Integer order;
 
     @ApiModelProperty(value = "状态")

@@ -32,15 +32,15 @@ public class WebRole extends Model<WebRole> {
     private Long id;
 
     @ApiModelProperty(value = "角色编号")
-    @TableField("code")
+    @TableField("`code`")
     private String code;
 
     @ApiModelProperty(value = "角色名称")
-    @TableField("name")
+    @TableField("`name`")
     private String name;
 
     @ApiModelProperty(value = "排序")
-    @TableField("order")
+    @TableField("`order`")
     private Integer order;
 
     @ApiModelProperty(value = "状态")
