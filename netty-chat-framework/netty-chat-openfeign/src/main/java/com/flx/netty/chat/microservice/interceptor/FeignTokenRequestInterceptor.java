@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  **/
 @Slf4j
 @Configuration
-public class OAuth2FeignRequestInterceptor implements RequestInterceptor {
+public class FeignTokenRequestInterceptor implements RequestInterceptor {
 
     //请求头中的token
     public final static String AUTHORIZATION_HEADER = "Authorization";
