@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("/systemRole")
+@RequestMapping("/admin/role")
 public class SystemRoleController {
 
     @Autowired

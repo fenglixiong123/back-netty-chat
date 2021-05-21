@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("/systemPermission")
+@RequestMapping("/admin/permission")
 public class SystemPermissionController {
 
     @Autowired
