@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Api(tags = "")
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/auth/role")
 public class RoleController {
 
     @Autowired

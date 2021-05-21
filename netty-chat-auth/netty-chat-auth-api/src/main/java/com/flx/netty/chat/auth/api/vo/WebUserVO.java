@@ -2,6 +2,7 @@ package com.flx.netty.chat.auth.api.vo;
 
 import com.flx.netty.chat.common.vo.BaseVO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @Description:
  */
 @Data
+@NoArgsConstructor
 public class WebUserVO extends BaseVO {
 
     /**

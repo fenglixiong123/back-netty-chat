@@ -1,5 +1,6 @@
 package com.flx.netty.chat.auth.crud.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.flx.netty.chat.plugin.plugins.mybatis.base.BaseDO;
 import lombok.Data;
@@ -22,16 +23,19 @@ public class WebRole extends BaseDO {
     /**
      * 角色编号
      */
+    @TableField("`code`")
     private String code;
 
     /**
      * 角色名称
      */
+    @TableField("`name`")
     private String name;
 
     /**
      * 排序
      */
+    @TableField("`order`")
     private Integer order;
 
 

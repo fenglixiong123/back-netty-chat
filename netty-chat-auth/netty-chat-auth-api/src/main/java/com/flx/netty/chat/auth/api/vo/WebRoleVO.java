@@ -2,6 +2,7 @@ package com.flx.netty.chat.auth.api.vo;
 
 import com.flx.netty.chat.common.vo.BaseVO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *  VO实体类
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
 public class WebRoleVO extends BaseVO {
 
     /**
