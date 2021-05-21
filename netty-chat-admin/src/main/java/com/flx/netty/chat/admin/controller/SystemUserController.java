@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Fenglixiong
  * @since 2021-05-21
  */
-@Api(tags = "")
+@Api
 @RestController
 @RequestMapping("/systemUser")
 public class SystemUserController {

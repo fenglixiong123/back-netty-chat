@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS `web_admin`.`system_user`  (
     `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_user_name`(`user_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic comment '用户信息';
 
 SET FOREIGN_KEY_CHECKS = 1;
