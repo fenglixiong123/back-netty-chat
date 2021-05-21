@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 @Data
-public class OauthClientDetailVO {
+public class AuthClientVO {
 
     @ApiModelProperty(value = "主键")
     private Long id;

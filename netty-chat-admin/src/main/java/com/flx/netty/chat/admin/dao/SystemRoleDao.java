@@ -1,17 +1,17 @@
 package com.flx.netty.chat.admin.dao;
 
 import com.flx.netty.chat.admin.common.annotation.DaoMapper;
-import com.flx.netty.chat.admin.entity.OauthClientDetail;
+import com.flx.netty.chat.admin.entity.SystemRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 
 /**
- * 客户端信息表 Mapper 接口
+ *  Mapper 接口
  *
  * @author Fenglixiong
- * @since 2021-05-19
+ * @since 2021-05-21
  */
 @DaoMapper
-public interface OauthClientDetailDao extends BaseMapper<OauthClientDetail> {
+public interface SystemRoleDao extends BaseMapper<SystemRole> {
 
 }

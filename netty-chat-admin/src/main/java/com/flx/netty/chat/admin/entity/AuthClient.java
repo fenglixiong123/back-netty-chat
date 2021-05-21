@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("oauth_client_detail")
 @ApiModel(value="OauthClientDetail对象", description="客户端信息表")
-public class OauthClientDetail extends Model<OauthClientDetail> {
+public class AuthClient extends Model<AuthClient> {
 
     private static final long serialVersionUID = 1L;
 
