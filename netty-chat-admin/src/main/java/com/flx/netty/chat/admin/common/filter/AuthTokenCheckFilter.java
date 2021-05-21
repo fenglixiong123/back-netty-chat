@@ -3,6 +3,7 @@ package com.flx.netty.chat.admin.common.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.http.OkUtils;
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,11 +43,11 @@ public class AuthTokenCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = ((HttpServletRequest) servletRequest);
+        HttpServletResponse response = ((HttpServletResponse) servletResponse);
         //如果token为空则需要获得
         if(StringUtils.isBlank(authToken)){
             log.info("Request url = {} authToken is null !",request.getRequestURL());
-
-            loadAuthToken(SSO_URL);
+            loadAuthToken(response,SSO_URL);
         }
         //修改header
         HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request){
@@ -64,9 +66,9 @@ public class AuthTokenCheckFilter implements Filter {
     /**
      * 获取token
      */
-    private synchronized void loadAuthToken(String url) {
+    private synchronized boolean loadAuthToken(HttpServletResponse response, String url) {
         if(StringUtils.isNotBlank(authToken)){
-            return;
+            return true;
         }
 
         Map<String,String> query = new HashMap<>();
@@ -84,9 +86,11 @@ public class AuthTokenCheckFilter implements Filter {
             }
             authToken = accessToken.toString();
             log.info("Get authToken successful,token = {}",accessToken);
+            return true;
         } catch (Exception e) {
             log.error("LoadAuthToken error : {}",e.getMessage());
-            throw new RuntimeException("LoadAuthToken post error : "+e.getMessage());
+            ResultResponse.printError(response,"500","LoadAuthToken post error !",e.getMessage());
+            return false;
         }
     }
 
