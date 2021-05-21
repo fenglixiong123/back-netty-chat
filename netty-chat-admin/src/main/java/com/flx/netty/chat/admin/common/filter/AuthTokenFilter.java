@@ -3,6 +3,7 @@ package com.flx.netty.chat.admin.common.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.http.OkUtils;
+import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 
@@ -31,6 +32,8 @@ public class AuthTokenFilter implements Filter {
      */
     private static String authToken = "";
 
+    private static final String SSO_URL = "http://"+ PropertyUtils.get("sso.ip","127.0.0.1") +":8001/oauth/token;";
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info(">>>>>>>>>>Load AuthTokenFilter<<<<<<<<<<<<<");
@@ -42,7 +45,8 @@ public class AuthTokenFilter implements Filter {
         //如果token为空则需要获得
         if(StringUtils.isBlank(authToken)){
             log.info("Request url = {} authToken is null !",request.getRequestURL());
-            loadAuthToken();
+
+            loadAuthToken(SSO_URL);
         }
         //修改header
         HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request){
@@ -61,11 +65,11 @@ public class AuthTokenFilter implements Filter {
     /**
      * 获取token
      */
-    private synchronized void loadAuthToken() {
+    private synchronized void loadAuthToken(String url) {
         if(StringUtils.isNotBlank(authToken)){
             return;
         }
-        String url = "http://127.0.0.1:8001/oauth/token";
+
         Map<String,String> query = new HashMap<>();
         try {
             JSONObject result = OkUtils.postJSON(url, query, null);
