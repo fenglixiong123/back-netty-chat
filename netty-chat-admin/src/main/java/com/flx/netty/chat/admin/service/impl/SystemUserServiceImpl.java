@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.service.impl;
 
+import com.flx.netty.chat.admin.utils.PageConvert;
 import com.flx.netty.chat.admin.vo.SystemUserVO;
 import com.flx.netty.chat.admin.entity.SystemUser;
 import com.flx.netty.chat.admin.dao.SystemUserDao;
@@ -14,7 +15,6 @@ import com.flx.netty.chat.common.enums.State;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
-import com.flx.netty.chat.plugin.plugins.mybatis.page.PageConvert;
 
 import java.util.List;
 import java.util.Map;
