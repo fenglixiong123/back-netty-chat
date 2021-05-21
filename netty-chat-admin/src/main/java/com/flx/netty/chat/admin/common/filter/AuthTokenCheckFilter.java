@@ -46,8 +46,11 @@ public class AuthTokenCheckFilter implements Filter {
         HttpServletResponse response = ((HttpServletResponse) servletResponse);
         //如果token为空则需要获得
         if(StringUtils.isBlank(authToken)){
-            log.info("Request url = {} authToken is null !",request.getRequestURL());
-            loadAuthToken(response,SSO_URL);
+            log.info("Request url = {} token is null,ready to load token from sso !",request.getRequestURL());
+            boolean result = loadAuthToken(response, SSO_URL);
+            if(!result){
+                return;
+            }
         }
         //修改header
         HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request){
@@ -89,7 +92,7 @@ public class AuthTokenCheckFilter implements Filter {
             return true;
         } catch (Exception e) {
             log.error("LoadAuthToken error : {}",e.getMessage());
-            ResultResponse.printError(response,"500","LoadAuthToken post error !",e.getMessage());
+            ResultResponse.printError(response,"503","LoadAuthToken post error !",e.getMessage());
             return false;
         }
     }
