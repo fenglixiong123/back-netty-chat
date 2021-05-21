@@ -95,6 +95,17 @@ public class OauthClientDetail extends Model<OauthClientDetail> {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    public static final String ID = "id";
+
+    public static final String CLIENT_ID = "client_id";
+
+    public static final String RESOURCE_IDS = "resource_ids";
+
+    public static final String SCOPE = "scope";
+
+    public static final String CLIENT_SECRET = "client_secret";
+
+    public static final String STATE = "state";
 
     @Override
     protected Serializable pkVal() {

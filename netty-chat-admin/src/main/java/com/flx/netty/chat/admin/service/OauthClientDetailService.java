@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.service;
 
+import com.flx.netty.chat.admin.entity.OauthClientDetail;
 import com.flx.netty.chat.admin.vo.OauthClientDetailVO;
 
 import com.flx.netty.chat.common.entity.UpdateState;
@@ -55,5 +56,10 @@ public interface OauthClientDetailService {
     * 查询所有
     */
     List<OauthClientDetailVO> queryAll() throws Exception;
+
+    /**
+     * 根据clientId查询客户端详情
+     */
+    OauthClientDetail getByClientId(String clientId) throws Exception;
    
 }

@@ -124,7 +124,7 @@ public class SimpleGeneratorManager {
         strategy.setControllerMappingHyphenStyle(false);//驼峰转连字符@RequestMapping("/groupUser")===>@RequestMapping("/group-user")
         //----->字段设置
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//字段生成策略
-        strategy.setEntityColumnConstant(false);//是否生成字段常量，public static final String ID = "test_id";
+        strategy.setEntityColumnConstant(true);//是否生成字段常量，public static final String ID = "test_id";
         strategy.setEntityTableFieldAnnotationEnable(true);//生成字段注解
         strategy.setEntitySerialVersionUID(true);//实体是否生成serialVersionUID
         strategy.setEntityLombokModel(true);//是否为lombok模型

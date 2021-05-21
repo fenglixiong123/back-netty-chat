@@ -1,6 +1,7 @@
 package com.flx.netty.chat.admin.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.flx.netty.chat.admin.utils.PageConvert;
 import com.flx.netty.chat.admin.vo.OauthClientDetailVO;
 import com.flx.netty.chat.admin.entity.OauthClientDetail;
@@ -79,5 +80,13 @@ public class OauthClientDetailServiceImpl extends ServiceImpl<OauthClientDetailD
    public List<OauthClientDetailVO> queryAll() throws Exception{
        return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,OauthClientDetailVO.class)).collect(Collectors.toList());
    }
+
+    @Override
+    public OauthClientDetail getByClientId(String clientId) throws Exception {
+        QueryWrapper<OauthClientDetail> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(OauthClientDetail.CLIENT_ID,clientId)
+                .eq(OauthClientDetail.STATE,State.effective.name());
+        return super.getOne(queryWrapper);
+    }
 
 }

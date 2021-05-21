@@ -10,6 +10,11 @@ public class FeignConstant {
     /**
      * 认证服务
      */
+    public final static String NETTY_CHAT_ADMIN = "netty-chat-admin";
+
+    /**
+     * 认证服务
+     */
     public final static String NETTY_CHAT_AUTH = "netty-chat-auth";
 
     /**
