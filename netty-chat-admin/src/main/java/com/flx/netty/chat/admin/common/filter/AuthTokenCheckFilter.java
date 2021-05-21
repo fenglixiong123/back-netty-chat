@@ -80,7 +80,7 @@ public class AuthTokenCheckFilter implements Filter {
             Object accessToken = result.get(ACCESS_TOKEN);
             if(Objects.isNull(accessToken)){
                 log.error("Get access token from authServer error : {}",result.toString());
-                throw new RuntimeException("Get access token from authServer error !");
+                throw new RuntimeException("Access token is null !");
             }
             authToken = accessToken.toString();
             log.info("Get authToken successful,token = {}",accessToken);
