@@ -1,6 +1,5 @@
 package com.flx.netty.chat.admin.common.wrapper;
 
-import com.flx.netty.chat.common.utils.StringUtils;
 import lombok.Getter;
 import org.apache.commons.io.IOUtils;
 import org.springframework.cloud.netflix.ribbon.support.ResettableServletInputStreamWrapper;
@@ -12,10 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-
-import static com.flx.netty.chat.admin.common.filter.AuthTokenCheckFilter.AUTH_TOKEN;
-import static com.flx.netty.chat.openfeign.interceptor.feign.FeignTokenRequestInterceptor.AUTHORIZATION_HEADER;
-import static com.flx.netty.chat.openfeign.interceptor.feign.FeignTokenRequestInterceptor.BEARER_TOKEN_TYPE;
 
 /**
  * @Author: Fenglixiong
@@ -38,18 +33,6 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         //读取请求中body内容，request失效，需要重新包装
         body = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
         this.inputStream = new ResettableServletInputStreamWrapper(body.getBytes(StandardCharsets.UTF_8));
-    }
-
-    /**
-     * 修改请求中的header
-     */
-    @Override
-    public String getHeader(String name) {
-        String superHeader = super.getHeader(name);
-        if(AUTHORIZATION_HEADER.equals(name) && StringUtils.isBlank(superHeader)){
-            return String.format("%s %s", BEARER_TOKEN_TYPE, AUTH_TOKEN.get());
-        }
-        return super.getHeader(name);
     }
 
     @Override

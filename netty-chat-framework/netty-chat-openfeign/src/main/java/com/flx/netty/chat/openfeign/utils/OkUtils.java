@@ -30,10 +30,4 @@ public class OkUtils {
                 .build();
     }
 
-    public static Response buildErrorResponse(String code,String message,String data){
-        return new Response.Builder()
-                .body(ResponseBody.create(JsonUtils.toJsonMsg(new ResultResponse<>(false,code,message,data)),okhttp3.MediaType.parse("application/json")))
-                .build();
-    }
-
 }
