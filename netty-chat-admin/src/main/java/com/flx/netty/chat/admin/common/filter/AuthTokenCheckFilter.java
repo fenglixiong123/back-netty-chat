@@ -53,14 +53,27 @@ public class AuthTokenCheckFilter implements Filter {
         //如果token为空则需要获得
         if(StringUtils.isBlank(AUTH_TOKEN.get())){
             log.info("Request url = {} token is null,ready to load token from sso !",request.getRequestURL());
-            boolean result = loadAuthToken(response, SSO_URL);
-            if(!result){
+            try {
+                loadAuthToken(SSO_URL);
+            } catch (Exception e) {
+                log.error("LoadAuthToken error : {}",e.getMessage());
+                ResultResponse.printError(response,"503","LoadAuthToken post error !",e.getMessage());
                 return;
             }
         }
 
-        //读取request
-        RequestWrapper requestWrapper = new RequestWrapper(request);
+        //修改header
+        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request){
+            @Override
+            public String getHeader(String name) {
+                String superHeader = super.getHeader(name);
+                if(AUTHORIZATION_HEADER.equals(name) && StringUtils.isBlank(superHeader)){
+                    return String.format("%s %s", BEARER_TOKEN_TYPE, AUTH_TOKEN.get());
+                }
+                return super.getHeader(name);
+            }
+        };
+
         //读取response
         ResponseWrapper responseWrapper = new ResponseWrapper(response);
         //继续执行filter
@@ -68,18 +81,26 @@ public class AuthTokenCheckFilter implements Filter {
             filterChain.doFilter(requestWrapper, responseWrapper);
         }finally {
             //执行完成，得到响应
-            String requestBody = requestWrapper.getBody();
             String responseBody = responseWrapper.getBody();
+            if(responseBody.length()<200 && responseBody.contains("Invalid access token")){
+                log.error("Token Invalid : {}",responseBody);
+                try {
+                    loadAuthToken(SSO_URL);
+                } catch (Exception e) {
+                    log.error("Re get token error : {}",e.getMessage());
+                }
+            }
             responseWrapper.reSendResponse(responseBody);
         }
     }
 
     /**
-     * 获取token
+     * 远程通过认证服务器获取token
      */
-    private synchronized boolean loadAuthToken(HttpServletResponse response, String url) {
+    private synchronized void loadAuthToken(String url) throws Exception{
+
         if(StringUtils.isNotBlank(AUTH_TOKEN.get())){
-            return true;
+            return;
         }
 
         Map<String,String> query = new HashMap<>();
@@ -88,21 +109,16 @@ public class AuthTokenCheckFilter implements Filter {
         query.put("grant_type","password");
         query.put("client_id","netty-chat-admin");
         query.put("client_secret","123456");
-        try {
-            JSONObject result = OkUtils.postJSON(url, query, null);
-            Object accessToken = result.get(ACCESS_TOKEN);
-            if(Objects.isNull(accessToken)){
-                log.error("Get access token from authServer error : {}",result.toString());
-                throw new RuntimeException("Access token is null !");
-            }
-            AUTH_TOKEN.set(accessToken.toString());
-            log.info("Get authToken successful,token = {}",accessToken);
-            return true;
-        } catch (Exception e) {
-            log.error("LoadAuthToken error : {}",e.getMessage());
-            ResultResponse.printError(response,"503","LoadAuthToken post error !",e.getMessage());
-            return false;
+
+        JSONObject result = OkUtils.postJSON(url, query, null);
+        Object accessToken = result.get(ACCESS_TOKEN);
+        if(Objects.isNull(accessToken)){
+            log.error("Get access token from authServer error : {}",result.toString());
+            throw new Exception("Access token is null !");
         }
+        AUTH_TOKEN.set(accessToken.toString());
+        log.info("Get authToken successful,token = {}",accessToken);
+
     }
 
     @Override

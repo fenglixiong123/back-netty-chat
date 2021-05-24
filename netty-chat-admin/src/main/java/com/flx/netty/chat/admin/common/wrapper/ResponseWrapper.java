@@ -23,11 +23,11 @@ public class ResponseWrapper extends HttpServletResponseWrapper {
 
     private PrintWriter printWriter = new PrintWriter(bos);
 
-    private HttpServletResponse response;
+    private HttpServletResponse originalResponse;
 
     public ResponseWrapper(HttpServletResponse response) throws IOException {
         super(response);
-        this.response = response;
+        this.originalResponse = response;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ResponseWrapper extends HttpServletResponseWrapper {
      */
     public void reSendResponse(String body) throws IOException {
         //将数据再写入response中
-        OutputStream os = response.getOutputStream();
+        OutputStream os = originalResponse.getOutputStream();
         os.write(body.getBytes(StandardCharsets.UTF_8));
         os.flush();
         os.close();
