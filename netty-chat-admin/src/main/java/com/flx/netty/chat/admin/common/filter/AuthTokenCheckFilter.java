@@ -1,14 +1,12 @@
 package com.flx.netty.chat.admin.common.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.flx.netty.chat.admin.common.wrapper.RequestWrapper;
 import com.flx.netty.chat.admin.common.wrapper.ResponseWrapper;
 import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.http.OkUtils;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -16,14 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.flx.netty.chat.openfeign.interceptor.FeignTokenRequestInterceptor.*;
+import static com.flx.netty.chat.openfeign.constants.FeignConstant.*;
+import static com.flx.netty.chat.openfeign.interceptor.feign.FeignTokenRequestInterceptor.*;
 
 /**
  * @Author Fenglixiong
@@ -31,7 +28,7 @@ import static com.flx.netty.chat.openfeign.interceptor.FeignTokenRequestIntercep
  * @Description 拦截/auth/**的请求，获取token然后进行业务访问
  **/
 @Slf4j
-@WebFilter(urlPatterns = "/auth/*",filterName = "auth-token-filter")
+//@WebFilter(urlPatterns = "/auth/*",filterName = "auth-token-filter")
 public class AuthTokenCheckFilter implements Filter {
 
     /**
@@ -52,7 +49,7 @@ public class AuthTokenCheckFilter implements Filter {
         HttpServletResponse response = ((HttpServletResponse) servletResponse);
         //如果token为空则需要获得
         if(StringUtils.isBlank(AUTH_TOKEN.get())){
-            log.info("Request url = {} token is null,ready to load token from sso !",request.getRequestURL());
+            log.info("Request url = {} token is blank,ready to load token from sso !",request.getRequestURL());
             try {
                 loadAuthToken(SSO_URL);
             } catch (Exception e) {
@@ -82,7 +79,7 @@ public class AuthTokenCheckFilter implements Filter {
         }finally {
             //执行完成，得到响应
             String responseBody = responseWrapper.getBody();
-            if(responseBody.length()<200 && responseBody.contains("Invalid access token")){
+            if(responseBody.length()<2000 && responseBody.contains("Invalid access token")){
                 log.error("Token Invalid : {}",responseBody);
                 try {
                     loadAuthToken(SSO_URL);

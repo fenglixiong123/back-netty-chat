@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.flx.netty.chat.openfeign.autoconfig.OpenFeignAutoConfiguration

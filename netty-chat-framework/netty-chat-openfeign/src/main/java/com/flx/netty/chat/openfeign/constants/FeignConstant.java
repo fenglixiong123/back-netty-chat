@@ -7,34 +7,9 @@ package com.flx.netty.chat.openfeign.constants;
  */
 public class FeignConstant {
 
-    /**
-     * 认证服务
-     */
-    public final static String NETTY_CHAT_ADMIN = "netty-chat-admin";
-
-    /**
-     * 认证服务
-     */
-    public final static String NETTY_CHAT_AUTH = "netty-chat-auth";
-
-    /**
-     * 群服务
-     */
-    public final static String NETTY_CHAT_GROUP = "netty-chat-group";
-
-    /**
-     * 消息服务
-     */
-    public final static String NETTY_CHAT_MESSAGE = "netty-chat-message";
-
-    /**
-     * 日志服务
-     */
-    public final static String NETTY_CHAT_LOGGER = "netty-chat-logger";
-
-    /**
-     * 主服务
-     */
-    public final static String NETTY_CHAT_MASTER = "netty-chat-master";
+    //请求头中的token
+    public final static String AUTHORIZATION_HEADER = "Authorization";
+    public final static String BEARER_TOKEN_TYPE = "Bearer";
+    public final static String ACCESS_TOKEN = "access_token";
 
 }

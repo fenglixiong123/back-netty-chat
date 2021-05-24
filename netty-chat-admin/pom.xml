@@ -23,8 +23,14 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>3.3.5</version>
         </dependency>
+
+        <!--Feign使用okHttpClient-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+
         <!--common工具包-->
         <dependency>
             <groupId>com.flx.chat</groupId>

@@ -1,4 +1,4 @@
-package com.flx.netty.chat.openfeign.interceptor;
+package com.flx.netty.chat.openfeign.interceptor.feign;
 
 import com.flx.netty.chat.common.utils.StringUtils;
 import feign.RequestInterceptor;
@@ -10,6 +10,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
+import static com.flx.netty.chat.openfeign.constants.FeignConstant.*;
+
 
 /**
  * @Author Fenglixiong
@@ -19,11 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Configuration
 public class FeignTokenRequestInterceptor implements RequestInterceptor {
-
-    //请求头中的token
-    public final static String AUTHORIZATION_HEADER = "Authorization";
-    public final static String BEARER_TOKEN_TYPE = "Bearer";
-    public final static String ACCESS_TOKEN = "access_token";
 
     /**
      * 将token封装进入
@@ -36,17 +33,17 @@ public class FeignTokenRequestInterceptor implements RequestInterceptor {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
             String tokenFromHeader = request.getHeader(AUTHORIZATION_HEADER);
             if (StringUtils.isNotBlank(tokenFromHeader)) {
-                log.info(">>>>>>> Get token from header : token = {}",tokenFromHeader);
+                log.info("Get token from header successful : token = {}",tokenFromHeader);
                 requestTemplate.header(AUTHORIZATION_HEADER, tokenFromHeader);
                 return;
             }
             String tokenFromParam = request.getParameter(ACCESS_TOKEN);
             if (StringUtils.isNotBlank(tokenFromParam)) {
-                log.info(">>>>>>> Get token from param : token = {}",tokenFromParam);
+                log.info("Get token from param successful : token = {}",tokenFromParam);
                 requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, tokenFromParam));
                 return;
             }
-            log.info(">>>>>>> Get token error !");
+            log.info("Get token error !");
         }
     }
 

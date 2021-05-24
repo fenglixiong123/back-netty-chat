@@ -1,19 +1,17 @@
 package com.flx.netty.chat.auth.api.client;
 
 import com.flx.netty.chat.auth.api.vo.WebRoleVO;
-
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
-import com.flx.netty.chat.openfeign.interceptor.FeignTokenRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.flx.netty.chat.openfeign.constants.FeignConstant.NETTY_CHAT_AUTH;
+import static com.flx.netty.chat.openfeign.constants.ServiceConstant.NETTY_CHAT_AUTH;
 
 /**
 *  FeignClient
@@ -21,7 +19,7 @@ import static com.flx.netty.chat.openfeign.constants.FeignConstant.NETTY_CHAT_AU
 * @author Fenglixiong
 * @since 2021-05-16
 */
-@FeignClient(name = NETTY_CHAT_AUTH,path = "/auth/role",configuration = FeignTokenRequestInterceptor.class)
+@FeignClient(name = NETTY_CHAT_AUTH,path = "/auth/role")
 public interface WebRoleClient {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)

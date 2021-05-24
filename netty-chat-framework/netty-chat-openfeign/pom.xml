@@ -15,6 +15,12 @@
     <artifactId>netty-chat-openfeign</artifactId>
 
     <dependencies>
+
+        <!--Feign使用okHttpClient-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
         <!--feign服务-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
