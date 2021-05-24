@@ -1,13 +1,10 @@
 package com.flx.netty.chat.openfeign.interceptor.okhttp;
 
 import com.flx.netty.chat.common.utils.StringUtils;
-import com.flx.netty.chat.common.utils.result.ResultResponse;
-import com.flx.netty.chat.openfeign.utils.OkUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -46,12 +43,11 @@ public class ParamTokenInterceptor implements Interceptor {
             }
         }
         if(StringUtils.isBlank(token)){
-            log.info("Get token error !");
-            return OkUtils.buildErrorResponse("Token is required !");
+            log.error("Get token from header and param failure : both is null !");
         }else {
             request = request.newBuilder().header(AUTHORIZATION_HEADER, token).build();
-            return chain.proceed(request);
         }
+        return chain.proceed(request);
 
     }
 

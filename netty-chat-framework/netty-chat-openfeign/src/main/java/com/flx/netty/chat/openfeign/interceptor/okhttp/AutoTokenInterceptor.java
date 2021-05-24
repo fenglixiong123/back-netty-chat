@@ -71,7 +71,11 @@ public class AutoTokenInterceptor implements Interceptor {
                     } catch (Exception e) {
                         log.error("Re LoadAuthToken error : {} ",e.getMessage());
                     }
-                    return OkUtils.buildErrorResponse("503","Re load token error !");
+                    if(StringUtils.isNotBlank(AUTH_TOKEN.get())) {
+                        return chain.proceed(request.newBuilder().header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, AUTH_TOKEN.get())).build());
+                    }else {
+                        return OkUtils.buildErrorResponse(response, "503", "Re load token error !");
+                    }
                 }else {
                     return OkUtils.buildResponse(response,body,contentType);
                 }

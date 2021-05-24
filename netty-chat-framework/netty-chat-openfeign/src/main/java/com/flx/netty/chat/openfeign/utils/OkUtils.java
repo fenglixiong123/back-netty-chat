@@ -18,6 +18,12 @@ public class OkUtils {
                 .build();
     }
 
+    public static Response buildErrorResponse(Response response,String code,String message){
+        return response.newBuilder()
+                .body(ResponseBody.create(ResultResponse.error(code,message).toString(),okhttp3.MediaType.parse("application/json")))
+                .build();
+    }
+
     public static Response buildErrorResponse(String message){
         return new Response.Builder()
                 .body(ResponseBody.create(ResultResponse.error(message).toString(),okhttp3.MediaType.parse("application/json")))
