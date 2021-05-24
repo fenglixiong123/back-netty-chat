@@ -2,6 +2,7 @@ package com.flx.netty.chat.openfeign.interceptor.okhttp;
 
 import com.alibaba.fastjson.JSONObject;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
+import com.flx.netty.chat.openfeign.property.AuthProperties;
 import com.flx.netty.chat.openfeign.utils.OkUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
@@ -10,6 +11,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
@@ -19,7 +22,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.flx.netty.chat.common.utils.http.OkUtils.postJSON;
-import static com.flx.netty.chat.openfeign.constants.FeignConstant.ACCESS_TOKEN;
+import static com.flx.netty.chat.openfeign.constants.FeignConstant.*;
 
 /**
  * @Author: Fenglixiong
@@ -29,13 +32,13 @@ import static com.flx.netty.chat.openfeign.constants.FeignConstant.ACCESS_TOKEN;
 @Slf4j
 public class AutoTokenInterceptor implements Interceptor {
 
+    @Autowired
+    private AuthProperties authProperties;
+
     /**
      * 请求token
      */
     private static AtomicReference<String> AUTH_TOKEN = new AtomicReference<>();
-
-    private static final String SSO_URL = "http://"+ PropertyUtils.get("sso.ip","127.0.0.1") +":8001/oauth/token";
-
 
     @NotNull
     @Override
@@ -46,12 +49,13 @@ public class AutoTokenInterceptor implements Interceptor {
         if(StringUtils.isBlank(AUTH_TOKEN.get())){
             log.info("Request url = {} token is blank,ready to load token from sso !",chain.request().url());
             try {
-                loadAuthToken(SSO_URL);
+                loadAuthToken();
             } catch (Exception e) {
                 log.error("LoadAuthToken error : {}",e.getMessage());
                 return OkUtils.buildErrorResponse("503","LoadAuthToken post error !");
             }
         }
+        request = request.newBuilder().header(AUTHORIZATION_HEADER,String.format("%s %s", BEARER_TOKEN_TYPE, AUTH_TOKEN.get())).build();
         //开始发起请求
         Response response = chain.proceed(request);
         //获得请求后的响应
@@ -62,11 +66,14 @@ public class AutoTokenInterceptor implements Interceptor {
                 String body = responseBody.string();
                 if(body.length()<2000 && body.contains("Invalid access token")){
                     try {
-                        loadAuthToken(SSO_URL);
+                        AUTH_TOKEN.set(null);
+                        loadAuthToken();
                     } catch (Exception e) {
                         log.error("Re LoadAuthToken error : {} ",e.getMessage());
                     }
                     return OkUtils.buildErrorResponse("503","Re load token error !");
+                }else {
+                    return OkUtils.buildResponse(response,body,contentType);
                 }
             }
         }
@@ -77,7 +84,7 @@ public class AutoTokenInterceptor implements Interceptor {
     /**
      * 远程通过认证服务器获取token
      */
-    private synchronized void loadAuthToken(String url) throws Exception{
+    private synchronized void loadAuthToken() throws Exception{
 
         if(StringUtils.isNotBlank(AUTH_TOKEN.get())){
             return;
@@ -90,7 +97,7 @@ public class AutoTokenInterceptor implements Interceptor {
         query.put("client_id","netty-chat-admin");
         query.put("client_secret","123456");
 
-        JSONObject result = postJSON(url, query, null);
+        JSONObject result = postJSON(authProperties.getSsoUrl(), query, null);
         Object accessToken = result.get(ACCESS_TOKEN);
         if(Objects.isNull(accessToken)){
             log.error("Get access token from authServer error : {}",result.toString());
