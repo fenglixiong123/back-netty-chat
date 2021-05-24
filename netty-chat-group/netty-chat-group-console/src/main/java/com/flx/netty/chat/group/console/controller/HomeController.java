@@ -1,7 +1,7 @@
 package com.flx.netty.chat.group.console.controller;
 
-import com.flx.netty.chat.auth.api.client.WebUserClient;
-import com.flx.netty.chat.auth.api.vo.WebUserVO;
+import com.flx.netty.chat.auth.api.client.AuthUserClient;
+import com.flx.netty.chat.auth.api.vo.AuthUserVO;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import com.flx.netty.chat.security.utils.SecurityUtils;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @Autowired
-    private WebUserClient userClient;
+    private AuthUserClient userClient;
 
     @GetMapping("/currentUser")
     public ResultResponse getCurrentUser(){
@@ -37,7 +37,7 @@ public class HomeController {
     @GetMapping("/get/{id}")
     public ResultResponse get(@PathVariable Long id){
         try {
-            ResultResponse<WebUserVO> response = userClient.get(id);
+            ResultResponse<AuthUserVO> response = userClient.get(id);
             System.out.println(JsonUtils.toJsonMsg(response));
             return ResultResponse.success(response.getData());
         }catch (Exception e){

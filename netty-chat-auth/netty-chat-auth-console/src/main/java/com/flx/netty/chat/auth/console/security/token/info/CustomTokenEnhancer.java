@@ -1,7 +1,7 @@
 package com.flx.netty.chat.auth.console.security.token.info;
 
-import com.flx.netty.chat.auth.api.vo.WebUserVO;
-import com.flx.netty.chat.auth.console.service.UserService;
+import com.flx.netty.chat.auth.api.vo.AuthUserVO;
+import com.flx.netty.chat.auth.console.service.AuthUserService;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class CustomTokenEnhancer implements TokenEnhancer {
 
     @Autowired
-    private UserService userService;
+    private AuthUserService userService;
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -35,7 +35,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         //数据库拿到用户信息
         //此处模拟用户信息
         try {
-            WebUserVO userVO = userService.getByUsername(username);
+            AuthUserVO userVO = userService.getByUsername(username);
             customInfoMap.put("userInfo", JsonUtils.toJsonMsg(userVO));
             customInfoMap.put("slogan","I am a good man!");
             ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(customInfoMap);

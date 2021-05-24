@@ -1,8 +1,8 @@
 package com.flx.netty.chat.auth.console.security.client;
 
 import com.flx.netty.chat.auth.console.security.user.password.CustomPasswordEncoder;
-import com.flx.netty.chat.auth.crud.entity.ClientDetail;
-import com.flx.netty.chat.auth.crud.manager.ClientDetailManager;
+import com.flx.netty.chat.auth.crud.entity.AuthClient;
+import com.flx.netty.chat.auth.crud.manager.AuthClientManager;
 import com.flx.netty.chat.common.utils.StringUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import java.util.Set;
 public class CustomClientDetailsService implements ClientDetailsService {
 
     @Autowired
-    private ClientDetailManager clientManager;
+    private AuthClientManager clientManager;
     @Autowired
     private CustomPasswordEncoder passwordEncoder;
 
@@ -45,7 +45,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
         try {
             log.info("loadClientByClientId clientId = {}",clientId);
             //从数据库获取client信息
-            ClientDetail oAuthClient = clientManager.get("clientId",clientId);
+            AuthClient oAuthClient = clientManager.get("clientId",clientId);
             log.info("loadClientByClientId clientDetails = {}", JsonUtils.toJsonMsg(oAuthClient));
             return new ClientDetails() {
 

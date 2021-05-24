@@ -1,12 +1,10 @@
 package com.flx.netty.chat.auth.console.security.user.service;
 
 import com.flx.netty.chat.auth.api.enums.UserStateEnum;
-import com.flx.netty.chat.auth.api.vo.WebPermissionVO;
-import com.flx.netty.chat.auth.api.vo.WebRoleVO;
-import com.flx.netty.chat.auth.console.service.RoleService;
-import com.flx.netty.chat.auth.console.service.UserService;
-import com.flx.netty.chat.auth.crud.entity.WebUser;
-import com.flx.netty.chat.auth.crud.manager.UserManager;
+import com.flx.netty.chat.auth.api.vo.AuthPermissionVO;
+import com.flx.netty.chat.auth.console.service.AuthUserService;
+import com.flx.netty.chat.auth.crud.entity.AuthUser;
+import com.flx.netty.chat.auth.crud.manager.AuthUserManager;
 import com.flx.netty.chat.common.utils.CollectionUtils;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
@@ -35,9 +33,9 @@ import java.util.stream.Collectors;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private AuthUserService userService;
     @Autowired
-    private UserManager userManager;
+    private AuthUserManager userManager;
 
     /**
      * 根据用户名获取用户
@@ -48,7 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         try {
             //从数据库查询用户
             log.info("loadUserByUsername username = {}",username);
-            WebUser user = userManager.get("userName", username);
+            AuthUser user = userManager.get("userName", username);
             log.info("loadUserByUsername user = {}", JsonUtils.toJsonMsg(user));
             boolean enabled = user.getState().equals(UserStateEnum.effective.name());
             boolean expired = user.getState().equals(UserStateEnum.expired.name())|| (user.getExpireTime() != null && DateUtils.beforeNow(user.getExpireTime()));
@@ -82,13 +80,13 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     private Set<CustomAuthority> getAuthorities(Long userId) throws Exception {
         try {
-            Function<WebPermissionVO,CustomAuthority> authMapper = (e)-> {
+            Function<AuthPermissionVO,CustomAuthority> authMapper = (e)-> {
                 if(StringUtils.isNotBlank(e.getPath()) && StringUtils.isNotBlank(e.getMethod())){
                     return new CustomAuthority(e.getMethod()+"#"+e.getPath());
                 }
                 return null;
             };
-            List<WebPermissionVO> permissions = userService.getPermissionById(userId);
+            List<AuthPermissionVO> permissions = userService.getPermissionById(userId);
             Set<CustomAuthority> authorities = permissions.parallelStream().map(authMapper).filter(Objects::nonNull).collect(Collectors.toSet());
             if(CollectionUtils.isNotEmpty(authorities)){
                 log.info("load authorities count = {}",authorities.size());
