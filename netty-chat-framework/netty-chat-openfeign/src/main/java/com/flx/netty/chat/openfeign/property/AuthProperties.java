@@ -13,6 +13,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AuthProperties {
 
     /**
+     * 是否自动获取token
+     */
+    private boolean auto = false;
+
+    /**
      * 认证中心地址
      */
     private String ssoUrl;
