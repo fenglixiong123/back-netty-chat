@@ -88,7 +88,7 @@ public class SystemUserDetailsService implements UserDetailsService {
             log.error("load authorities null !");
             return new HashSet<>();
         } catch (Exception e) {
-            throw new Exception("Get permission error !");
+            throw new Exception("Get permission error : "+e.getMessage());
         }
     }
 

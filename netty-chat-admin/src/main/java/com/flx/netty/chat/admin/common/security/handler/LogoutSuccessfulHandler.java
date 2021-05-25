@@ -21,7 +21,7 @@ public class LogoutSuccessfulHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        log.info("logout successful !");
+        log.info("++++++++++++++++++++++++logout successful !");
     }
 
 }

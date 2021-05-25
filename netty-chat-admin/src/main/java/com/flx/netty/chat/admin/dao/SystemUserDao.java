@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SystemUserDao extends BaseMapper<SystemUser> {
 
-    @Select("select * from system_user where username = #{username}")
+    @Select("select * from system_user where user_name = #{username}")
     SystemUser getByUsername(@Param("username")String username);
 
 

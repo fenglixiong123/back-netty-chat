@@ -27,7 +27,7 @@ public interface SystemRolePermissionDao extends BaseMapper<SystemRolePermission
      * @param state 数据状态
      * @return 角色权限关系
      */
-    @Select("select id,role_id,permission_id,state from web_role_permission where role_id = #{roleId} and state = #{state} ")
+    @Select("select id,role_id,permission_id,state from system_role_permission where role_id = #{roleId} and state = #{state} ")
     List<SystemRolePermission> getByRoleId(@Param("roleId") Long roleId, @Param("state")String state);
 
     /**
@@ -38,7 +38,7 @@ public interface SystemRolePermissionDao extends BaseMapper<SystemRolePermission
      */
     @Select("<script>" +
             "select `id`,`role_id`,`permission_id`,`state` " +
-            "from web_role_permission " +
+            "from system_role_permission " +
             "where role_id in " +
             "<foreach item='roleId' index='index' collection='roleIds' open='(' separator=',' close=')'> #{roleId} </foreach> " +
             "and state = #{state} " +

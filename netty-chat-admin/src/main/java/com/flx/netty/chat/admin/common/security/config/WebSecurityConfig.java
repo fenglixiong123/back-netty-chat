@@ -63,10 +63,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String[] permits = list2Array(whitePermits);
         log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
 
-        http
-            .csrf().disable()
+        http.formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                //.loginPage("/login.html")
+                .loginProcessingUrl(securityProperties.getLoginProcessingUrl())
+                .successHandler(loginSuccessfulHandler)
+                .failureHandler(loginFailureHandler)
+                .permitAll();
+        http.logout()
+                .logoutUrl(securityProperties.getLogoutUrl())
+                .logoutSuccessHandler(logoutSuccessfulHandler)
+                .permitAll();
+
+        http.csrf().disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)//不会使用任何Session
             .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationDeniedHandler)//Token不正确时候处理
@@ -76,15 +88,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(permits).permitAll()//只匹配/oauth/**
                     .anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager);//匹配到的路径中/oauth/**需要登录授权
-        http.formLogin()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .loginPage("/login.html")
-                .successHandler(loginSuccessfulHandler)
-                .failureHandler(loginFailureHandler);
-        http.logout()
-                .logoutUrl(securityProperties.getLogoutUrl())
-                .logoutSuccessHandler(logoutSuccessfulHandler);
 
     }
 

@@ -23,7 +23,7 @@ public interface SystemRoleDao extends BaseMapper<SystemRole> {
 
     @Select("<script>" +
             "select `id`,`code`,`name`,`order`,`state` " +
-            "from web_role " +
+            "from system_role " +
             "where id in " +
             "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'> #{id} </foreach> " +
             "and state = #{state}" +

@@ -20,7 +20,7 @@ import java.util.List;
 @Repository
 public interface SystemUserRoleDao extends BaseMapper<SystemUserRole> {
 
-    @Select("select `id`,`user_id`,`role_id`,`state` from web_user_role where user_id = #{userId} and state = #{state} ")
+    @Select("select `id`,`user_id`,`role_id`,`state` from system_user_role where user_id = #{userId} and state = #{state} ")
     List<SystemUserRole> getByUserId(@Param("userId") Long userId, @Param("state")String state)throws Exception;
 
 }
