@@ -1,6 +1,7 @@
 package com.flx.netty.chat.openfeign.interceptor.okhttp;
 
 import com.alibaba.fastjson.JSONObject;
+import com.flx.netty.chat.common.utils.http.BootUtils;
 import com.flx.netty.chat.common.utils.system.PropertyUtils;
 import com.flx.netty.chat.openfeign.property.AuthProperties;
 import com.flx.netty.chat.openfeign.utils.OkUtils;
@@ -51,8 +52,7 @@ public class AutoTokenInterceptor implements Interceptor {
             try {
                 loadAuthToken();
             } catch (Exception e) {
-                log.error("LoadAuthToken error : {}",e.getMessage());
-                return OkUtils.buildErrorResponse("503","LoadAuthToken post error !");
+                return OkUtils.killRequestAndReturn(request,500,"LoadAuthToken ERROR",e.getMessage());
             }
         }
         request = request.newBuilder().header(AUTHORIZATION_HEADER,String.format("%s %s", BEARER_TOKEN_TYPE, AUTH_TOKEN.get())).build();
@@ -69,7 +69,7 @@ public class AutoTokenInterceptor implements Interceptor {
                         AUTH_TOKEN.set(null);
                         loadAuthToken();
                     } catch (Exception e) {
-                        log.error("Re LoadAuthToken error : {} ",e.getMessage());
+                        log.error("Token invalid,ReLoad error : {} ",e.getMessage());
                     }
                     if(StringUtils.isNotBlank(AUTH_TOKEN.get())) {
                         return chain.proceed(request.newBuilder().header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, AUTH_TOKEN.get())).build());
@@ -94,18 +94,24 @@ public class AutoTokenInterceptor implements Interceptor {
             return;
         }
 
-        Map<String,String> query = new HashMap<>();
+        Map<String,Object> query = new HashMap<>();
         query.put("username","super");
         query.put("password","e46a9a9eb2f44eaf91e4c71ae0864e39");
         query.put("grant_type","password");
         query.put("client_id","netty-chat-admin");
         query.put("client_secret","56cffc32f8864431a4cec23cd1c6812e");
 
-        JSONObject result = postJSON(authProperties.getSsoUrl(), query, null);
+        BootUtils.HttpClient<JSONObject> httpClient = BootUtils.createClient();
+        JSONObject result = httpClient
+                .setUrl(authProperties.getSsoUrl())
+                .setResponseType(JSONObject.class)
+                .setQuerie(query)
+                .build()
+                .execute();
         Object accessToken = result.get(ACCESS_TOKEN);
         if(Objects.isNull(accessToken)){
             log.error("Get access token from authServer error : {}",result.toString());
-            throw new Exception("Access token is null !");
+            throw new Exception(result.toString());
         }
         AUTH_TOKEN.set(accessToken.toString());
         log.info("Get authToken successful,token = {}",accessToken);
