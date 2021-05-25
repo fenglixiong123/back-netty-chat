@@ -19,16 +19,16 @@
             <artifactId>netty-chat-auth-api</artifactId>
         </dependency>
 
+        <!--权限管理服务-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!--多数据源管理-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!--Feign使用okHttpClient-->
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
         </dependency>
 
         <!--common工具包-->

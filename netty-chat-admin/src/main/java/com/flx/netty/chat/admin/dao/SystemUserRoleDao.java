@@ -5,6 +5,7 @@ import com.flx.netty.chat.admin.entity.SystemUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @since 2021-05-21
  */
 @DaoMapper
+@Repository
 public interface SystemUserRoleDao extends BaseMapper<SystemUserRole> {
 
     @Select("select `id`,`user_id`,`role_id`,`state` from web_user_role where user_id = #{userId} and state = #{state} ")

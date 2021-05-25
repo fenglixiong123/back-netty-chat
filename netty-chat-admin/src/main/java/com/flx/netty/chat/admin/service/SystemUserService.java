@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.service;
 
+import com.flx.netty.chat.admin.vo.SystemPermissionVO;
 import com.flx.netty.chat.admin.vo.SystemUserVO;
 
 import com.flx.netty.chat.common.entity.UpdateState;
@@ -55,5 +56,15 @@ public interface SystemUserService {
     * 查询所有
     */
     List<SystemUserVO> queryAll() throws Exception;
+
+    /**
+     * 根据用户查询用户
+     */
+    SystemUserVO getByUsername(String username) throws Exception;
+
+    /**
+     * 根据用户id获取权限
+     */
+    List<SystemPermissionVO> getPermissionById(Long id) throws Exception;
    
 }

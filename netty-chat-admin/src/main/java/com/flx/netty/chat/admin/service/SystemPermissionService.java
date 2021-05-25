@@ -8,6 +8,7 @@ import com.flx.netty.chat.common.utils.page.PageVO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  服务类
@@ -55,5 +56,15 @@ public interface SystemPermissionService {
     * 查询所有
     */
     List<SystemPermissionVO> queryAll() throws Exception;
+
+    /**
+     * 根据角色获取权限
+     */
+    List<SystemPermissionVO> getByRoleId(Long roleId) throws Exception;
+
+    /**
+     * 根据角色集合获取权限
+     */
+    List<SystemPermissionVO> getByRoleIds(Set<Long> roleIds) throws Exception;
    
 }

@@ -5,6 +5,7 @@ import com.flx.netty.chat.admin.entity.SystemPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import java.util.Set;
  * @since 2021-05-21
  */
 @DaoMapper
+@Repository
 public interface SystemPermissionDao extends BaseMapper<SystemPermission> {
 
     @Select("<script>" +
