@@ -30,7 +30,7 @@ public class AdminCostFilter implements Filter {
             filterChain.doFilter(servletRequest,servletResponse);
         }finally {
             long spendTime = System.currentTimeMillis() - startTime;
-            log.info("The request of [{}] cost time : {}",url,spendTime);
+            log.info("See ===> [{}] cost time : {}",url,spendTime);
         }
     }
 
