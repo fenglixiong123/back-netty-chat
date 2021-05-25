@@ -1,6 +1,5 @@
 package com.flx.netty.chat.openfeign.utils;
 
-import com.flx.netty.chat.common.utils.json.JsonUtils;
 import com.flx.netty.chat.common.utils.result.ResultResponse;
 import okhttp3.Protocol;
 import okhttp3.Request;
@@ -26,6 +25,14 @@ public class OkUtils {
                 .build();
     }
 
+    /**
+     * 若是要在真正请求之前拦截请求，必须按如下字段填写，缺一不可
+     * @param request 原始请求
+     * @param code 状态码
+     * @param message 错误信息
+     * @param detail 错误详情
+     * @return 请求响应
+     */
     public static Response killRequestAndReturn(Request request,int code, String message,String detail){
         return new Response.Builder()
                 .request(request)
