@@ -68,7 +68,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
                  */
                 @Override
                 public String getClientSecret() {
-                    return passwordEncoder.encode(oAuthClient.getClientSecret());
+                    return oAuthClient.getClientSecret();
                 }
 
                 /**

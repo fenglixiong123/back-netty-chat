@@ -95,11 +95,11 @@ public class AutoTokenInterceptor implements Interceptor {
         }
 
         Map<String,String> query = new HashMap<>();
-        query.put("username","master");
-        query.put("password","master123");
+        query.put("username","super");
+        query.put("password","e46a9a9eb2f44eaf91e4c71ae0864e39");
         query.put("grant_type","password");
         query.put("client_id","netty-chat-admin");
-        query.put("client_secret","123456");
+        query.put("client_secret","56cffc32f8864431a4cec23cd1c6812e");
 
         JSONObject result = postJSON(authProperties.getSsoUrl(), query, null);
         Object accessToken = result.get(ACCESS_TOKEN);
