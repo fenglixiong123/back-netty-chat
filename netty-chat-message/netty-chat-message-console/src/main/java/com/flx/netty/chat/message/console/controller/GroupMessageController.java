@@ -20,7 +20,7 @@ import java.util.Map;
  **/
 @Api(tags = "群消息管理")
 @RestController
-@RequestMapping("/message-service/groupMessage")
+@RequestMapping("/message/groupMessage")
 public class GroupMessageController {
 
     @Autowired

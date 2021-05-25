@@ -27,13 +27,13 @@ spring:
         - id: group
           uri: lb://netty-chat-group
           predicates:
-            - Path=/web/group-service/**
+            - Path=/web/group/**
           filters:
             - StripPrefix=1
         - id: message
           uri: lb://netty-chat-message
           predicates:
-            - Path=/web/message-service/**
+            - Path=/web/message/**
           filters:
             - StripPrefix=1
       globalcors:

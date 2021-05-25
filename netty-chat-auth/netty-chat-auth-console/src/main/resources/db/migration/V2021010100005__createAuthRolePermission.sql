@@ -4,10 +4,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for basic_bucket_part
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `web_auth`.`web_user_role`  (
+CREATE TABLE IF NOT EXISTS `web_auth`.`auth_role_permission`  (
     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `user_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户id',
     `role_id` bigint(20) UNSIGNED NOT NULL COMMENT '角色id',
+    `permission_id` bigint(20) UNSIGNED NOT NULL COMMENT '权限id',
 
     `state` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'effective' COMMENT '状态',
     `create_user` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '创建者',

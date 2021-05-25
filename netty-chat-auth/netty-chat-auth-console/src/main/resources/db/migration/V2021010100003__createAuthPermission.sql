@@ -4,7 +4,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for basic_bucket_part
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `web_auth`.`web_permission`  (
+CREATE TABLE IF NOT EXISTS `web_auth`.`auth_permission`  (
     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
     `pid` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '父权限id',
     `code` varchar(64) NOT NULL COMMENT '权限编码',

@@ -1,0 +1,3 @@
+
+-- 插入初始用户数据
+INSERT INTO `web_auth`.`auth_user`(`id`, `nick_name`, `user_name`, `password`, `password_question`, `password_answer`, `icon`, `signature`, `phone`, `sex`, `birthday`, `education`, `school`, `email`, `address`, `expire_time`, `state`, `create_user`, `create_time`, `update_user`, `update_time`) VALUES (1, 'admin', 'admin', '$2a$10$s5v6dV5rK8bJZdgmT9h8EerDSlgZRHV2M.O2BZMDSKKzdy3sUeFM6', '您的爸爸叫什么?', '张三', 'http://www.baidu.com', '我就是我，不一样的烟火！', '18817311413', 'male', '2021-04-19 00:00:00.000', 'college', '上海科技大学', 'fenglixiong123@163.com', '上海市徐汇区凯宾路18号', NULL, 'effective', 'system', '2021-04-17 18:09:01.637', 'system', '2021-04-17 18:09:01.637');

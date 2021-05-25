@@ -7,7 +7,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 -- 客户端信息
 -- 参考实现类：JdbcClientDetailsService.java
-CREATE TABLE IF NOT EXISTS `web_auth`.`oauth_client_detail` (
+CREATE TABLE IF NOT EXISTS `web_auth`.`auth_client` (
     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
     `client_id` varchar(255) NOT NULL COMMENT '用于唯一标识每一个客户端(client)也称为(appKey)',
     `resource_ids` varchar(255) DEFAULT NULL COMMENT '客户端所能访问的资源id集合,多个资源时用逗号(,)分隔',
