@@ -26,7 +26,7 @@ public interface AuthRolePermissionDao extends BaseDao<AuthRolePermission> {
      * @param state 数据状态
      * @return 角色权限关系
      */
-    @Select("select id,role_id,permission_id,state from web_role_permission where role_id = #{roleId} and state = #{state} ")
+    @Select("select id,role_id,permission_id,state from auth_role_permission where role_id = #{roleId} and state = #{state} ")
     List<AuthRolePermission> getByRoleId(@Param("roleId") Long roleId, @Param("state")String state);
 
     /**
@@ -37,7 +37,7 @@ public interface AuthRolePermissionDao extends BaseDao<AuthRolePermission> {
      */
     @Select("<script>" +
             "select `id`,`role_id`,`permission_id`,`state` " +
-            "from web_role_permission " +
+            "from auth_role_permission " +
             "where role_id in " +
             "<foreach item='roleId' index='index' collection='roleIds' open='(' separator=',' close=')'> #{roleId} </foreach> " +
             "and state = #{state} " +

@@ -14,7 +14,7 @@ import java.util.Date;
  **/
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "web_user")
+@TableName(value = "auth_user")
 public class AuthUser extends BaseDO {
 
     /**

@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("oauth_client_detail")
+@TableName("auth_client")
 @ApiModel(value="ClientDetail对象", description="客户端信息表")
 public class AuthClient extends BaseDO {
 

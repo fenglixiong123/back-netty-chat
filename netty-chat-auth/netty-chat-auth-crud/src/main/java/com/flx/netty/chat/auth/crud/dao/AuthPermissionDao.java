@@ -23,7 +23,7 @@ public interface AuthPermissionDao extends BaseDao<AuthPermission> {
 
     @Select("<script>" +
             "select `id`,`pid`,`code`,`name`,`path`,`method`,`icon`,`order`,`state` " +
-            "from web_permission " +
+            "from auth_permission " +
             "where id in " +
             "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'>#{id}</foreach> " +
             "and state = #{state} " +

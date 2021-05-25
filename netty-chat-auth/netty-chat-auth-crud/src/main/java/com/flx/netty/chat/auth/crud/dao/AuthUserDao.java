@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Select;
 @DaoMapper
 public interface AuthUserDao extends BaseDao<AuthUser> {
 
-    @Select("select count(1) from web_user")
+    @Select("select count(1) from auth_user")
     int countWebUser();
 
 }

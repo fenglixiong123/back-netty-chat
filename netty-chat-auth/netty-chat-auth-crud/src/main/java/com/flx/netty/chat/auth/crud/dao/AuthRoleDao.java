@@ -22,7 +22,7 @@ public interface AuthRoleDao extends BaseDao<AuthRole> {
 
     @Select("<script>" +
             "select `id`,`code`,`name`,`order`,`state` " +
-            "from web_role " +
+            "from auth_role " +
             "where id in " +
             "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'> #{id} </foreach> " +
             "and state = #{state}" +

@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("web_user_role")
+@TableName("auth_user_role")
 public class AuthUserRole extends BaseDO {
 
 

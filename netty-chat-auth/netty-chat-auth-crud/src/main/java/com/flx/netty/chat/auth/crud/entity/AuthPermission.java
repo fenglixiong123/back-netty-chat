@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("web_permission")
+@TableName("auth_permission")
 public class AuthPermission extends BaseDO {
 
     /**
