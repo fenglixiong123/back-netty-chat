@@ -21,6 +21,10 @@ import java.util.Set;
 public class SystemUserDetails implements UserDetails {
 
     /**
+     * 登录令牌
+     */
+    private String token;
+    /**
      * 用户id
      */
     private Long userId;

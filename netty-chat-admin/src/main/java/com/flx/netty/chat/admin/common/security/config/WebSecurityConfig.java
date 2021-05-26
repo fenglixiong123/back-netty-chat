@@ -1,5 +1,7 @@
 package com.flx.netty.chat.admin.common.security.config;
 
+import com.flx.netty.chat.admin.common.security.filter.AuthenticationProcessFilter;
+import com.flx.netty.chat.admin.common.security.filter.TokenAuthenticationFilter;
 import com.flx.netty.chat.admin.common.security.handler.*;
 import com.flx.netty.chat.admin.common.security.property.SecurityProperties;
 import com.flx.netty.chat.admin.common.security.user.SystemAuthenticationProvider;
@@ -7,7 +9,9 @@ import com.flx.netty.chat.common.utils.ArrayUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
 
@@ -39,13 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PermissionDeniedHandler permissionDeniedHandler;
     @Autowired
-    private LoginSuccessfulHandler loginSuccessfulHandler;
-    @Autowired
-    private LoginFailureHandler loginFailureHandler;
-    @Autowired
     private LogoutSuccessfulHandler logoutSuccessfulHandler;
     @Autowired
     private AccessDecisionManager accessDecisionManager;
+    @Autowired
+    private AuthenticationProcessFilter loginProcessFilter;
+    @Autowired
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
 
     /**
      * 配置用户密码验证
@@ -57,6 +62,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider);
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         List<String> whitePermits = securityProperties.getWhitePermits();
@@ -64,12 +75,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("========>whitePermits = {}", JsonUtils.toJsonMsg(permits));
 
         http.formLogin()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                //.loginPage("/login.html")
+                .usernameParameter(securityProperties.getUsernameParam())
+                .passwordParameter(securityProperties.getPasswordParam())
                 .loginProcessingUrl(securityProperties.getLoginProcessingUrl())
-                .successHandler(loginSuccessfulHandler)
-                .failureHandler(loginFailureHandler)
                 .permitAll();
         http.logout()
                 .logoutUrl(securityProperties.getLogoutUrl())
@@ -88,6 +96,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(permits).permitAll()//只匹配/oauth/**
                     .anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager);//匹配到的路径中/oauth/**需要登录授权
+
+        http.addFilterBefore(loginProcessFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(tokenAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 
     }
 

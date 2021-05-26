@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.common.security.handler;
 
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -20,8 +21,9 @@ import java.io.IOException;
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         log.info("+++++++++++++++++login failure !");
+        ResultResponse.printError(response,"Sorry，登录失败！");
     }
 
 }

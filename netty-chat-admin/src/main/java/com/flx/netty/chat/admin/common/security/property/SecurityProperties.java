@@ -36,4 +36,14 @@ public class SecurityProperties {
      */
     private String logoutUrl;
 
+    /**
+     * 用户名参数
+     */
+    private String usernameParam = "username";
+
+    /**
+     * 密码参数
+     */
+    private String passwordParam = "password";
+
 }

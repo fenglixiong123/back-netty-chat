@@ -108,6 +108,10 @@ public class ResultResponse<E> {
         printJson(response,true, ErrorMsgEnum.SUCCESS.getCode(),ErrorMsgEnum.SUCCESS.getMessage(),ErrorMsgEnum.SUCCESS.getUserMsg());
     }
 
+    public static <E> void printSuccess(HttpServletResponse response,String message,E data){
+        printJson(response,true,ErrorMsgEnum.SUCCESS.getCode(),message,data);
+    }
+
     public static <E> void printSuccess(HttpServletResponse response,E data){
         printJson(response,true,ErrorMsgEnum.SUCCESS.getCode(),ErrorMsgEnum.SUCCESS.getMessage(),data);
     }

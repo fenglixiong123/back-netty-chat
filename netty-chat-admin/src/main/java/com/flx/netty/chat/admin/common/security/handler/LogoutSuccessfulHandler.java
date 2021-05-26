@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.common.security.handler;
 
+import com.flx.netty.chat.common.utils.result.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -20,8 +21,9 @@ import java.io.IOException;
 public class LogoutSuccessfulHandler implements LogoutSuccessHandler {
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("++++++++++++++++++++++++logout successful !");
+        ResultResponse.printSuccess(response,"恭喜，注销成功！");
     }
 
 }
