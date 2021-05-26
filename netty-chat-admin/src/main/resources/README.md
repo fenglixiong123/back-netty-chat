@@ -47,3 +47,13 @@ Token+redis
 * TokenAuthenticationFilter
 
     用户登录成功会获取到一个token，下次请求资源的时候带上token，会通过此过滤器进行验证，验证成功刷新token有效期
+
+# 参数设置
+    
+设置token有效期：    
+
+    com.flx.netty.chat.admin.common.security.property.TokenProperties.expireTime 
+
+设置登录处理等信息：
+
+    com.flx.netty.chat.admin.common.security.property.SecurityProperties   
