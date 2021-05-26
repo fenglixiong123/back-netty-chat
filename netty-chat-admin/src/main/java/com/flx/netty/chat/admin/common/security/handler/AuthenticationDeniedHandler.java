@@ -22,6 +22,7 @@ public class AuthenticationDeniedHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        log.info("=======>Authentication failure !");
         ResultResponse.printError(response,"401","Sorry,authorize deny !",e.getMessage());
     }
 

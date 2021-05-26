@@ -38,13 +38,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String token = request.getHeader(HEADER_TOKEN_KEY);
         if(StringUtils.isNotBlank(token)){
             try {
-                SystemUserDetails user = authManager.getUserInfo();
+                SystemUserDetails user = authManager.getUserInfo(token);
                 user.setToken(token);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 logger.info(String.format("Authenticated user %s, setting security context", user.getUsername()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                authManager.refreshToken(token);//刷新token有效期
             } catch (Exception e) {
                 log.error("Token filter error : {}",e.getMessage());
             }

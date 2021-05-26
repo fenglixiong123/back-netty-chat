@@ -22,6 +22,7 @@ public class PermissionDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
+        log.info("=======>Permission deny !");
         ResultResponse.printError(response,"403","Sorry,permission deny !",e.getMessage());
     }
 

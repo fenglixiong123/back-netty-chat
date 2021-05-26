@@ -22,7 +22,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        log.info("+++++++++++++++++login failure !");
+        log.info("=======>Login failure !");
         ResultResponse.printError(response,"Sorry，登录失败！");
     }
 

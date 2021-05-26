@@ -25,3 +25,21 @@
 管理系统通过feign访问用户系统的内容的时候，会首先校验头中的token信息，如果通过则会直接跳过资源系统的权限校验(超级用户福利)
 
 此管理系统也有自己单独的权限保护措施
+
+# 系统权限验证
+
+采用前后端分离模式
+
+Token+redis
+
+核心
+
+* AuthenticationProcessFilter
+    
+    登录拦截器，当客户端以用户名密码登录时候，会调用此拦截器进行拦截，调用AuthencationManager
+    进行用户验证，验证通过则生成token，存储到redis中，如果redis存在此用户则直接返回此token，并刷新数据
+    否则，重新生成token
+    
+* TokenAuthenticationFilter
+
+    用户登录成功会获取到一个token，下次请求资源的时候带上token，会通过此过滤器进行验证，验证成功刷新token有效期

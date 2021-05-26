@@ -2,6 +2,7 @@ package com.flx.netty.chat.admin.common.security.auth;
 
 import com.flx.netty.chat.admin.common.security.token.TokenManager;
 import com.flx.netty.chat.admin.common.security.user.SystemUserDetails;
+import com.flx.netty.chat.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,22 +35,33 @@ public class AuthManager {
         return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
+    public String getToken(String token){
+        if(StringUtils.isBlank(token)) {
+            return getToken();
+        }
+        return token;
+    }
+
+    public String getToken(){
+        HttpServletRequest request = getRequest();
+        return request.getHeader(HEADER_TOKEN_KEY);
+    }
+
     /**
      * 登录
      * @param userInfo
      * @return
      */
-    public String getToken(SystemUserDetails userInfo)throws Exception{
-        return tokenManager.getToken(userInfo);
+    public String createToken(SystemUserDetails userInfo)throws Exception{
+        return tokenManager.createToken(userInfo);
     }
 
     /**
      * 获取该访问用户信息
      * @return
      */
-    public SystemUserDetails getUserInfo()throws Exception{
-        HttpServletRequest request=getRequest();
-        String token=request.getHeader(HEADER_TOKEN_KEY);
+    public SystemUserDetails getUserInfo(String token)throws Exception{
+        token = getToken(token);
         SystemUserDetails userInfo=tokenManager.getUserInfo(token);
         if(userInfo==null){
             throw new AuthException("Invalid access token !！");
@@ -60,18 +72,16 @@ public class AuthManager {
     /**
      * 刷新该登录用户，延时
      */
-    public void refreshToken()throws Exception{
-        HttpServletRequest request=getRequest();
-        String token=request.getAttribute(HEADER_TOKEN_KEY).toString();
+    public void refreshToken(String token)throws Exception{
+        token = getToken(token);
         tokenManager.refreshToken(token);
     }
 
     /**
      * 注销该访问用户
      */
-    public void removeToken()throws Exception{
-        HttpServletRequest request=getRequest();
-        String token=request.getAttribute(HEADER_TOKEN_KEY).toString();
+    public void removeToken(String token)throws Exception{
+        token = getToken(token);
         tokenManager.removeToken(token);
     }
 

@@ -63,7 +63,7 @@ public class AuthenticationProcessFilter extends AbstractAuthenticationProcessin
         if(authenticate.isAuthenticated()){
             try {
                 SystemUserDetails userDetails = (SystemUserDetails) authenticate.getPrincipal();
-                String token = authManager.getToken(userDetails);
+                String token = authManager.createToken(userDetails);
                 userDetails.setToken(token);
             } catch (Exception e) {
                 authenticate.setAuthenticated(false);

@@ -36,7 +36,7 @@ public class TokenManager {
      * @param user
      * @return
      */
-    public String getToken(SystemUserDetails user) throws Exception{
+    public String createToken(SystemUserDetails user) throws Exception{
         if(user==null){
             throw new Exception("Bad param user is null!");
         }

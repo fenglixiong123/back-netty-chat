@@ -22,7 +22,7 @@ public class LoginSuccessfulHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.info("++++++++++++++++++++++login successful !");
+        log.info("=======>Login successful !");
         ResultResponse.printSuccess(response,"恭喜，登录成功！",authentication);
     }
 
