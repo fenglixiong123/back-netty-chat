@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `web_admin`.`system_permission`  (
     `code` varchar(64) NOT NULL COMMENT '权限编码',
     `name` varchar(64) DEFAULT NULL COMMENT '权限名称',
     `path` varchar(255) DEFAULT NULL COMMENT '权限路径',
-    `method` varchar(32) DEFAULT 'POST' COMMENT '请求方法',
     `icon` varchar(64) DEFAULT NULL COMMENT '权限图标',
     `order` int(11) DEFAULT NULL COMMENT '排序',
 
