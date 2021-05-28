@@ -5,7 +5,9 @@ import com.flx.netty.chat.admin.dao.SystemPermissionDao;
 import com.flx.netty.chat.admin.dao.SystemUserRoleDao;
 import com.flx.netty.chat.admin.entity.SystemUserRole;
 import com.flx.netty.chat.admin.service.SystemPermissionService;
+import com.flx.netty.chat.admin.service.SystemRoleService;
 import com.flx.netty.chat.admin.utils.PageConvert;
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.admin.vo.SystemPermissionVO;
 import com.flx.netty.chat.admin.vo.SystemUserVO;
 import com.flx.netty.chat.admin.entity.SystemUser;
@@ -42,9 +44,9 @@ import java.util.stream.Collectors;
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserDao, SystemUser> implements SystemUserService {
 
     @Autowired
-    private SystemUserRoleDao userRoleDao;
+    private SystemRoleService roleService;
     @Autowired
-    private SystemPermissionService permissionService;
+    private SystemUserRoleDao userRoleDao;
 
     public boolean add(SystemUserVO entityVO) throws Exception{
         return super.save(BeanUtils.copyProperties(entityVO, SystemUser.class));
@@ -86,27 +88,32 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserDao, SystemUser
         return PageConvert.pageConvert(page,SystemUserVO.class);
     }
 
-   public List<SystemUserVO> query(Map<String,Object> columnMap) throws Exception{
-       return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,SystemUserVO.class)).collect(Collectors.toList());
-   }
+    public List<SystemUserVO> query(Map<String,Object> columnMap) throws Exception{
+        return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,SystemUserVO.class)).collect(Collectors.toList());
+    }
 
-   public List<SystemUserVO> queryAll() throws Exception{
-       return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,SystemUserVO.class)).collect(Collectors.toList());
-   }
+    public List<SystemUserVO> queryAll() throws Exception{
+        return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,SystemUserVO.class)).collect(Collectors.toList());
+    }
 
-   public SystemUserVO getByUsername(String username) throws Exception{
-       QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
-       queryWrapper.eq(SystemUser.USER_NAME,username);
-       return BeanUtils.copyProperties(super.getOne(queryWrapper),SystemUserVO.class);
-   }
+    public SystemUserVO getByUsername(String username) throws Exception{
+        QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemUser.USER_NAME,username);
+        return BeanUtils.copyProperties(super.getOne(queryWrapper),SystemUserVO.class);
+    }
 
     @Override
     public List<SystemPermissionVO> getPermissionById(Long id) throws Exception {
-        Set<Long> roleIds = userRoleDao.getByUserId(id, State.effective.name()).stream().map(SystemUserRole::getRoleId).collect(Collectors.toSet());
-        if(CollectionUtils.isEmpty(roleIds)){
-            return new ArrayList<>();
-        }
-        return permissionService.getByRoleIds(roleIds);
+        List<SystemUserRole> userRoles = userRoleDao.getByUserId(id, State.effective.name());
+        Set<Long> roleIds = userRoles.parallelStream().map(SystemUserRole::getRoleId).collect(Collectors.toSet());
+        return roleService.getPermissionByIds(roleIds);
+    }
+
+    @Override
+    public List<SystemMenuVO> getMenuById(Long id) throws Exception {
+        List<SystemUserRole> userRoles = userRoleDao.getByUserId(id, State.effective.name());
+        Set<Long> roleIds = userRoles.parallelStream().map(SystemUserRole::getRoleId).collect(Collectors.toSet());
+        return roleService.getMenuByIds(roleIds);
     }
 
 }

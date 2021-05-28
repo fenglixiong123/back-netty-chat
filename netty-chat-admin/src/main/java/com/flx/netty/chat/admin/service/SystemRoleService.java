@@ -1,5 +1,7 @@
 package com.flx.netty.chat.admin.service;
 
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
+import com.flx.netty.chat.admin.vo.SystemPermissionVO;
 import com.flx.netty.chat.admin.vo.SystemRoleVO;
 
 import com.flx.netty.chat.common.entity.UpdateState;
@@ -8,6 +10,7 @@ import com.flx.netty.chat.common.utils.page.PageVO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  服务类
@@ -55,5 +58,30 @@ public interface SystemRoleService {
     * 查询所有
     */
     List<SystemRoleVO> queryAll() throws Exception;
-   
+
+    /**
+     * 根据角色id查询
+     */
+    List<SystemRoleVO> getRoleByIds(Set<Long> ids)throws Exception;
+
+    /**
+     * 根据角色id获取权限
+     */
+    List<SystemPermissionVO> getPermissionById(Long id) throws Exception;
+
+    /**
+     * 根据角色ids获取权限
+     */
+    List<SystemPermissionVO> getPermissionByIds(Set<Long> ids) throws Exception;
+
+    /**
+     * 根据角色id获取菜单
+     */
+    List<SystemMenuVO> getMenuById(Long id) throws Exception;
+
+    /**
+     * 根据角色ids获取菜单
+     */
+    List<SystemMenuVO> getMenuByIds(Set<Long> ids) throws Exception;
+
 }

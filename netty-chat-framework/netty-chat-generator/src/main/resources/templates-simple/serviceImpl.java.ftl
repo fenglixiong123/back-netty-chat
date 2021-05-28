@@ -30,14 +30,17 @@ import java.util.stream.Collectors;
 @Service
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
+    @Override
     public boolean add(${entity}VO entityVO) throws Exception{
         return super.save(BeanUtils.copyProperties(entityVO, ${entity}.class));
     }
-    
+
+    @Override
     public boolean delete(Long id){
         return super.removeById(id);
     }
-    
+
+    @Override
     public boolean update(${entity}VO entityVO) throws Exception{
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空！");
@@ -60,22 +63,26 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         }
         return true;
     }
-    
+
+    @Override
     public ${entity}VO get(Long id) throws Exception{
         return BeanUtils.copyProperties(super.getById(id),${entity}VO.class);
     }
-    
+
+    @Override
     public PageVO<${entity}VO> queryPage(PageQuery pageQuery) throws Exception{
         Page<${entity}> page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
         return PageConvert.pageConvert(page,${entity}VO.class);
     }
 
-   public List<${entity}VO> query(Map<String,Object> columnMap) throws Exception{
-       return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,${entity}VO.class)).collect(Collectors.toList());
-   }
+    @Override
+    public List<${entity}VO> query(Map<String,Object> columnMap) throws Exception{
+        return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,${entity}VO.class)).collect(Collectors.toList());
+    }
 
-   public List<${entity}VO> queryAll() throws Exception{
-       return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,${entity}VO.class)).collect(Collectors.toList());
-   }
+    @Override
+    public List<${entity}VO> queryAll() throws Exception{
+        return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,${entity}VO.class)).collect(Collectors.toList());
+    }
 
 }

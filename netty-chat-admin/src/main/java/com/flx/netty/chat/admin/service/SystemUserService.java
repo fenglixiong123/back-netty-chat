@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.service;
 
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.admin.vo.SystemPermissionVO;
 import com.flx.netty.chat.admin.vo.SystemUserVO;
 
@@ -66,5 +67,10 @@ public interface SystemUserService {
      * 根据用户id获取权限
      */
     List<SystemPermissionVO> getPermissionById(Long id) throws Exception;
+
+    /**
+     * 根据用户id获取菜单
+     */
+    List<SystemMenuVO> getMenuById(Long id) throws Exception;
    
 }

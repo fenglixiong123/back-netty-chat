@@ -1,7 +1,6 @@
 package com.flx.netty.chat.admin.service;
 
-import com.flx.netty.chat.admin.vo.SystemPermissionVO;
-
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
@@ -11,16 +10,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *  服务类
+ * 菜单信息 服务类
  *
  * @author Fenglixiong
- * @since 2021-05-21
+ * @since 2021-05-28
  */
-public interface SystemPermissionService {
+public interface SystemMenuService {
     /**
     * 新增
     */
-    boolean add(SystemPermissionVO entityVO) throws Exception;
+    boolean add(SystemMenuVO entityVO) throws Exception;
     
     /**
     * 删除
@@ -30,7 +29,7 @@ public interface SystemPermissionService {
     /**
     * 更新
     */
-    boolean update(SystemPermissionVO entityVO) throws Exception;
+    boolean update(SystemMenuVO entityVO) throws Exception;
     
     /**
     * 状态修改
@@ -40,26 +39,26 @@ public interface SystemPermissionService {
     /**
     * 查询
     */
-    SystemPermissionVO get(Long id) throws Exception;
+    SystemMenuVO get(Long id) throws Exception;
     
     /**
     * 分页查询
     */
-    PageVO<SystemPermissionVO> queryPage(PageQuery pageQuery) throws Exception;
+    PageVO<SystemMenuVO> queryPage(PageQuery pageQuery) throws Exception;
 
     /**
     * 通过Map查询
     */
-    List<SystemPermissionVO> query(Map<String, Object> query) throws Exception;
+    List<SystemMenuVO> query(Map<String, Object> query) throws Exception;
 
     /**
     * 查询所有
     */
-    List<SystemPermissionVO> queryAll() throws Exception;
+    List<SystemMenuVO> queryAll() throws Exception;
 
     /**
-     * 根据ids获取权限
+     * 根据角色id查询
      */
-    List<SystemPermissionVO> getByIds(Set<Long> ids) throws Exception;
-   
+    List<SystemMenuVO> getByIds(Set<Long> ids)throws Exception;
+
 }

@@ -1,26 +1,21 @@
 package com.flx.netty.chat.admin.service.impl;
 
-import com.flx.netty.chat.admin.dao.SystemRolePermissionDao;
-import com.flx.netty.chat.admin.entity.SystemRolePermission;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.flx.netty.chat.admin.dao.SystemPermissionDao;
+import com.flx.netty.chat.admin.entity.SystemPermission;
+import com.flx.netty.chat.admin.service.SystemPermissionService;
 import com.flx.netty.chat.admin.utils.PageConvert;
 import com.flx.netty.chat.admin.vo.SystemPermissionVO;
-import com.flx.netty.chat.admin.entity.SystemPermission;
-import com.flx.netty.chat.admin.dao.SystemPermissionDao;
-import com.flx.netty.chat.admin.service.SystemPermissionService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.flx.netty.chat.common.utils.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.flx.netty.chat.common.entity.UpdateState;
 import com.flx.netty.chat.common.enums.State;
 import com.flx.netty.chat.common.utils.page.PageQuery;
 import com.flx.netty.chat.common.utils.page.PageVO;
 import com.flx.netty.chat.common.utils.servlet.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,18 +32,19 @@ import java.util.stream.Collectors;
 public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionDao, SystemPermission> implements SystemPermissionService {
 
     @Autowired
-    private SystemRolePermissionDao rolePermissionDao;
-    @Autowired
     private SystemPermissionDao permissionDao;
 
+    @Override
     public boolean add(SystemPermissionVO entityVO) throws Exception{
         return super.save(BeanUtils.copyProperties(entityVO, SystemPermission.class));
     }
-    
+
+    @Override
     public boolean delete(Long id){
         return super.removeById(id);
     }
-    
+
+    @Override
     public boolean update(SystemPermissionVO entityVO) throws Exception{
         if(entityVO.getId()==null){
             throw new Exception("Id不能为空！");
@@ -71,45 +67,32 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionDao
         }
         return true;
     }
-    
+
+    @Override
     public SystemPermissionVO get(Long id) throws Exception{
         return BeanUtils.copyProperties(super.getById(id),SystemPermissionVO.class);
     }
-    
+
+    @Override
     public PageVO<SystemPermissionVO> queryPage(PageQuery pageQuery) throws Exception{
         Page<SystemPermission> page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
         return PageConvert.pageConvert(page,SystemPermissionVO.class);
     }
 
-   public List<SystemPermissionVO> query(Map<String,Object> columnMap) throws Exception{
-       return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,SystemPermissionVO.class)).collect(Collectors.toList());
-   }
-
-   public List<SystemPermissionVO> queryAll() throws Exception{
-       return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,SystemPermissionVO.class)).collect(Collectors.toList());
-   }
-
     @Override
-    public List<SystemPermissionVO> getByRoleId(Long roleId) throws Exception {
-        List<SystemRolePermission> rolePermissions = rolePermissionDao.getByRoleId(roleId, State.effective.name());
-        Set<Long> permissionIds = rolePermissions.stream().map(SystemRolePermission::getPermissionId).collect(Collectors.toSet());
-        if(CollectionUtils.isNotEmpty(permissionIds)){
-            return permissionDao.getByIds(permissionIds,State.effective.name()).parallelStream().map(e -> BeanUtils.copyProperties(e, SystemPermissionVO.class)).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
+    public List<SystemPermissionVO> query(Map<String,Object> columnMap) throws Exception{
+        return super.listByMap(columnMap).parallelStream().map(e->BeanUtils.copyProperties(e,SystemPermissionVO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public List<SystemPermissionVO> getByRoleIds(Set<Long> roleIds) throws Exception {
-        List<SystemRolePermission> rolePermissions = rolePermissionDao.getByRoleIds(roleIds, State.effective.name());
-        Set<Long> permissionIds = rolePermissions.stream().map(SystemRolePermission::getPermissionId).collect(Collectors.toSet());
-        if(CollectionUtils.isNotEmpty(permissionIds)){
-            //根据java8的map流去重，如果map的key重复了保留第一个
-            return  permissionDao.getByIds(permissionIds,State.effective.name())
-                    .parallelStream().collect(Collectors.toMap(SystemPermission::getCode, e->e,(o1, o2)->o1)).values()//去重
+    public List<SystemPermissionVO> queryAll() throws Exception{
+        return super.list().parallelStream().map(e->BeanUtils.copyProperties(e,SystemPermissionVO.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SystemPermissionVO> getByIds(Set<Long> ids) throws Exception {
+        return  permissionDao.getByIds(ids,State.effective.name())
                     .parallelStream().map(e -> BeanUtils.copyProperties(e, SystemPermissionVO.class)).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
     }
 
 }
