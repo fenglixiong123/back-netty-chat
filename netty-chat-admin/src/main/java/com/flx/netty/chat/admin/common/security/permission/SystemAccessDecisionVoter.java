@@ -1,6 +1,7 @@
 package com.flx.netty.chat.admin.common.security.permission;
 
 import com.flx.netty.chat.admin.common.security.property.SecurityProperties;
+import com.flx.netty.chat.admin.common.security.user.SystemUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -47,13 +48,24 @@ public class SystemAccessDecisionVoter implements AccessDecisionVoter<Object> {
             log.info("AccessVoter successful,reason : white url");
             return ACCESS_GRANTED;
         }
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        if (authorities.isEmpty()) {
-            log.error("AccessVoter failure,reason : authorities is null !");
+        SystemUserDetails user = (SystemUserDetails)authentication.getPrincipal();
+//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//        if (authorities.isEmpty()) {
+//            log.error("AccessVoter failure,reason : authorities is null !");
+//            return ACCESS_DENIED;
+//        }
+//        for (GrantedAuthority authority:authorities){
+//            String path = authority.getAuthority();
+//            if(pathMatcher.match(path,url)){
+//                log.info("AccessVoter successful,reason : has right !");
+//                return ACCESS_GRANTED;
+//            }
+//        }
+        if(user.getPowers()==null){
+            log.info("AccessVoter failure,reason : permission is null !");
             return ACCESS_DENIED;
         }
-        for (GrantedAuthority authority:authorities){
-            String path = authority.getAuthority();
+        for (String path:user.getPowers()){
             if(pathMatcher.match(path,url)){
                 log.info("AccessVoter successful,reason : has right !");
                 return ACCESS_GRANTED;

@@ -3,9 +3,9 @@ package com.flx.netty.chat.admin.common.security.user;
 import com.flx.netty.chat.admin.dao.SystemUserDao;
 import com.flx.netty.chat.admin.entity.SystemUser;
 import com.flx.netty.chat.admin.service.SystemUserService;
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.admin.vo.SystemPermissionVO;
 import com.flx.netty.chat.auth.api.enums.UserStateEnum;
-import com.flx.netty.chat.auth.api.vo.AuthPermissionVO;
 import com.flx.netty.chat.common.utils.CollectionUtils;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
@@ -60,6 +60,8 @@ public class SystemUserDetailsService implements UserDetailsService {
                     .setEnabled(enabled).setAccountNonExpired(!expired)
                     .setAccountNonLocked(!locked)
                     .setCredentialsNonExpired(true)
+                    .setMenus(getMenu(user.getId()))
+                    .setPowers(getPower(user.getId()))
                     .setAuthorities(getAuthorities(user.getId()));
         } catch (Exception e) {
             log.error("loadUserByUsername error username = {},message = {} !",username,e.getMessage());
@@ -69,10 +71,36 @@ public class SystemUserDetailsService implements UserDetailsService {
     }
 
     /**
+     * 获取用户权限
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    private List<String> getPower(Long id)throws Exception{
+        return userService.getPermissionById(id)
+                .parallelStream()
+                .map(SystemPermissionVO::getPath)
+                .filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取用户权限
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    private List<String> getMenu(Long id)throws Exception{
+        return userService.getMenuById(id)
+                .parallelStream()
+                .map(SystemMenuVO::getPath)
+                .filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    /**
      * 获取用户权限集合
      */
     private Set<SystemAuthority> getAuthorities(Long userId) throws Exception {
-        try {
+        /*try {
             Function<SystemPermissionVO,SystemAuthority> authMapper = (e)-> {
                 if(StringUtils.isNotBlank(e.getPath())){
                     return new SystemAuthority(e.getPath());
@@ -90,6 +118,8 @@ public class SystemUserDetailsService implements UserDetailsService {
         } catch (Exception e) {
             throw new Exception("Get permission error : "+e.getMessage());
         }
+         */
+        return new HashSet<>();
     }
 
 }

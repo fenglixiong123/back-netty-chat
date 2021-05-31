@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,6 +44,16 @@ public class SystemUserDetails implements UserDetails {
      * 用户权限
      */
     private Set<SystemAuthority> authorities;
+
+    /**
+     * 用户菜单
+     */
+    private List<String> powers;
+
+    /**
+     * 用户菜单
+     */
+    private List<String> menus;
 
     private boolean accountNonExpired;
 
