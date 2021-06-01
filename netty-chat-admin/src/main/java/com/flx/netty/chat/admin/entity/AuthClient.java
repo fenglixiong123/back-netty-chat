@@ -76,23 +76,23 @@ public class AuthClient extends Model<AuthClient> {
     private String autoApprove;
 
     @ApiModelProperty(value = "状态")
-    @TableField(value = "state", fill = FieldFill.INSERT)
+    @TableField(value = "state")
     private String state;
 
     @ApiModelProperty(value = "创建者")
-    @TableField(value = "create_user", fill = FieldFill.INSERT)
+    @TableField(value = "create_user")
     private String createUser;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(value = "create_time")
     private Date createTime;
 
     @ApiModelProperty(value = "最后更新者")
-    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_user")
     private String updateUser;
 
     @ApiModelProperty(value = "最后更新时间")
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_time")
     private Date updateTime;
 
     public static final String ID = "id";

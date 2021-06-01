@@ -137,6 +137,7 @@ public class SimpleGeneratorManager {
             strategy.setVersionFieldName(table.getVersion());//乐观锁字段 @Version
         }
         //----->标记自动填充字段
+        /*
         strategy.setTableFillList(Arrays.asList(
                 new TableFill("state", FieldFill.INSERT),
                 new TableFill("create_user", FieldFill.INSERT),
@@ -144,6 +145,7 @@ public class SimpleGeneratorManager {
                 new TableFill("create_time", FieldFill.INSERT),
                 new TableFill("update_time", FieldFill.INSERT_UPDATE)
         ));
+         */
         //strategy.setSuperControllerClass("");//Controller继承的父类
         //strategy.setSuperServiceClass("com.baomidou.mybatisplus.extension.service.IService");
         //strategy.setSuperServiceImplClass("com.baomidou.mybatisplus.extension.service.impl.ServiceImpl");
