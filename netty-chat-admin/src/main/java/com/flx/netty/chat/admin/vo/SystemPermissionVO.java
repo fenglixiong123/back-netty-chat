@@ -30,9 +30,6 @@ public class SystemPermissionVO {
     @ApiModelProperty(value = "权限路径")
     private String path;
 
-    @ApiModelProperty(value = "请求方法")
-    private String method;
-
     @ApiModelProperty(value = "权限图标")
     private String icon;
 

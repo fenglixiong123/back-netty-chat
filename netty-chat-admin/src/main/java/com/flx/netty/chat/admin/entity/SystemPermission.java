@@ -57,12 +57,6 @@ public class SystemPermission extends Model<SystemPermission> {
     private String path;
 
     /**
-     * 请求方法
-     */
-    @TableField("method")
-    private String method;
-
-    /**
      * 权限图标
      */
     @TableField("icon")
@@ -114,8 +108,6 @@ public class SystemPermission extends Model<SystemPermission> {
     public static final String NAME = "name";
 
     public static final String PATH = "path";
-
-    public static final String METHOD = "method";
 
     public static final String ICON = "icon";
 
