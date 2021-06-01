@@ -1,6 +1,7 @@
 package com.flx.netty.chat.admin.common.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
@@ -55,6 +56,7 @@ public class MybatisConfiguration implements InitializingBean {
         return plusProperties -> {
             plusProperties.setMapperLocations(new String[]{"classpath:mapper/*.xml"});
             plusProperties.getGlobalConfig().getDbConfig().setIdType(IdType.AUTO);
+            plusProperties.getGlobalConfig().getDbConfig().setUpdateStrategy(FieldStrategy.NOT_NULL);
             //增加字段填充处理
             //plusProperties.getGlobalConfig().setMetaObjectHandler(new SimpleMetaObjectHandler());
             //增加逻辑删除支持

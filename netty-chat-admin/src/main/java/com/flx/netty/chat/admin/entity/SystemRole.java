@@ -35,19 +35,19 @@ public class SystemRole extends Model<SystemRole> {
     /**
      * 角色编号
      */
-    @TableField("code")
+    @TableField("`code`")
     private String code;
 
     /**
      * 角色名称
      */
-    @TableField("name")
+    @TableField("`name`")
     private String name;
 
     /**
      * 排序
      */
-    @TableField("order")
+    @TableField("`order`")
     private Integer order;
 
     /**

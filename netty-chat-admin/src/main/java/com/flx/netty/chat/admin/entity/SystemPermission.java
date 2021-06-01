@@ -41,13 +41,13 @@ public class SystemPermission extends Model<SystemPermission> {
     /**
      * 权限编码
      */
-    @TableField("code")
+    @TableField("`code`")
     private String code;
 
     /**
      * 权限名称
      */
-    @TableField("name")
+    @TableField("`name`")
     private String name;
 
     /**
@@ -65,7 +65,7 @@ public class SystemPermission extends Model<SystemPermission> {
     /**
      * 排序
      */
-    @TableField("order")
+    @TableField("`order`")
     private Integer order;
 
     /**

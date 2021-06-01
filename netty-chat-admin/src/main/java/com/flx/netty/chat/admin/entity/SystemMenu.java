@@ -41,13 +41,13 @@ public class SystemMenu extends Model<SystemMenu> {
     /**
      * 菜单编码
      */
-    @TableField("code")
+    @TableField("`code`")
     private String code;
 
     /**
      * 菜单名称
      */
-    @TableField("name")
+    @TableField("`name`")
     private String name;
 
     /**
