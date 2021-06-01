@@ -5,10 +5,12 @@ import com.flx.netty.chat.admin.entity.SystemUser;
 import com.flx.netty.chat.admin.service.SystemUserService;
 import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.admin.vo.SystemPermissionVO;
+import com.flx.netty.chat.admin.vo.SystemUserVO;
 import com.flx.netty.chat.auth.api.enums.UserStateEnum;
 import com.flx.netty.chat.common.utils.CollectionUtils;
 import com.flx.netty.chat.common.utils.date.DateUtils;
 import com.flx.netty.chat.common.utils.json.JsonUtils;
+import com.flx.netty.chat.common.utils.servlet.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,8 @@ public class SystemUserDetailsService implements UserDetailsService {
                     .setCredentialsNonExpired(true)
                     .setMenus(getMenu(user.getId()))
                     .setPowers(getPower(user.getId()))
-                    .setAuthorities(getAuthorities(user.getId()));
+                    .setAuthorities(getAuthorities(user.getId()))
+                    .setUser(BeanUtils.copyProperties(user, SystemUserVO.class));
         } catch (Exception e) {
             log.error("loadUserByUsername error username = {},message = {} !",username,e.getMessage());
             throw new UsernameNotFoundException("User [" + username + "] not exist !");

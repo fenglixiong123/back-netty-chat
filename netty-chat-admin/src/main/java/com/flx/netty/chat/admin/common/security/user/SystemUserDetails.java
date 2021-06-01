@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.common.security.user;
 
+import com.flx.netty.chat.admin.vo.SystemUserVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,11 @@ public class SystemUserDetails implements UserDetails {
     private boolean credentialsNonExpired;
 
     private boolean enabled;
+
+    /**
+     * 用户信息
+     */
+    private SystemUserVO user;
 
     /**
      * 用户属性
