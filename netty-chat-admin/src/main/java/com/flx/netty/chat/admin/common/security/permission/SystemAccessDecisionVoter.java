@@ -42,25 +42,21 @@ public class SystemAccessDecisionVoter implements AccessDecisionVoter<Object> {
             log.error("AccessVoter failure,reason : authentication is null !");
             return ACCESS_DENIED;
         }
+        SystemUserDetails user = (SystemUserDetails)authentication.getPrincipal();
+        if(user==null||user.getUsername()==null){
+            log.info("AccessVoter failure,reason : user is null !");
+            return ACCESS_DENIED;
+        }
+        if(user.getUsername().equals("super")){
+            log.info("AccessVoter successful,reason : super user !");
+            return ACCESS_GRANTED;
+        }
         HttpServletRequest request = ((FilterInvocation) filterInvocation).getHttpRequest();
         String url = request.getRequestURI();
         if(isWhitePermit(url)){
             log.info("AccessVoter successful,reason : white url");
             return ACCESS_GRANTED;
         }
-        SystemUserDetails user = (SystemUserDetails)authentication.getPrincipal();
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        if (authorities.isEmpty()) {
-//            log.error("AccessVoter failure,reason : authorities is null !");
-//            return ACCESS_DENIED;
-//        }
-//        for (GrantedAuthority authority:authorities){
-//            String path = authority.getAuthority();
-//            if(pathMatcher.match(path,url)){
-//                log.info("AccessVoter successful,reason : has right !");
-//                return ACCESS_GRANTED;
-//            }
-//        }
         if(user.getPowers()==null){
             log.info("AccessVoter failure,reason : permission is null !");
             return ACCESS_DENIED;

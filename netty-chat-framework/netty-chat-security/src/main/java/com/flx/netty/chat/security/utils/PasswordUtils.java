@@ -14,9 +14,9 @@ public class PasswordUtils {
     private final static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static void main(String[] args) {
-String code = UUID.randomUUID().toString().replace("-","");
+        String code = UUID.randomUUID().toString().replace("-","");
         System.out.println(code);
-        String pass = encode("123456");
+        String pass = encode("super123");
 
         System.out.println(pass);
 
