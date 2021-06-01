@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.flx.netty.chat.admin.dao.*;
 import com.flx.netty.chat.admin.entity.*;
 import com.flx.netty.chat.admin.service.SystemPermissionService;
@@ -88,7 +89,23 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleDao, SystemRole
 
     @Override
     public PageVO<SystemRoleVO> queryPage(PageQuery pageQuery) throws Exception{
-        Page<SystemRole> page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
+        Page<SystemRole> page;
+        if(CollectionUtils.isEmpty(pageQuery.getQuery())){
+            page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
+        }else {
+            Map<String, Object> query = pageQuery.getQuery();
+            QueryWrapper<SystemRole> queryWrapper = new QueryWrapper<>();
+            if(query.get(SystemRole.ID)!=null) {
+                queryWrapper.eq(SystemRole.ID, query.get(SystemRole.ID));
+            }
+            if(query.get(SystemRole.CODE)!=null) {
+                queryWrapper.like(SystemRole.CODE, query.get(SystemRole.CODE));
+            }
+            if(query.get(SystemRole.NAME)!=null){
+                queryWrapper.like(SystemRole.NAME, query.get(SystemRole.NAME));
+            }
+            page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()), queryWrapper);
+        }
         return PageConvert.pageConvert(page,SystemRoleVO.class);
     }
 
