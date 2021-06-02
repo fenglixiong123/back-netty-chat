@@ -22,7 +22,7 @@ import java.util.Set;
 public interface SystemPermissionDao extends BaseMapper<SystemPermission> {
 
     @Select("<script>" +
-            "select `id`,`pid`,`code`,`name`,`path`,`method`,`icon`,`order`,`state` " +
+            "select `id`,`pid`,`code`,`name`,`path`,`icon`,`order`,`state` " +
             "from system_permission " +
             "where id in " +
             "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'>#{id}</foreach> " +
