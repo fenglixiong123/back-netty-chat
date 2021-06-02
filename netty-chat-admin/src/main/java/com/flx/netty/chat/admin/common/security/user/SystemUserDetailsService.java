@@ -75,7 +75,7 @@ public class SystemUserDetailsService implements UserDetailsService {
 
     /**
      * 获取用户权限
-     * @param id
+     * @param id 用户id
      * @return
      * @throws Exception
      */
@@ -87,16 +87,13 @@ public class SystemUserDetailsService implements UserDetailsService {
     }
 
     /**
-     * 获取用户权限
-     * @param id
+     * 获取用户菜单
+     * @param id 用户id
      * @return
      * @throws Exception
      */
-    private List<String> getMenu(Long id)throws Exception{
-        return userService.getMenuById(id)
-                .parallelStream()
-                .map(SystemMenuVO::getPath)
-                .filter(Objects::nonNull).collect(Collectors.toList());
+    private List<SystemMenuVO> getMenu(Long id)throws Exception{
+        return userService.getMenuById(id);
     }
 
     /**

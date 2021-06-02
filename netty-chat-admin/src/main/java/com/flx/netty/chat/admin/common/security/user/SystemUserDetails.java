@@ -1,5 +1,6 @@
 package com.flx.netty.chat.admin.common.security.user;
 
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.admin.vo.SystemUserVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,7 +55,7 @@ public class SystemUserDetails implements UserDetails {
     /**
      * 用户菜单
      */
-    private List<String> menus;
+    private List<SystemMenuVO> menus;
 
     private boolean accountNonExpired;
 
