@@ -1,18 +1,15 @@
 package com.flx.netty.chat.admin.controller;
 
-import com.flx.netty.chat.admin.vo.SystemMenuVO;
 import com.flx.netty.chat.admin.service.SystemMenuService;
+import com.flx.netty.chat.admin.vo.SystemMenuVO;
+import com.flx.netty.chat.common.entity.UpdateState;
+import com.flx.netty.chat.common.utils.page.PageQuery;
+import com.flx.netty.chat.common.utils.result.ResultResponse;
+import com.flx.netty.chat.common.utils.validate.ValidationUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.flx.netty.chat.common.utils.page.PageQuery;
-import com.flx.netty.chat.common.utils.result.ResultResponse;
-import com.flx.netty.chat.common.utils.validate.ValidationResult;
-import com.flx.netty.chat.common.utils.validate.ValidationUtils;
-import com.flx.netty.chat.common.entity.UpdateState;
 import java.util.Map;
 
 /**
@@ -23,7 +20,7 @@ import java.util.Map;
  */
 @Api(tags = "菜单信息")
 @RestController
-@RequestMapping("/systemMenu")
+@RequestMapping("admin/menu")
 public class SystemMenuController {
 
     @Autowired

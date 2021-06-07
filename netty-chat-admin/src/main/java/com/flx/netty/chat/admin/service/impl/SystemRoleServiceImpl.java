@@ -10,6 +10,7 @@ import com.flx.netty.chat.admin.vo.SystemPermissionVO;
 import com.flx.netty.chat.admin.vo.SystemRoleVO;
 import com.flx.netty.chat.admin.service.SystemRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.flx.netty.chat.admin.vo.SystemUserVO;
 import com.flx.netty.chat.common.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,15 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleDao, SystemRole
     private SystemPermissionDao permissionDao;
     @Autowired
     private SystemRolePermissionDao rolePermissionDao;
+
+    private void codeTransform(List<SystemRoleVO> voList){
+//        if(voList==null)return;
+//        voList.forEach(e->{
+//            if(e.getState()!=null){
+//                e.setStateDisplay(State.valueOf(State.class,e.getState()).getDesc());
+//            }
+//        });
+    }
 
     @Override
     public boolean add(SystemRoleVO entityVO) throws Exception{
@@ -106,7 +116,9 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleDao, SystemRole
             }
             page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()), queryWrapper);
         }
-        return PageConvert.pageConvert(page,SystemRoleVO.class);
+        PageVO<SystemRoleVO> pageVO = PageConvert.pageConvert(page, SystemRoleVO.class);
+        codeTransform(pageVO.getRecords());
+        return pageVO;
     }
 
     @Override

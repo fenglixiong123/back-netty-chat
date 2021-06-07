@@ -48,6 +48,15 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserDao, SystemUser
     @Autowired
     private SystemUserRoleDao userRoleDao;
 
+    private void codeTransform(List<SystemUserVO> voList){
+//        if(voList==null)return;
+//        voList.forEach(e->{
+//            if(e.getState()!=null){
+//                e.setStateDisplay(State.valueOf(State.class,e.getState()).getDesc());
+//            }
+//        });
+    }
+
     public boolean add(SystemUserVO entityVO) throws Exception{
         return super.save(BeanUtils.copyProperties(entityVO, SystemUser.class));
     }
@@ -84,8 +93,32 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserDao, SystemUser
     }
     
     public PageVO<SystemUserVO> queryPage(PageQuery pageQuery) throws Exception{
-        Page<SystemUser> page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
-        return PageConvert.pageConvert(page,SystemUserVO.class);
+        Page<SystemUser> page;
+        if(CollectionUtils.isEmpty(pageQuery.getQuery())){
+            page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()));
+        }else {
+            Map<String, Object> query = pageQuery.getQuery();
+            QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
+            if(query.get(SystemUser.ID)!=null) {
+                queryWrapper.eq(SystemUser.ID, query.get(SystemUser.ID));
+            }
+            if(query.get(SystemUser.USER_NAME)!=null) {
+                queryWrapper.eq(SystemUser.USER_NAME, query.get(SystemUser.USER_NAME));
+            }
+            if(query.get(SystemUser.NICK_NAME)!=null) {
+                queryWrapper.like(SystemUser.NICK_NAME, query.get(SystemUser.NICK_NAME));
+            }
+            if(query.get(SystemUser.PHONE)!=null){
+                queryWrapper.eq(SystemUser.PHONE, query.get(SystemUser.PHONE));
+            }
+            if(query.get(SystemUser.SEX)!=null) {
+                queryWrapper.like(SystemUser.SEX, query.get(SystemUser.SEX));
+            }
+            page = super.page(new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize()), queryWrapper);
+        }
+        PageVO<SystemUserVO> pageVO = PageConvert.pageConvert(page, SystemUserVO.class);
+        codeTransform(pageVO.getRecords());
+        return pageVO;
     }
 
     public List<SystemUserVO> query(Map<String,Object> columnMap) throws Exception{

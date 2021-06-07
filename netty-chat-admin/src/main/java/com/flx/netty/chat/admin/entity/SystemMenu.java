@@ -65,7 +65,7 @@ public class SystemMenu extends Model<SystemMenu> {
     /**
      * 菜单排序
      */
-    @TableField("order")
+    @TableField("`order`")
     private Integer order;
 
     /**
