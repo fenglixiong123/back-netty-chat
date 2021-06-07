@@ -102,11 +102,11 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserDao, SystemUser
             if(query.get(SystemUser.ID)!=null) {
                 queryWrapper.eq(SystemUser.ID, query.get(SystemUser.ID));
             }
-            if(query.get(SystemUser.USER_NAME)!=null) {
-                queryWrapper.eq(SystemUser.USER_NAME, query.get(SystemUser.USER_NAME));
+            if(query.get("userName")!=null) {
+                queryWrapper.eq(SystemUser.USER_NAME, query.get("userName"));
             }
-            if(query.get(SystemUser.NICK_NAME)!=null) {
-                queryWrapper.like(SystemUser.NICK_NAME, query.get(SystemUser.NICK_NAME));
+            if(query.get("nickName")!=null) {
+                queryWrapper.like(SystemUser.NICK_NAME, query.get("nickName"));
             }
             if(query.get(SystemUser.PHONE)!=null){
                 queryWrapper.eq(SystemUser.PHONE, query.get(SystemUser.PHONE));
